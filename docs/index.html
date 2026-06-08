@@ -1,1145 +1,504 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang=zh-CN>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>宝科科学备考 · Harry</title>
-<script src="data.js"></script>
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>宝科科学备考 — Harry 学习追踪</title>
 <style>
-/* ═══ RESET & BASE ═══ */
 :root{
-  --bg:#f0f5fa;--bg2:#f7faff;--bg3:#e8f0f8;
-  --accent:#1a73e8;--accent2:#1557b0;--accent-light:#d2e3fc;
-  --text:#1a202c;--text2:#4a5568;--border:#cbd5e1;--card:#fff;
-  --gold:#d69e2e;--green:#38a169;--red:#e53e3e;--blue:#3182ce;
-  --purple:#805ad5;--teal:#319795;
-  --tc:#e53e3e;--tco:#d69e2e;--th:#3182ce;--te:#a0aec0;
-  --sh:0 1px 4px rgba(0,0,0,.08);--shl:0 4px 16px rgba(0,0,0,.12);
-  --radius:10px;--radius-sm:6px;
+  --bg:#f0f5ff;--bg2:#e8eef8;--card:#fff;--card2:#f8faff;
+  --text:#1e293b;--text2:#475569;--text3:#94a3b8;
+  --accent:#2563eb;--accent2:#3b82f6;--accent-light:#dbeafe;--accent-dark:#1d4ed8;
+  --border:#cbd5e1;--border2:#e2e8f0;
+  --green:#16a34a;--green-light:#dcfce7;--red:#dc2626;--red-light:#fee2e2;
+  --orange:#ea580c;--orange-light:#fed7aa;--amber:#d97706;--amber-light:#fef3c7;
+  --purple:#7c3aed;--purple-light:#e9d5ff;--teal:#0d9488;--teal-light:#ccfbf1;
+  --pink:#db2777;--pink-light:#fce7f3;
+  --sh:0 1px 3px rgba(0,0,0,.08);--shm:0 4px 16px rgba(0,0,0,.1);--shl:0 8px 32px rgba(0,0,0,.12);
+  --nav-h:52px;--tab-h:42px;--max-w:1200px;--r:12px;
 }
-.dark{
-  --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
-  --accent:#60a5fa;--accent2:#3b82f6;--accent-light:#1e3a5f;
-  --text:#e2e8f0;--text2:#94a3b8;--border:#475569;--card:#1e293b;
-  --gold:#fbbf24;--green:#34d399;--red:#f87171;--blue:#60a5fa;
-  --purple:#a78bfa;--teal:#2dd4bf;
-  --tc:#f87171;--tco:#fbbf24;--th:#60a5fa;--te:#64748b;
-  --sh:0 1px 4px rgba(0,0,0,.3);--shl:0 4px 16px rgba(0,0,0,.4);
+[data-theme=dark]{
+  --bg:#0b1120;--bg2:#111827;--card:#1e293b;--card2:#1a2332;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --accent:#3b82f6;--accent2:#60a5fa;--accent-light:#1e3a5f;--accent-dark:#2563eb;
+  --border:#334155;--border2:#1e293b;
+  --green:#22c55e;--green-light:#14532d;--red:#ef4444;--red-light:#450a0a;
+  --orange:#f97316;--orange-light:#431407;--amber:#f59e0b;--amber-light:#422006;
+  --purple:#a855f7;--purple-light:#3b0764;--teal:#14b8a6;--teal-light:#134e4a;
+  --pink:#ec4899;--pink-light:#500724;
+  --sh:0 1px 3px rgba(0,0,0,.3);--shm:0 4px 16px rgba(0,0,0,.4);--shl:0 8px 32px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh;transition:background .3s,color .3s}
-
-/* ═══ HEADER ═══ */
-.hdr{background:linear-gradient(135deg,#1a73e8,#0f5bb5);color:#fff;padding:10px 14px 7px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.dark .hdr{background:linear-gradient(135deg,#1e3a5f,#0f172a)}
-.hdr-t{display:flex;align-items:center;justify-content:space-between}
-.hdr h1{font-size:16px;font-weight:700;letter-spacing:.3px;display:flex;align-items:center;gap:6px}
-.hdr h1 .sub{font-size:10.5px;opacity:.8;font-weight:400}
-.sbar{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
-.schip{background:rgba(255,255,255,.18);border-radius:16px;padding:2px 8px;font-size:10px;display:flex;align-items:center;gap:3px}
-.schip .n{font-weight:700;font-size:12px}
-.pbar{height:3px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:6px;overflow:hidden}
-.pfill{height:100%;background:#ffd54f;border-radius:2px;transition:width .8s}
-.theme-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;
+  transition:background .3s,color .3s;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.nav{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1e40af,#2563eb,#3b82f6);color:#fff;box-shadow:0 2px 12px rgba(37,99,235,.3)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;max-width:var(--max-w);margin:0 auto}
+.nav h1{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.nav h1 .badge{font-size:10px;background:rgba(255,255,255,.2);padding:1px 7px;border-radius:10px;font-weight:400}
+.theme-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .theme-btn:hover{background:rgba(255,255,255,.35)}
-
-/* ═══ NAV ═══ */
-.nav{display:flex;overflow-x:auto;scrollbar-width:none;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:54px;z-index:90}
-.nav::-webkit-scrollbar{display:none}
-.nav-t{flex:0 0 auto;padding:8px 10px;cursor:pointer;font-size:11.5px;color:var(--text2);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:3px}
-.nav-t:hover{color:var(--accent);background:var(--accent-light)}
-.nav-t.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
-.nav-t .bdg{background:var(--accent);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;line-height:16px;min-width:16px;text-align:center}
-
-/* ═══ SECTIONS ═══ */
-.sec{display:none;padding:10px;max-width:1024px;margin:0 auto;animation:fi .25s}
-.sec.on{display:block}
-@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-/* ═══ UTILITY ═══ */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
-.card-title{font-size:13.5px;font-weight:700;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.badge{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600}
-.badge.red{background:#fee2e2;color:var(--red);border:1px solid #fecaca}
-.badge.green{background:#d1fae5;color:var(--green);border:1px solid #a7f3d0}
-.badge.gold{background:#fef3c7;color:var(--gold);border:1px solid #fde68a}
-.badge.blue{background:#dbeafe;color:var(--blue);border:1px solid #bfdbfe}
-.badge.purple{background:#ede9fe;color:var(--purple);border:1px solid #ddd6fe}
-.badge.teal{background:#ccfbf1;color:var(--teal);border:1px solid #99f6e4}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat-card{text-align:center;padding:12px 8px;border-radius:var(--radius-sm);background:var(--bg3)}
-.stat-card .big{font-size:28px;font-weight:800;line-height:1.2}
-.stat-card .lbl{font-size:10px;color:var(--text2);margin-top:2px}
-.stat-card.accent .big{color:var(--accent)}
-.stat-card.green .big{color:var(--green)}
-.stat-card.gold .big{color:var(--gold)}
-.stat-card.red .big{color:var(--red)}
-@media(max-width:480px){.grid-3{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr}}
-
-/* ═══ TAB 0: DASHBOARD ═══ */
-.db-welcome{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.db-welcome .ava{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700}
-.db-welcome .info h2{font-size:17px;font-weight:700}
-.db-welcome .info p{font-size:11.5px;color:var(--text2)}
-.countdown{display:flex;align-items:center;gap:8px;padding:10px 14px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:var(--radius-sm);margin-top:8px}
-.dark .countdown{background:linear-gradient(135deg,#422006,#78350f)}
-.countdown .num{font-size:28px;font-weight:800;color:#d97706}
-.countdown .lbl{font-size:11px;color:#92400e}
-.dark .countdown .num{color:#fbbf24}
-.dark .countdown .lbl{color:#fde68a}
-.kp-rank{display:flex;flex-direction:column;gap:5px}
-.kp-row{display:flex;align-items:center;gap:6px;font-size:11px}
-.kp-row .pos{width:18px;height:18px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
-.kp-row .pos.t1{background:var(--red);color:#fff}
-.kp-row .pos.t2{background:var(--gold);color:#fff}
-.kp-row .pos.t3{background:var(--blue);color:#fff}
-.kp-row .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.kp-row .bar{width:80px;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
-.kp-row .bar .fill{height:100%;border-radius:4px;transition:width .8s}
-a.tab-link{color:var(--accent);text-decoration:none;font-weight:600;cursor:pointer}
-a.tab-link:hover{text-decoration:underline}
-
-/* ═══ TAB 1: KNOWLEDGE MAP ═══ */
-.km-filters{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
-.km-fbtn{padding:4px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:10.5px;color:var(--text2);transition:all .2s;white-space:nowrap}
-.km-fbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.km-unit{margin-bottom:14px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--card)}
-.km-uhead{padding:10px 14px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;transition:background .2s;border-bottom:1px solid var(--border)}
-.km-uhead .arrow{font-size:10px;transition:transform .2s;color:var(--text2)}
-.km-uhead .arrow.open{transform:rotate(90deg)}
-.km-uhead:hover{background:var(--bg3)}
-.km-uhead .count{font-size:9.5px;color:var(--text2);font-weight:400;margin-left:auto}
-.km-grid{display:flex;flex-wrap:wrap;gap:5px;padding:10px 14px}
-.km-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border-radius:6px;font-size:10.5px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;line-height:1.2;max-width:100%}
-.km-chip:hover{transform:translateY(-1px);box-shadow:var(--sh)}
-.km-chip.core{border-color:var(--tc);background:#fff5f5}
-.km-chip.common{border-color:var(--tco);background:#fffbea}
-.km-chip.hard{border-color:var(--th);background:#eff6ff}
-.km-chip.edge{border-color:var(--te);background:#f7fafc}
-.dark .km-chip.core{background:#3b1111}
-.dark .km-chip.common{background:#3b2f0a}
-.dark .km-chip.hard{background:#0f1f3b}
-.dark .km-chip.edge{background:#1a202c}
-.km-chip .sym{font-size:9px;opacity:.8;flex-shrink:0}
-.km-chip .nm{overflow:hidden;text-overflow:ellipsis}
-.km-chip .err{font-size:8px;background:var(--red);color:#fff;border-radius:8px;padding:0 4px;line-height:14px;min-width:14px;text-align:center;margin-left:2px}
-
-/* ═══ TAB 2: WRONG CLINIC ═══ */
-.wc-filters{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
-.wc-fbtn{padding:4px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:10.5px;color:var(--text2);transition:all .2s;white-space:nowrap}
-.wc-fbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.wc-group{margin-bottom:12px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--card)}
-.wc-ghead{padding:9px 12px;font-size:11.5px;font-weight:700;background:var(--bg3);cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;border-bottom:1px solid var(--border)}
-.wc-ghead .arrow{font-size:10px;transition:transform .2s}
-.wc-ghead .arrow.open{transform:rotate(90deg)}
-.wc-ghead .err-cnt{background:var(--red);color:#fff;border-radius:10px;padding:0 6px;font-size:9px;line-height:16px;margin-left:auto}
-.wc-item{padding:10px 12px;border-left:3px solid var(--red);margin:6px 8px;background:var(--bg2);border-radius:var(--radius-sm)}
-.wc-item .q{font-size:11.5px;line-height:1.6;margin-bottom:4px}
-.wc-item .ans{font-size:10.5px;color:var(--text2);display:flex;gap:8px;flex-wrap:wrap}
-.wc-item .ans .u{color:var(--red);font-weight:600}
-.wc-item .ans .c{color:var(--green)}
-.wc-item .cause{margin-top:5px;font-size:10.5px;padding:6px 8px;background:var(--accent-light);border-radius:var(--radius-sm);color:var(--text)}
-.wc-item .cause b{color:var(--accent)}
-.wc-item .strategy{margin-top:4px;font-size:10px;color:var(--text2);font-style:italic}
-.wc-item .src{font-size:9.5px;color:var(--text2);margin-top:4px;opacity:.7}
-
-/* ═══ TAB 3: KNOWLEDGE GRAPH ═══ */
-.graph-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:grab;position:relative}
-.graph-wrap:active{cursor:grabbing}
-#graph-svg{width:100%;min-height:500px;display:block}
-.graph-lgnd{display:flex;flex-wrap:wrap;gap:8px;padding:8px 12px;border-top:1px solid var(--border);font-size:10.5px;align-items:center;background:var(--bg2)}
-.graph-lgnd .item{display:flex;align-items:center;gap:4px}
-.graph-lgnd .dot{width:8px;height:8px;border-radius:50%}
-.graph-lgnd .sdot{width:20px;height:4px;border-radius:2px}
-.graph-filter{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
-.graph-filter .btn{padding:4px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:10px;transition:all .2s}
-.graph-filter .btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-
-/* ═══ TAB 4: STUDY PLAN ═══ */
-.sp-header{text-align:center;padding:16px;margin-bottom:12px;background:linear-gradient(135deg,var(--accent-light),var(--bg2));border-radius:var(--radius);border:1px solid var(--border)}
-.sp-header .days{font-size:36px;font-weight:800;color:var(--accent);line-height:1.1}
-.sp-header .lbl{font-size:12px;color:var(--text2)}
-.sp-header .date{font-size:10.5px;color:var(--text2);margin-top:4px}
-.sp-week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:10px}
-.sp-day{padding:8px 2px;border-radius:var(--radius-sm);text-align:center;font-size:9px;background:var(--bg3);color:var(--text2)}
-.sp-day.strong{background:var(--accent-light);color:var(--accent);font-weight:700}
-@media(max-width:480px){.sp-week{font-size:8px}.sp-day{padding:5px 1px}}
-.sp-prio-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:11px}
-.sp-prio-item:last-child{border-bottom:none}
-.sp-prio-item .level{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.sp-prio-item .level.urgent{background:var(--red);color:#fff}
-.sp-prio-item .level.imp{background:var(--gold);color:#fff}
-.sp-prio-item .level.normal{background:var(--blue);color:#fff}
-.sp-prio-item .name{flex:1}
-.sp-prio-item .err-cnt{font-size:9px;color:var(--text2)}
-.sp-tip{padding:10px 14px;background:var(--accent-light);border-radius:var(--radius-sm);font-size:11px;line-height:1.7;margin-top:10px}
-.sp-tip b{color:var(--accent)}
-
-/* ═══ TAB 5: TEXTBOOK ═══ */
-.tb-filters{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
-.tb-fbtn{padding:4px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:10.5px;color:var(--text2);transition:all .2s;white-space:nowrap}
-.tb-fbtn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.tb-page{margin-bottom:12px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--card)}
-.tb-phead{padding:9px 12px;font-size:12px;font-weight:700;background:var(--bg3);cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none}
-.tb-phead .arrow{font-size:10px;transition:transform .2s}
-.tb-phead .arrow.open{transform:rotate(90deg)}
-.tb-phead .src{font-size:9.5px;color:var(--text2);font-weight:400;margin-left:auto}
-.tb-items{padding:0}
-.tb-q{padding:8px 12px;border-bottom:1px solid var(--border);font-size:11px;line-height:1.6;display:flex;gap:6px;align-items:flex-start}
-.tb-q:last-child{border-bottom:none}
-.tb-q .num{flex-shrink:0;font-size:9px;color:var(--text2);min-width:28px;padding-top:1px}
-.tb-q .txt{flex:1}
-.tb-q .ans{font-size:9.5px;color:var(--text2);margin-top:2px;display:flex;gap:6px}
-.tb-q .ans .wrong{color:var(--red);font-weight:600}
-.tb-q .ans .right{color:var(--green);font-weight:600}
-.tb-q .ans .kp{background:var(--bg3);border-radius:3px;padding:0 5px;font-size:8.5px}
-
-/* ═══ MODAL ═══ */
-.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:14px}
-.moverlay.open{display:flex}
-.modal{background:var(--card);border-radius:12px;padding:18px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:var(--shl)}
-.mtitle{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
-.mclose{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);line-height:1;padding:0 4px}
-.msym{font-size:10px;background:var(--bg3);border-radius:4px;padding:2px 6px;margin-bottom:8px;display:inline-block;color:var(--text2)}
-.mbody{font-size:12px;line-height:1.8;color:var(--text)}
-.msec{margin-top:8px}
-.msec h4{font-size:10.5px;color:var(--text2);margin-bottom:2px;font-weight:700}
-.msec p{font-size:11.5px;color:var(--text);line-height:1.7}
-.trapbox{background:var(--accent-light);border-radius:6px;padding:7px 9px;font-size:11px;color:var(--accent);margin-top:6px;line-height:1.6}
-.m-err{font-size:11px;color:var(--red);font-weight:600;margin-top:6px}
-.m-err-qs{margin-top:6px}
-.m-err-qs .eq{font-size:10px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--text2)}
-.m-err-qs .eq:last-child{border-bottom:none}
-
-/* ═══ RESPONSIVE ═══ */
-@media(min-width:640px){
-  .sec{padding:14px 16px}
-  .grid-2{grid-template-columns:1fr 1fr}
+.tabs{display:flex;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:48px;z-index:99;scrollbar-width:none;box-shadow:var(--sh);gap:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:0 14px;height:var(--tab-h);display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:transparent;border-bottom:2.5px solid transparent;transition:all .25s;white-space:nowrap;letter-spacing:.2px}
+.tab:hover{color:var(--accent);background:var(--accent-light)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-light)}
+.tab .ico{font-size:15px}
+.main{max-width:var(--max-w);margin:0 auto;padding:0}
+.tab-pane{display:none;padding:16px;animation:fadeIn .35s ease}
+.tab-pane.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--sh);border:1px solid var(--border2);transition:all .25s}
+.card:hover{box-shadow:var(--shm)}
+.card-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card-title .ico{font-size:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.flex{display:flex;gap:12px;flex-wrap:wrap}
+.flex-c{display:flex;flex-direction:column;gap:12px}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.stat-card{background:var(--card);border-radius:var(--r);padding:14px;text-align:center;border:1px solid var(--border2);box-shadow:var(--sh)}
+.stat-card .num{font-size:28px;font-weight:800;line-height:1.2}
+.stat-card .lbl{font-size:12px;color:var(--text2);margin-top:2px}
+.stat-card .sub{font-size:10.5px;color:var(--text3);margin-top:1px}
+.tier-group{margin-bottom:12px}
+.tier-hdr{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--r);cursor:pointer;font-weight:700;font-size:14px;transition:all .2s;user-select:none;border:1px solid var(--border2)}
+.tier-hdr .arrow{transition:transform .3s;font-size:12px}
+.tier-hdr.open .arrow{transform:rotate(90deg)}
+.tier-hdr .count{font-size:11px;font-weight:400;margin-left:auto;opacity:.7}
+.tier-body{padding:8px 0 4px 8px;display:none}
+.tier-body.open{display:block}
+.concept-item{padding:10px 12px;margin-bottom:6px;border-radius:8px;background:var(--bg2);border:1px solid var(--border2);cursor:pointer;transition:all .2s}
+.concept-item:hover{border-color:var(--accent)}
+.concept-item .ci-name{font-weight:600;font-size:13px}
+.concept-item .ci-def{font-size:12px;color:var(--text2);margin-top:4px;display:none;line-height:1.5}
+.concept-item .ci-def.show{display:block}
+.concept-item .ci-def .lbl{color:var(--accent);font-weight:600;font-size:11px}
+.wrong-item{padding:12px;margin-bottom:8px;border-radius:var(--r);background:var(--card);border:1px solid var(--border2);box-shadow:var(--sh)}
+.wrong-item .wi-q{font-size:13px;font-weight:600;margin-bottom:4px}
+.wrong-item .wi-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.wrong-item .wi-tag{font-size:10.5px;padding:1px 7px;border-radius:4px;background:var(--red-light);color:var(--red)}
+.wrong-item .wi-resp{font-size:12px;color:var(--text2);margin-bottom:2px}
+.wrong-item .wi-cause{font-size:11.5px;color:var(--orange);padding:6px 8px;background:var(--orange-light);border-radius:6px;margin-top:4px}
+.wrong-item .wi-strat{font-size:11.5px;color:var(--teal);padding:6px 8px;background:var(--teal-light);border-radius:6px;margin-top:4px}
+.graph-wrap{background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--border2);position:relative;min-height:500px}
+.graph-wrap svg{width:100%;height:100%;min-height:500px}
+.graph-tip{position:absolute;background:var(--card);color:var(--text);padding:10px 14px;border-radius:8px;box-shadow:var(--shl);border:1px solid var(--border);font-size:12.5px;pointer-events:none;display:none;z-index:10;max-width:300px;line-height:1.5}
+.graph-controls{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.kp-group{margin-bottom:10px}
+.kp-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:var(--r);cursor:pointer;font-weight:600;background:var(--red-light);border:1px solid rgba(220,38,38,.15);transition:all .2s;font-size:13px}
+.kp-hdr .count-badge{background:var(--red);color:#fff;padding:1px 8px;border-radius:10px;font-size:11px}
+.kp-body{display:none;padding:8px 0 0 8px}
+.kp-body.open{display:block}
+.plan-day{padding:12px;margin-bottom:8px;border-radius:var(--r);background:var(--card);border:1px solid var(--border2);border-left:4px solid var(--accent)}
+.plan-day.done{border-left-color:var(--green);opacity:.75}
+.plan-day .pd-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.plan-day .pd-title{font-weight:700;font-size:14px}
+.plan-day .pd-badge{font-size:10.5px;padding:1px 8px;border-radius:8px}
+.plan-day .pd-items{font-size:12.5px;color:var(--text2);line-height:1.6}
+.plan-day .pd-item{padding:3px 0;display:flex;align-items:baseline;gap:6px}
+.plan-day .pd-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.page-card{padding:12px;margin-bottom:8px;border-radius:var(--r);background:var(--card);border:1px solid var(--border2);cursor:pointer;transition:all .2s}
+.page-card:hover{border-color:var(--accent)}
+.page-card .pc-hdr{display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:13px}
+.page-card .pc-summary{font-size:12px;color:var(--text2);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.page-card .pc-summary.hide{display:none}
+.page-card .pc-full{display:none;font-size:12px;color:var(--text2);margin-top:8px;line-height:1.7;background:var(--bg2);padding:10px;border-radius:8px;max-height:400px;overflow-y:auto;white-space:pre-wrap}
+.page-card .pc-full.show{display:block}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-size:12.5px;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark);box-shadow:0 2px 8px rgba(37,99,235,.3)}
+.btn-outline{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.btn-sm{padding:4px 10px;font-size:11px}
+.donut-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.donut{width:120px;height:120px;border-radius:50%;position:relative;background:var(--border2);flex-shrink:0}
+.donut-seg{position:absolute;width:100%;height:100%;border-radius:50%}
+.donut-seg.half{clip:rect(0,120px,120px,60px)}
+.donut-seg.cover{clip:rect(0,60px,120px,0)}
+.donut-hole{position:absolute;width:84px;height:84px;background:var(--card);border-radius:50%;top:18px;left:18px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.donut-hole .val{font-size:22px;font-weight:800;line-height:1}
+.donut-hole .lbl{font-size:10px;color:var(--text3)}
+.donut-legend{font-size:12px;display:flex;flex-direction:column;gap:4px}
+.donut-legend .dl-item{display:flex;align-items:center;gap:6px}
+.donut-legend .dl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:14px}
+.empty .ico{font-size:40px;margin-bottom:8px;display:block}
+.bar-chart{margin:8px 0}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.bar-row .bar-lbl{font-size:11.5px;flex:0 0 120px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-row .bar-track{flex:1;height:14px;background:var(--border2);border-radius:7px;overflow:hidden}
+.bar-row .bar-fill{height:100%;border-radius:7px;transition:width 1s ease;min-width:2px}
+.bar-row .bar-val{font-size:11px;flex:0 0 30px;color:var(--text2)}
+.dot-core-bg{background:var(--red-light);border-left:3px solid var(--red)}
+.dot-common-bg{background:var(--accent-light);border-left:3px solid var(--accent)}
+.dot-error-bg{background:var(--orange-light);border-left:3px solid var(--orange)}
+.dot-edge-bg{background:var(--bg2);border-left:3px solid var(--text3)}
+.anim-count{animation:countUp .4s ease}
+@keyframes countUp{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+@media(max-width:480px){
+  .nav h1{font-size:14px}.nav h1 .badge{display:none}
+  .tab{padding:0 10px;font-size:11px}.tab .ico{font-size:13px}
+  .tab-pane{padding:10px}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .stat-card{padding:10px}.stat-card .num{font-size:22px}
+  .wrong-item{padding:10px}
+  .graph-wrap{min-height:320px}.graph-wrap svg{min-height:320px}
+  .donut{width:90px;height:90px}.donut-seg.half{clip:rect(0,90px,90px,45px)}
+  .donut-seg.cover{clip:rect(0,45px,90px,0)}
+  .donut-hole{width:64px;height:64px;top:13px;left:13px}
+  .donut-hole .val{font-size:18px}
+  .bar-row .bar-lbl{flex:0 0 80px;font-size:10.5px}
 }
-@media(max-width:380px){
-  .nav-t{font-size:10px;padding:7px 6px}
-  .hdr h1{font-size:14px}
-}
+@media print{.nav,.tabs,.theme-btn,.graph-controls{display:none}.tab-pane{display:block!important}}
 </style>
 </head>
 <body>
+<nav class=nav>
+<div class=nav-in>
+<h1>🔬 科学备考 <span class=badge>Harry · 六年级</span></h1>
+<div style=display:flex;gap:8px;align-items:center>
+<span id=themeLabel style=font-size:11px;opacity:.7>🌙</span>
+<button class=theme-btn onclick=toggleTheme() aria-label=主题>🌓</button>
+</div>
+</div>
+</nav>
+<div class=tabs id=tabs>
+<button class="tab active" data-tab=0><span class=ico>📊</span> 总览</button>
+<button class=tab data-tab=1><span class=ico>🧠</span> 知识图谱</button>
+<button class=tab data-tab=2><span class=ico>❌</span> 错题诊疗</button>
+<button class=tab data-tab=3><span class=ico>🔮</span> 概念网络</button>
+<button class=tab data-tab=4><span class=ico>📅</span> 学习计划</button>
+<button class=tab data-tab=5><span class=ico>📖</span> 教材溯源</button>
+</div>
+<div class=main>
 
-<div class="hdr">
-  <div class="hdr-t">
-    <h1>🧪 <span id="hdr-name">科学备考</span> <span class="sub" id="hdr-school"></span></h1>
-    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="切换主题">🌙</button>
-  </div>
-  <div class="sbar" id="hdr-stats"></div>
-  <div class="pbar"><div class="pfill" id="hdr-pbar" style="width:0%"></div></div>
+<!-- TAB 0: DASHBOARD -->
+<div class="tab-pane active" id=pane0>
+<div class=stat-row id=statRow></div>
+<div class=grid2>
+<div class=card><div class=card-title><span class=ico>🎯</span> 掌握率</div><div id=masteryDonut class=donut-wrap></div></div>
+<div class=card><div class=card-title><span class=ico>📈</span> 概念分布</div><div id=conceptDistChart></div></div>
+</div>
+<div class=grid2 style=margin-top:12px>
+<div class=card><div class=card-title><span class=ico>⚠️</span> 薄弱知识点 TOP10</div><div id=weakKpChart></div></div>
+<div class=card><div class=card-title><span class=ico>🏆</span> 学习建议</div><div id=dashAdvice></div></div>
+</div>
 </div>
 
-<nav class="nav" id="main-nav"></nav>
-
-<!-- ═══ TAB 0: DASHBOARD ═══ -->
-<div class="sec on" id="sec0"></div>
-<!-- ═══ TAB 1: KNOWLEDGE MAP ═══ -->
-<div class="sec" id="sec1"></div>
-<!-- ═══ TAB 2: WRONG CLINIC ═══ -->
-<div class="sec" id="sec2"></div>
-<!-- ═══ TAB 3: KNOWLEDGE GRAPH ═══ -->
-<div class="sec" id="sec3"></div>
-<!-- ═══ TAB 4: STUDY PLAN ═══ -->
-<div class="sec" id="sec4"></div>
-<!-- ═══ TAB 5: TEXTBOOK ═══ -->
-<div class="sec" id="sec5"></div>
-
-<!-- ═══ MODAL ═══ -->
-<div class="moverlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal">
-    <div class="mtitle"><span id="modal-name"></span><button class="mclose" onclick="closeModal()">&times;</button></div>
-    <div id="modal-body"></div>
-  </div>
+<!-- TAB 1: KNOWLEDGE MAP -->
+<div class=tab-pane id=pane1>
+<div class=card style=margin-bottom:12px>
+<div class=flex style=align-items:center;gap:8px;margin-bottom:8px>
+<input type=text id=conceptSearch placeholder="🔍 搜索概念..." style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none" oninput=filterConcepts()>
+<select id=conceptFilter onchange=filterConcepts() style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none">
+<option value=all>全部</option>
+<option value=核心概念>⭐ 核心概念</option>
+<option value=常考概念>📘 常考概念</option>
+<option value=易错概念>⚠️ 易错概念</option>
+<option value=边缘概念>🌱 边缘概念</option>
+</select>
+</div>
+<div id=conceptCountBar style=font-size:12px;color:var(--text3);margin-bottom:8px></div>
+</div>
+<div id=conceptMapContainer></div>
 </div>
 
+<!-- TAB 2: WRONG CLINIC -->
+<div class=tab-pane id=pane2>
+<div class=card style=margin-bottom:12px>
+<div class=flex style=align-items:center;gap:8px>
+<input type=text id=wrongSearch placeholder="🔍 搜索错题..." style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none" oninput=filterWrongs()>
+<select id=wrongSort onchange=renderWrongClinic() style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none">
+<option value=kp>按知识点分组</option>
+<option value=all>全部列表</option>
+</select>
+</div>
+<div style=font-size:12px;color:var(--text3);margin-top:6px>共 <strong id=wrongCount></strong> 道错题，<strong id=wrongKpCount></strong> 个知识点</div>
+</div>
+<div id=wrongClinicContainer></div>
+</div>
+
+<!-- TAB 3: KNOWLEDGE GRAPH -->
+<div class=tab-pane id=pane3>
+<div class=graph-controls>
+<button class="btn btn-sm btn-outline" onclick=resetGraphView()>🔄 重置</button>
+<select id=graphFilter onchange=filterGraph() style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--card);color:var(--text);outline:none">
+<option value=all>全部概念</option>
+<option value=核心概念>⭐ 核心概念</option>
+<option value=常考概念>📘 常考概念</option>
+<option value=易错概念>⚠️ 易错概念</option>
+<option value=边缘概念>🌱 边缘概念</option>
+</select>
+<span style=font-size:12px;color:var(--text3)>拖动节点 · 滚轮缩放</span>
+</div>
+<div class=graph-wrap id=graphWrap>
+<svg id=graphSvg></svg>
+<div class=graph-tip id=graphTip></div>
+</div>
+</div>
+
+<!-- TAB 4: STUDY PLAN -->
+<div class=tab-pane id=pane4>
+<div class=card style=margin-bottom:12px>
+<div style=display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px>
+<div><span class=ico>📅</span> <strong>智能复习计划</strong><span style=font-size:12px;color:var(--text3);margin-left:8px>基于错题分布与概念优先级生成</span></div>
+<button class="btn btn-sm btn-primary" onclick=generatePlan()>🔄 重新生成</button>
+</div>
+</div>
+<div id=planContainer></div>
+</div>
+
+<!-- TAB 5: TEXTBOOK SOURCE -->
+<div class=tab-pane id=pane5>
+<div class=card style=margin-bottom:12px>
+<div class=flex style=align-items:center;gap:8px>
+<input type=text id=pageSearch placeholder="🔍 搜索教材内容..." style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none" oninput=filterPages()>
+<select id=pageSort onchange=renderPages() style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none">
+<option value=asc>页码正序</option>
+<option value=desc>页码倒序</option>
+</select>
+</div>
+<div style=font-size:12px;color:var(--text3);margin-top:6px>共 <strong id=pageCount></strong> 页教材</div>
+</div>
+<div id=pageContainer></div>
+</div>
+</div>
+
+<script src=data.js></script>
 <script>
-// ═══════════════════════════════════════════
-// DATA PREP
-// ═══════════════════════════════════════════
-const D = BAOKE_DATA;
-const QS = D.questions;
-const CON = D.concepts;
-const PGS = D.source_pages;
-const ST = D.stats;
-const STUDENT = D.student;
-const COURSE = D.course;
+(function(){
+const _Q = BAOKE_DATA.questions;
+const _C = BAOKE_DATA.concepts;
+const _P = BAOKE_DATA.source_pages;
+const _S = BAOKE_DATA.stats;
+const _ST = BAOKE_DATA.student;
+const _CR = BAOKE_DATA.course;
+const wrongQ = _Q.filter(q => q.is_correct === '✗');
+const correctQ = _Q.filter(q => q.is_correct === '✓');
+const tierOrder = ['核心概念','常考概念','易错概念','边缘概念'];
+const tierColors = {'核心概念':'var(--red)','常考概念':'var(--accent)','易错概念':'var(--orange)','边缘概念':'var(--text3)'};
+const conceptMap = {}; _C.forEach(c => conceptMap[c.id] = c);
+function $(id){return document.getElementById(id)}
+function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function limitStr(s,n){return s&&s.length>n?s.slice(0,n)+'…':s||'';}
 
-// Compute accuracy stats
-let totalQ = QS.length;
-let correctQ = QS.filter(q => q.is_correct === '✓').length;
-let wrongQ = QS.filter(q => q.is_correct === '✗').length;
-let halfQ = QS.filter(q => q.is_correct === '半对').length;
-let unattemptedQ = QS.filter(q => q.is_correct === '未答' || q.is_correct === null).length;
-let answeredQ = correctQ + wrongQ + halfQ;
-let accuracyPct = answeredQ > 0 ? Math.round((correctQ + halfQ * 0.5) / answeredQ * 100) : 0;
-let rawPct = totalQ > 0 ? Math.round((correctQ + halfQ * 0.5) / totalQ * 100) : 0;
-
-// Concept lookup by id
-const CON_MAP = {};
-CON.forEach(c => { CON_MAP[c.id] = c; });
-
-// Count errors per concept
-const ERR_BY_CONCEPT = {};
-const ERR_BY_KP = {};
-// Build quick Q lookup
-const Q_MAP = {};
-QS.forEach(q => { Q_MAP[q.id] = q; });
-// Question text + source_page_id → question lookup
-const Q_TEXT_MAP = {};
-QS.forEach(q => {
-  if (q.question_text && q.source_page_id) {
-    Q_TEXT_MAP[q.question_text + '|' + q.source_page_id] = q;
-  }
-});
-ST.wrong_answers.forEach(w => {
-  const kp = w.knowledge_point || '未知';
-  ERR_BY_KP[kp] = (ERR_BY_KP[kp] || 0) + 1;
-  // Map wrong answer → question → concept
-  const q = Q_MAP[w.question_id];
-  if (q && q.concept_id) {
-    ERR_BY_CONCEPT[q.concept_id] = (ERR_BY_CONCEPT[q.concept_id] || 0) + 1;
-  }
-});
-
-// Count questions per concept
-const QS_BY_CONCEPT = {};
-QS.forEach(q => {
-  if (q.concept_id) {
-    QS_BY_CONCEPT[q.concept_id] = QS_BY_CONCEPT[q.concept_id] || [];
-    QS_BY_CONCEPT[q.concept_id].push(q);
-  }
-});
-
-// Group concepts by unit
-const CON_BY_UNIT = {};
-CON.forEach(c => {
-  const u = c.unit || '其他';
-  if (!CON_BY_UNIT[u]) CON_BY_UNIT[u] = [];
-  CON_BY_UNIT[u].push(c);
-});
-const UNIT_ORDER = ['物质科学', '生命科学', '地球宇宙', '地球的运动', '微小世界', '能量', '能量从哪里来', '工具与技术', '工具和机械', '工具与机械', '第一单元 紧密联系的工具和技术', '第一单元', '地球——宇宙的奇迹', '微生物与健康', '信息与交流', '科学探究', '其他'];
-
-// Group pages by material
-const PGS_BY_MAT = {};
-PGS.forEach(p => {
-  const m = p.material_title || '未知材料';
-  if (!PGS_BY_MAT[m]) PGS_BY_MAT[m] = [];
-  PGS_BY_MAT[m].push(p);
-});
-
-// Error counts per concept name for quick display
-const ERROR_BY_CON_NAME = {};
-ST.wrong_answers.forEach(w => {
-  const q = Q_MAP[w.question_id];
-  if (q && q.knowledge_point) {
-    ERROR_BY_CON_NAME[q.knowledge_point] = (ERROR_BY_CON_NAME[q.knowledge_point] || 0) + 1;
-  }
-});
-
-// Exam date estimate: last Saturday of June 2026 = June 27
-const EXAM_DATE = new Date(2026, 5, 27);
-const TODAY = new Date();
-const DAYS_LEFT = Math.max(0, Math.ceil((EXAM_DATE - TODAY) / (86400000)));
-
-// Concept type icons
-const TYPE_ICON = { 1: '★★★', 2: '★★', 3: '★', 4: '·' };
-const TYPE_NAME = { 1: '核心概念', 2: '常考概念', 3: '易错概念', 4: '边缘概念' };
-const TYPE_CLASS = { 1: 'core', 2: 'common', 3: 'hard', 4: 'edge' };
-
-// Priority sort for units
-function sortUnits(units) {
-  const order = {};
-  UNIT_ORDER.forEach((u, i) => order[u] = i);
-  units.sort((a, b) => (order[a] ?? 999) - (order[b] ?? 999));
-  return units;
+/* THEME */
+function toggleTheme(){
+  const d = document.documentElement;
+  const isDark = d.getAttribute('data-theme') === 'dark';
+  d.setAttribute('data-theme', isDark ? '' : 'dark');
+  $('themeLabel').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('baoke-theme', isDark ? 'light' : 'dark');
 }
-
-// ═══════════════════════════════════════════
-// TAB NAVIGATION
-// ═══════════════════════════════════════════
-const TAB_NAMES = ['📊 仪表盘', '🗺 知识地图', '🏥 错题诊所', '🕸 知识图谱', '📋 学习计划', '📖 教材溯源'];
-const TAB_BADGES = ['', '', wrongQ, '', '', ''];
-
-function renderNav() {
-  const nav = document.getElementById('main-nav');
-  nav.innerHTML = TAB_NAMES.map((name, i) => {
-    const badge = TAB_BADGES[i] ? `<span class="bdg">${TAB_BADGES[i]}</span>` : '';
-    return `<div class="nav-t ${i===0?'on':''}" onclick="showTab(${i})" id="tab${i}">${name}${badge}</div>`;
-  }).join('');
-}
-renderNav();
-
-function showTab(i) {
-  document.querySelectorAll('.sec').forEach((s, j) => s.classList.toggle('on', j === i));
-  document.querySelectorAll('.nav-t').forEach((t, j) => t.classList.toggle('on', j === i));
-  if (i === 3) renderGraph(); // lazy render graph
-}
-
-// ═══════════════════════════════════════════
-// THEME TOGGLE
-// ═══════════════════════════════════════════
-function toggleTheme() {
-  document.body.classList.toggle('dark');
-  const btn = document.getElementById('theme-btn');
-  btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-  localStorage.setItem('baoke_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-}
-(function() {
-  if (localStorage.getItem('baoke_theme') === 'dark') {
-    document.body.classList.add('dark');
-    document.getElementById('theme-btn').textContent = '☀️';
+(function(){
+  const saved = localStorage.getItem('baoke-theme');
+  if(saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme:dark)').matches)){
+    document.documentElement.setAttribute('data-theme','dark');
+    $('themeLabel').textContent = '☀️';
   }
 })();
 
-// ═══════════════════════════════════════════
-// HEADER
-// ═══════════════════════════════════════════
-function renderHeader() {
-  document.getElementById('hdr-name').textContent = `${STUDENT.name}·科学备考`;
-  document.getElementById('hdr-school').textContent = STUDENT.school || '';
-  const bar = document.getElementById('hdr-stats');
-  bar.innerHTML = [
-    `<div class="schip">📚 <span class="n">${totalQ}</span> 题</div>`,
-    `<div class="schip">✓ <span class="n">${correctQ}</span></div>`,
-    `<div class="schip">✗ <span class="n">${wrongQ}</span></div>`,
-    `<div class="schip">🎯 <span class="n">${COURSE.target_score}</span>分</div>`,
-    `<div class="schip">正确率 <span class="n">${accuracyPct}%</span></div>`,
-  ].join('');
-  document.getElementById('hdr-pbar').style.width = accuracyPct + '%';
-}
-renderHeader();
+/* TABS */
+(function(){
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(t => t.addEventListener('click', function(){
+    tabs.forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+    $('pane'+this.dataset.tab).classList.add('active');
+    if(Number(this.dataset.tab) === 3) setTimeout(runGraph,100);
+  }));
+})();
 
-// ═══════════════════════════════════════════
-// TAB 0: DASHBOARD
-// ═══════════════════════════════════════════
-function renderDashboard() {
-  const sec = document.getElementById('sec0');
-
-  // Weak points TOP5 from kp_error_stats
-  const kpErrors = (ST.kp_error_stats || [])
-    .filter(k => k.knowledge_point && k.total_errors > 0)
-    .sort((a, b) => b.total_errors - a.total_errors)
-    .slice(0, 5);
-
-  // Concept type stats
-  const typeStats = ST.concept_type_stats || [];
-
-  sec.innerHTML = `
-    <div class="card">
-      <div class="db-welcome">
-        <div class="ava">${STUDENT.name.charAt(0)}</div>
-        <div class="info">
-          <h2>👋 你好，${STUDENT.name}！</h2>
-          <p>${COURSE.subject} · ${COURSE.grade} · 目标 ${COURSE.target_score} 分 · ${STUDENT.school}</p>
-        </div>
-      </div>
-      <div class="countdown">
-        <span class="num">${DAYS_LEFT}</span>
-        <span class="lbl">天倒计时<br>（预计6月27日考试）</span>
-      </div>
+/* === DASHBOARD === */
+(function renderDashboard(){
+  const wk=wrongQ.length, ck=correctQ.length, pct=(ck/_Q.length*100).toFixed(1);
+  $('statRow').innerHTML = `
+    <div class=stat-card><div class=num style=color:var(--accent)>${_Q.length}</div><div class=lbl>总题数</div></div>
+    <div class=stat-card><div class=num style=color:var(--green)>${ck}</div><div class=lbl>做对</div><div class=sub>${pct}%</div></div>
+    <div class=stat-card><div class=num style=color:var(--red)>${wk}</div><div class=lbl>做错</div><div class=sub>${(wk/_Q.length*100).toFixed(1)}%</div></div>
+    <div class=stat-card><div class=num style=color:var(--purple)>${_C.length}</div><div class=lbl>概念数</div><div class=sub>${_P.length}页教材</div></div>
+    <div class=stat-card><div class=num style=color:var(--amber)>${_CR.target_score||'--'}</div><div class=lbl>目标分</div><div class=sub>${_ST.name} · ${_ST.school}</div></div>`;
+  const angle=ck/_Q.length*360;
+  $('masteryDonut').innerHTML = `
+    <div class=donut>
+      <div class="donut-seg half" style="transform:rotate(${-90+Math.min(angle,180)}deg);background:var(--green)"></div>
+      ${angle>180?`<div class="donut-seg cover" style=background:var(--border2)></div>
+      <div class="donut-seg cover" style="transform:rotate(${-90+(angle-180)}deg);background:var(--green)"></div>`:`<div class="donut-seg cover" style="transform:rotate(${-90+angle}deg);background:var(--border2)"></div>`}
+      <div class=donut-hole><div class=val style=color:var(--green)>${pct}%</div><div class=lbl>正确率</div></div>
     </div>
+    <div class=donut-legend><div class=dl-item><div class=dl-dot style=background:var(--green)></div>正确 ${ck} 题</div><div class=dl-item><div class=dl-dot style=background:var(--border2)></div>错误 ${wk} 题</div></div>`;
+  const tierCounts={};_C.forEach(c=>{tierCounts[c.type_name]=(tierCounts[c.type_name]||0)+1;});
+  const totalC=_C.length;
+  $('conceptDistChart').innerHTML = `<div class=bar-chart>${
+    tierOrder.map(t=>`<div class=bar-row><div class=bar-lbl>${t}</div><div class=bar-track><div class=bar-fill style="width:${((tierCounts[t]||0)/totalC*100).toFixed(1)}%;background:${tierColors[t]}"></div></div><div class=bar-val>${tierCounts[t]||0}</div></div>`).join('')
+  }</div>`;
+  const kpErr={};wrongQ.forEach(q=>{const kp=q.knowledge_point||'未知';if(!kpErr[kp])kpErr[kp]={count:0,causes:[]};kpErr[kp].count++;if(q.error_cause&&!kpErr[kp].causes.includes(q.error_cause))kpErr[kp].causes.push(q.error_cause);});
+  const topKp=Object.entries(kpErr).sort((a,b)=>b[1].count-a[1].count).slice(0,10);
+  const maxCnt=topKp.length?topKp[0][1].count:1;
+  $('weakKpChart').innerHTML=topKp.length?`<div class=bar-chart>${
+    topKp.map(([kp,v])=>`<div class=bar-row><div class=bar-lbl title="${esc(kp)}">${kp}</div><div class=bar-track><div class=bar-fill style="width:${(v.count/maxCnt*100).toFixed(0)}%;background:var(--orange)"></div></div><div class=bar-val>×${v.count}</div></div>`).join('')
+  }</div>`:'<div class=empty><span class=ico>🎉</span>暂无错题数据</div>';
+  const advice=[];if(wk>0)advice.push(`📌 共有 <strong>${wk}</strong> 道错题需要回顾，重点集中在 <strong>${topKp.slice(0,3).map(([k])=>k).join('、')}</strong> 等知识点。`);
+  advice.push(`📖 已掌握 <strong>${_C.length}</strong> 个概念，其中 <strong>${tierCounts['核心概念']||0}</strong> 个核心概念。`);
+  if(wk>0)advice.push(`⏱️ 建议每天安排 30 分钟专攻 1-2 个易错知识点，配合教材溯源加深理解。`);
+  advice.push(`🏁 当前正确率 <strong>${pct}%</strong>，距目标 ${_CR.target_score}% ${pct>=_CR.target_score?'✅ 已达到！':`还有 ${(_CR.target_score-parseFloat(pct)).toFixed(1)}% 的提升空间`}。`);
+  $('dashAdvice').innerHTML=`<div class=flex-c>${advice.map(a=>`<div style="padding:6px 0;font-size:13px;line-height:1.6">${a}</div>`).join('')}</div>`;
+})();
 
-    <div class="grid-3">
-      <div class="stat-card accent"><div class="big">${totalQ}</div><div class="lbl">总题量</div></div>
-      <div class="stat-card green"><div class="big">${correctQ}</div><div class="lbl">正确 ✓</div></div>
-      <div class="stat-card red"><div class="big">${wrongQ}</div><div class="lbl">错误 ✗</div></div>
-      <div class="stat-card gold"><div class="big">${accuracyPct}%</div><div class="lbl">正确率</div></div>
-      <div class="stat-card accent"><div class="big">${CON.length}</div><div class="lbl">知识点</div></div>
-      <div class="stat-card gold"><div class="big">${PGS.length}</div><div class="lbl">教材页</div></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📉 薄弱知识点 TOP5</div>
-      <div class="kp-rank">
-        ${kpErrors.map((k, i) => {
-          const maxCnt = kpErrors[0].total_errors;
-          const pct = Math.round(k.total_errors / maxCnt * 100);
-          return `<div class="kp-row">
-            <div class="pos t${Math.min(i+1,3)}">${i+1}</div>
-            <span class="name">${esc(k.knowledge_point)}</span>
-            <div class="bar"><div class="fill" style="width:${pct}%;background:${['var(--red)','var(--gold)','var(--blue)','var(--teal)'][Math.min(i,3)]}"></div></div>
-            <span style="font-weight:700;color:var(--red);font-size:10px">${k.total_errors}次</span>
-          </div>`;
-        }).join('')}
+/* === KNOWLEDGE MAP === */
+function filterConcepts(){renderConceptMap($('conceptSearch').value.trim().toLowerCase(),$('conceptFilter').value);}
+function renderConceptMap(search='',filter='all'){
+  let concepts=_C;if(filter!=='all')concepts=concepts.filter(c=>c.type_name===filter);
+  if(search)concepts=concepts.filter(c=>c.name.toLowerCase().includes(search)||(c.definition||'').toLowerCase().includes(search));
+  const grouped={};tierOrder.forEach(t=>grouped[t]=[]);concepts.forEach(c=>{if(grouped[c.type_name])grouped[c.type_name].push(c);});
+  $('conceptCountBar').textContent=search||filter!=='all'?`显示 ${concepts.length}/${_C.length} 个概念`:`共 ${_C.length} 个概念`;
+  const container=$('conceptMapContainer');
+  if(!concepts.length){container.innerHTML='<div class=empty><span class=ico>🔍</span>未找到匹配概念</div>';return;}
+  const dotBg={'核心概念':'dot-core-bg','常考概念':'dot-common-bg','易错概念':'dot-error-bg','边缘概念':'dot-edge-bg'};
+  container.innerHTML=tierOrder.map(t=>{
+    const items=grouped[t]||[];if(!items.length)return '';
+    return `<div class=tier-group>
+      <div class="tier-hdr ${dotBg[t]} open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <span class=arrow>▶</span><span style=color:${tierColors[t]}>●</span> ${t} <span class=count>${items.length} 个</span>
       </div>
-      <div style="margin-top:8px;font-size:11px;color:var(--text2)">
-        💡 建议：从高频错误知识点入手复习，<a class="tab-link" onclick="showTab(4)">查看学习计划 →</a>
-        · <a class="tab-link" onclick="showTab(1)">浏览知识地图 →</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📊 概念类型分布</div>
-      ${typeStats.map(t => {
-        const maxCnt = Math.max(...typeStats.map(x => x.error_count));
-        const pct = Math.round(t.error_count / Math.max(maxCnt, 1) * 100);
-        const cls = t.symbol === '★★★' ? 'red' : t.symbol === '★★' ? 'gold' : t.symbol === '★' ? 'blue' : 'teal';
-        return `<div class="kp-row" style="margin-bottom:4px">
-          <span class="name"><b>${t.symbol}</b> ${t.name}</span>
-          <div class="bar"><div class="fill" style="width:${pct}%;background:var(--${cls === 'teal' ? 'teal' : cls})"></div></div>
-          <span style="font-weight:600;font-size:10px;color:var(--${cls === 'teal' ? 'teal' : cls})">${t.error_count}错题</span>
+      <div class="tier-body open">${items.map(c=>{
+        const defShow=c.definition?'show':'';
+        return `<div class=concept-item onclick="this.querySelector('.ci-def')?.classList.toggle('show')">
+          <div class=ci-name>${esc(c.name)}</div>
+          <div class="ci-def ${defShow}">
+            ${c.definition?`<div><span class=lbl>定义：</span>${esc(c.definition)}</div>`:''}
+            ${c.analogy?`<div style=margin-top:4px>🧩 ${esc(c.analogy)}</div>`:''}
+            ${c.example?`<div style=margin-top:4px>📝 ${esc(c.example)}</div>`:''}
+            ${c.counter_example?`<div style=margin-top:4px;color:var(--red)><span class=lbl>反例：</span>${esc(c.counter_example)}</div>`:''}
+          </div>
         </div>`;
-      }).join('')}
-    </div>
-
-    <div class="card">
-      <div class="card-title">🎯 备考建议</div>
-      <div style="font-size:11.5px;line-height:1.8">
-        ${accuracyPct >= 80 ? '✅ <b>优秀！</b>当前正确率已达目标，保持节奏，重点巩固易错概念。' :
-          accuracyPct >= 60 ? '💪 <b>加油！</b>还有提升空间，集中攻克薄弱知识点效果最明显。' :
-          '📖 <b>需要更多练习。</b>从核心概念★★★开始，逐步扩展到常考概念。'}
-        <br>📌 共 <b>${wrongQ}</b> 道错题需要复习 · <b>${CON.length}</b> 个知识点待掌握
-        <br>📅 距离考试还有 <b>${DAYS_LEFT}</b> 天，每天复习 <b>${Math.ceil((wrongQ + unattemptedQ) / Math.max(DAYS_LEFT, 1))}</b> 题可完成一轮
-      </div>
-    </div>
-  `;
-}
-renderDashboard();
-
-// ═══════════════════════════════════════════
-// TAB 1: KNOWLEDGE MAP
-// ═══════════════════════════════════════════
-function renderKnowledgeMap(filterType) {
-  filterType = filterType || 'all';
-  const sec = document.getElementById('sec1');
-  const units = sortUnits(Object.keys(CON_BY_UNIT));
-
-  // Filter chips
-  let html = `<div class="km-filters">
-    <div class="km-fbtn ${filterType==='all'?'on':''}" onclick="renderKnowledgeMap('all')">全部(${CON.length})</div>
-    <div class="km-fbtn ${filterType==='core'?'on':''}" onclick="renderKnowledgeMap('core')">★★★ 核心</div>
-    <div class="km-fbtn ${filterType==='common'?'on':''}" onclick="renderKnowledgeMap('common')">★★ 常考</div>
-    <div class="km-fbtn ${filterType==='hard'?'on':''}" onclick="renderKnowledgeMap('hard')">★ 易错</div>
-    <div class="km-fbtn ${filterType==='edge'?'on':''}" onclick="renderKnowledgeMap('edge')">· 边缘</div>
-  </div>`;
-
-  html += units.map(unit => {
-    const concepts = CON_BY_UNIT[unit].filter(c => {
-      if (filterType === 'all') return true;
-      return TYPE_CLASS[c.priority] === filterType;
-    });
-    if (concepts.length === 0) return '';
-    const unitErr = concepts.reduce((s, c) => s + (ERR_BY_CONCEPT[c.id] || 0), 0);
-    return `<div class="km-unit">
-      <div class="km-uhead" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arrow').classList.toggle('open')">
-        <span class="arrow open">▶</span>
-        ${esc(unit)}
-        <span class="count">${concepts.length}概念 · ${unitErr}错题</span>
-      </div>
-      <div class="km-grid">
-        ${concepts.map(c => {
-          const errCnt = ERR_BY_CONCEPT[c.id] || 0;
-          return `<div class="km-chip ${TYPE_CLASS[c.priority]}" onclick="showConceptModal(${c.id})" title="${esc(c.definition?.split('|')[0]?.trim() || '')}">
-            <span class="sym">${c.symbol || TYPE_ICON[c.priority] || '·'}</span>
-            <span class="nm">${esc(c.name)}</span>
-            ${errCnt > 0 ? `<span class="err">${errCnt}</span>` : ''}
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`;
+      }).join('')}</div></div>`;
   }).join('');
-
-  sec.innerHTML = html;
 }
-renderKnowledgeMap();
+renderConceptMap();
 
-// ═══════════════════════════════════════════
-// TAB 2: WRONG CLINIC
-// ═══════════════════════════════════════════
-let wcFilter = 'all';
-
-function renderWrongClinic(filter) {
-  filter = filter || wcFilter;
-  wcFilter = filter;
-  const sec = document.getElementById('sec2');
-  const wrongs = ST.wrong_answers;
-
-  // Group wrong answers by knowledge point
-  const groups = {};
-  wrongs.forEach(w => {
-    const kp = w.knowledge_point || '未分类';
-    if (!groups[kp]) groups[kp] = [];
-    groups[kp].push(w);
-  });
-
-  const kpKeys = Object.keys(groups).sort((a, b) => groups[b].length - groups[a].length);
-
-  let html = `<div class="card">
-    <div class="card-title">🏥 错题诊所</div>
-    <div style="font-size:11px;color:var(--text2);margin-bottom:8px">
-      共 ${wrongs.length} 道错题，分布在 ${kpKeys.length} 个知识点
+/* === WRONG CLINIC === */
+function renderWrongClinic(){
+  const sort=$('wrongSort').value,q=($('wrongSearch').value||'').trim().toLowerCase();
+  let items=wrongQ;if(q)items=items.filter(w=>(w.knowledge_point||'').toLowerCase().includes(q)||(w.question_text||'').toLowerCase().includes(q)||(w.error_cause||'').toLowerCase().includes(q));
+  $('wrongCount').textContent=items.length;$('wrongKpCount').textContent=new Set(items.map(w=>w.knowledge_point)).size;
+  const container=$('wrongClinicContainer');
+  if(!items.length){container.innerHTML='<div class=empty><span class=ico>🎉</span>没有匹配的错题</div>';return;}
+  if(sort==='all'){container.innerHTML=items.map(w=>wi(w)).join('');return;}
+  const grouped={};items.forEach(w=>{const kp=w.knowledge_point||'未分类';if(!grouped[kp])grouped[kp]=[];grouped[kp].push(w);});
+  const sortedKps=Object.entries(grouped).sort((a,b)=>b[1].length-a[1].length);
+  container.innerHTML=sortedKps.map(([kp,ws])=>`<div class=kp-group>
+    <div class=kp-hdr onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+      <span>${kp} <span class=count-badge>${ws.length}题</span></span>
+      <span style=font-size:11px;color:var(--text3)>${ws[0].error_cause?'有归因分析 📋':'点击展开 ▶'}</span>
     </div>
-  </div>`;
-
-  // Filter buttons
-  html += `<div class="wc-filters">
-    <div class="wc-fbtn ${filter==='all'?'on':''}" onclick="renderWrongClinic('all')">全部 (${wrongs.length})</div>
-    <div class="wc-fbtn ${filter==='cause'?'on':''}" onclick="renderWrongClinic('cause')">有陷阱分析</div>
-    <div class="wc-fbtn ${filter==='top5'?'on':''}" onclick="renderWrongClinic('top5')">TOP5知识点</div>
-  </div>`;
-
-  let displayKps = kpKeys;
-  if (filter === 'cause') {
-    displayKps = kpKeys.filter(k => groups[k].some(w => w.error_cause));
-  } else if (filter === 'top5') {
-    displayKps = kpKeys.slice(0, 5);
-  }
-
-  displayKps.forEach(kp => {
-    const items = groups[kp];
-    const hasCause = items.some(w => w.error_cause);
-    const topCause = items.filter(w => w.error_cause).slice(0, 3);
-    html += `<div class="wc-group">
-      <div class="wc-ghead" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arrow').classList.toggle('open')">
-        <span class="arrow open">▶</span>
-        ${esc(kp || '未分类')}
-        <span class="err-cnt">${items.length}</span>
-      </div>
-      <div class="wc-body">`;
-    if (hasCause && topCause.length > 0) {
-      html += `<div style="padding:6px 12px;font-size:10.5px;background:var(--accent-light);color:var(--text)">
-        ⚠️ <b>常见错误原因：</b>${esc(topCause[0].error_cause)}</div>`;
-    }
-    items.forEach(w => {
-      const q = QS.find(q2 => q2.id === w.question_id);
-      html += `<div class="wc-item">
-        <div class="q">${esc(w.question_text || q?.question_text || '')}</div>
-        <div class="ans">
-          <span>学生答：<span class="u">${esc(w.student_response || '未作答')}</span></span>
-          ${q?.correct_answer ? `<span>正确答案：<span class="c">${esc(q.correct_answer)}</span></span>` : ''}
-        </div>
-        ${w.error_cause ? `<div class="cause"><b>🔍 错因：</b>${esc(w.error_cause)}</div>` : ''}
-        ${w.exam_strategy ? `<div class="strategy">💡 ${esc(w.exam_strategy)}</div>` : ''}
-        <div class="src">📄 ${esc(w.source_title || '')} · 第${w.page_number || '?'}页 · #${w.question_id}</div>
-      </div>`;
-    });
-    html += `</div></div>`;
-  });
-
-  if (displayKps.length === 0) {
-    html += `<div class="card" style="text-align:center;color:var(--text2);padding:30px">🎉 暂无符合条件的错题</div>`;
-  }
-
-  sec.innerHTML = html;
+    <div class=kp-body>${ws.map(w=>wi(w)).join('')}</div></div>`
+  ).join('');
+  setTimeout(()=>{const h=container.querySelectorAll('.kp-hdr');h.forEach((h,i)=>{if(i<3&&h.closest('.kp-group').querySelector('.wrong-item')){h.classList.add('open');h.nextElementSibling.classList.add('open');}});},50);
 }
+function wi(w){const c=w.error_cause||'',d=w.error_detail||'',s=w.exam_strategy||'';
+  return `<div class=wrong-item>
+    <div class=wi-q>${w.question_number?`<span style=color:var(--text3);font-weight:400;font-size:12px>${esc(w.question_number)}. </span>`:''}${esc(w.question_text||'')}</div>
+    <div class=wi-meta><span class=wi-tag>✗ ${esc(w.knowledge_point||'未分类')}</span>${w.difficulty?`<span style=font-size:10.5px;padding:1px 6px;border-radius:4px;background:var(--bg2);color:var(--text2)>难度${w.difficulty}</span>`:''}</div>
+    ${w.student_response?`<div class=wi-resp><strong>作答：</strong>${esc(limitStr(w.student_response,120))}</div>`:''}
+    ${c?`<div class=wi-cause><strong>归因：</strong>${esc(c)}</div>`:''}
+    ${d?`<div class=wi-cause style="background:var(--amber-light);color:var(--amber);margin-top:3px"><strong>详解：</strong>${esc(d)}</div>`:''}
+    ${s?`<div class=wi-strat><strong>策略：</strong>${esc(s)}</div>`:''}
+  </div>`;
+}
+function filterWrongs(){renderWrongClinic();}
 renderWrongClinic();
 
-// ═══════════════════════════════════════════
-// TAB 3: KNOWLEDGE GRAPH
-// ═══════════════════════════════════════════
-let graphRendered = false;
-
-function renderGraph() {
-  if (graphRendered) return;
-  graphRendered = true;
-  const sec = document.getElementById('sec3');
-
-  // Build graph from concepts that have errors
-  const nodes = [];
-  const nodeMap = {};
-  CON.forEach(c => {
-    const errCnt = ERR_BY_CONCEPT[c.id] || 0;
-    if (errCnt > 0 || true) {  // include all concepts for richer graph
-      nodes.push({
-        id: c.id,
-        name: c.name,
-        priority: c.priority,
-        symbol: c.symbol || TYPE_ICON[c.priority],
-        unit: c.unit || '其他',
-        errCnt: errCnt,
-        radius: Math.max(5, Math.min(16, 5 + errCnt * 2))
-      });
-      nodeMap[c.id] = nodes.length - 1;
-    }
+/* === KNOWLEDGE GRAPH === */
+let graphNodes=[],graphEdges=[],graphTransform={x:0,y:0,scale:1};
+function buildGraphData(filter='all'){
+  let concepts=_C;if(filter!=='all')concepts=concepts.filter(c=>c.type_name===filter);
+  graphNodes=concepts.map((c,i)=>({id:c.id,name:c.name,type:c.type_name,priority:c.priority,x:200+Math.random()*600,y:150+Math.random()*400,vx:0,vy:0,r:c.priority===1?10:c.priority===2?8:c.priority===3?7:6}));
+  const kpConcepts={};
+  _Q.forEach(q=>{if(q.knowledge_point&&q.concept_id){if(!kpConcepts[q.knowledge_point])kpConcepts[q.knowledge_point]=new Set();kpConcepts[q.knowledge_point].add(q.concept_id);}});
+  const edgeSet=new Set();graphEdges=[];
+  Object.values(kpConcepts).forEach(conIds=>{
+    const arr=[...conIds].filter(id=>graphNodes.some(n=>n.id===id));
+    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++){const key=Math.min(arr[i],arr[j])+'-'+Math.max(arr[i],arr[j]);if(!edgeSet.has(key)){edgeSet.add(key);graphEdges.push({source:arr[i],target:arr[j],weight:1});}else{const e=graphEdges.find(e=>e.source===Math.min(arr[i],arr[j])&&e.target===Math.max(arr[i],arr[j]));if(e)e.weight++;}}
   });
-
-  // Build edges: connect concepts in same unit
-  const edges = [];
-  const units = {};
-  CON.forEach(c => {
-    const u = c.unit || '其他';
-    if (!units[u]) units[u] = [];
-    units[u].push(c.id);
-  });
-  Object.values(units).forEach(ids => {
-    for (let i = 0; i < ids.length - 1; i++) {
-      for (let j = i + 1; j < ids.length; j++) {
-        if (nodeMap[ids[i]] !== undefined && nodeMap[ids[j]] !== undefined) {
-          edges.push({ source: nodeMap[ids[i]], target: nodeMap[ids[j]] });
-        }
-      }
-    }
-  });
-
-  // Also connect concepts that share knowledge_points via questions
-  const kpGroups = {};
-  QS.forEach(q => {
-    if (q.concept_id && q.knowledge_point) {
-      if (!kpGroups[q.knowledge_point]) kpGroups[q.knowledge_point] = new Set();
-      kpGroups[q.knowledge_point].add(q.concept_id);
-    }
-  });
-  Object.values(kpGroups).forEach(conSet => {
-    const ids = [...conSet].filter(id => nodeMap[id] !== undefined);
-    for (let i = 0; i < Math.min(ids.length, 5); i++) {
-      for (let j = i + 1; j < Math.min(ids.length, 5); j++) {
-        const exists = edges.some(e => e.source === nodeMap[ids[i]] && e.target === nodeMap[ids[j]]);
-        if (!exists) {
-          edges.push({ source: nodeMap[ids[i]], target: nodeMap[ids[j]] });
-        }
-      }
-    }
-  });
-
-  // Limit to top 80 nodes by error count for performance
-  const sortedNodes = [...nodes].sort((a, b) => b.errCnt - a.errCnt);
-  const top80 = new Set(sortedNodes.slice(0, 80).map(n => n.id));
-  const filteredNodes = nodes.filter(n => top80.has(n.id));
-  const filteredNodeIds = new Set(filteredNodes.map((n, i) => { n.idx = i; return n.id; }));
-  const filteredEdges = edges.filter(e => filteredNodeIds.has(nodes[e.source].id) && filteredNodeIds.has(nodes[e.target].id));
-
-  // Reindex
-  const idMap = {};
-  filteredNodes.forEach((n, i) => { idMap[n.id] = i; });
-  const reindexedEdges = filteredEdges.map(e => ({
-    source: idMap[nodes[e.source].id],
-    target: idMap[nodes[e.target].id]
-  }));
-
-  // Force layout
-  const W = 900, H = 600;
-  const positions = forceLayout(filteredNodes, reindexedEdges, W, H);
-
-  // Colors by priority
-  const PCOLORS = ['#e53e3e', '#d69e2e', '#3182ce', '#a0aec0'];
-  const DARK_PCOLORS = ['#f87171', '#fbbf24', '#60a5fa', '#64748b'];
-
-  // Render SVG
-  const isDark = document.body.classList.contains('dark');
-  const colors = PCOLORS.map((c, i) => isDark ? DARK_PCOLORS[i] : c);
-  let svg = `<div class="card" style="margin-bottom:8px">
-    <div class="card-title">🕸 概念关系图谱</div>
-    <div style="font-size:10.5px;color:var(--text2)">节点大小 = 错题数量 · 同单元/知识点相连</div>
-  </div>`;
-
-  svg += `<div class="graph-filter">
-    <div class="btn on" onclick="renderGraph()">刷新布局</div>
-  </div>`;
-
-  svg += `<div class="graph-wrap" id="graph-wrap">
-    <svg id="graph-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"
-      onmousedown="startGraphDrag(event)" onmousemove="graphDrag(event)" onmouseup="stopGraphDrag()" onmouseleave="stopGraphDrag()">
-      <defs>
-        <filter id="gshadow"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-opacity=".25"/></filter>
-      </defs>`;
-
-  // Edges
-  reindexedEdges.forEach(e => {
-    const s = positions[e.source], t = positions[e.target];
-    if (s && t) {
-      svg += `<line x1="${s.x}" y1="${s.y}" x2="${t.x}" y2="${t.y}" stroke="${isDark?'#475569':'#cbd5e1'}" stroke-width="1" opacity=".4"/>`;
-    }
-  });
-
-  // Nodes
-  filteredNodes.forEach((n, i) => {
-    const p = positions[i];
-    if (!p) return;
-    const col = colors[Math.min(n.priority - 1, 3)] || '#a0aec0';
-    const r = n.radius;
-    svg += `<g style="cursor:pointer" onclick="showNodeDetail(${n.id})">
-      <circle cx="${p.x}" cy="${p.y}" r="${r}" fill="${col}" opacity=".85" stroke="#fff" stroke-width="1.5" filter="url(#gshadow)"/>
-      ${n.errCnt > 0 ? `<text x="${p.x}" y="${p.y+1}" text-anchor="middle" fill="#fff" font-size="${r>10?'9':'7'}" font-weight="700">${n.errCnt}</text>` : ''}
-    </g>`;
-  });
-
-  // Labels on larger nodes
-  filteredNodes.forEach((n, i) => {
-    const p = positions[i];
-    if (!p || n.radius < 8) return;
-    svg += `<text x="${p.x}" y="${p.y + n.radius + 11}" text-anchor="middle" fill="${isDark?'#94a3b8':'#4a5568'}" font-size="8" style="pointer-events:none">${esc(n.name.length > 8 ? n.name.slice(0,8)+'…' : n.name)}</text>`;
-  });
-
-  svg += `</svg></div>`;
-
-  // Legend
-  svg += `<div class="graph-lgnd">
-    <span style="font-weight:600;font-size:10px">图例：</span>
-    ${[['★★★ 核心','var(--red)'],['★★ 常考','var(--gold)'],['★ 易错','var(--blue)'],['· 边缘','var(--teal)']].map(([l,c]) =>
-      `<span class="item"><span class="dot" style="background:${c}"></span>${l}</span>`
-    ).join('')}
-  </div>`;
-
-  sec.innerHTML = svg;
+  const nodeIds=new Set(graphNodes.map(n=>n.id));
+  graphEdges=graphEdges.filter(e=>nodeIds.has(e.source)&&nodeIds.has(e.target));
+  graphEdges.sort((a,b)=>b.weight-a.weight);
+  graphEdges=graphEdges.slice(0,Math.max(graphNodes.length*2,50));
 }
-
-// Force-directed layout (simple)
-function forceLayout(nodes, edges, W, H) {
-  const n = nodes.length;
-  const pos = nodes.map((node, i) => ({
-    x: W/2 + (Math.random() - 0.5) * W * 0.6,
-    y: H/2 + (Math.random() - 0.5) * H * 0.6,
-    vx: 0, vy: 0
-  }));
-
-  const REP_STR = 800, ATT_STR = 0.003, CENTER_STR = 0.01;
-  const ITER = 80;
-  const EDGE_LEN = 80;
-
-  for (let iter = 0; iter < ITER; iter++) {
-    const damping = 1 - iter / ITER;
-    // Repulsion
-    for (let i = 0; i < n; i++) {
-      for (let j = i + 1; j < n; j++) {
-        let dx = pos[j].x - pos[i].x;
-        let dy = pos[j].y - pos[i].y;
-        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        let force = REP_STR / (dist * dist);
-        pos[i].vx -= force * dx / dist * damping;
-        pos[i].vy -= force * dy / dist * damping;
-        pos[j].vx += force * dx / dist * damping;
-        pos[j].vy += force * dy / dist * damping;
-      }
-    }
-    // Attraction
-    edges.forEach(e => {
-      let dx = pos[e.target].x - pos[e.source].x;
-      let dy = pos[e.target].y - pos[e.source].y;
-      let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      let force = (dist - EDGE_LEN) * ATT_STR * damping;
-      pos[e.source].vx += force * dx / dist;
-      pos[e.source].vy += force * dy / dist;
-      pos[e.target].vx -= force * dx / dist;
-      pos[e.target].vy -= force * dy / dist;
-    });
-    // Center
-    pos.forEach(p => {
-      p.vx += (W/2 - p.x) * CENTER_STR * damping;
-      p.vy += (H/2 - p.y) * CENTER_STR * damping;
-    });
-    // Apply
-    pos.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.x = Math.max(20, Math.min(W - 20, p.x));
-      p.y = Math.max(20, Math.min(H - 20, p.y));
-      p.vx *= 0.9;
-      p.vy *= 0.9;
-    });
-  }
-  return pos;
-}
-
-// Graph drag
-let graphDragging = false, graphStart = null, graphScroll = null;
-function startGraphDrag(e) {
-  const wrap = document.getElementById('graph-wrap');
-  if (!wrap) return;
-  graphDragging = true;
-  graphStart = { x: e.clientX, y: e.clientY };
-  graphScroll = { l: wrap.scrollLeft, t: wrap.scrollTop };
-}
-function graphDrag(e) {
-  if (!graphDragging) return;
-  const wrap = document.getElementById('graph-wrap');
-  if (wrap && graphStart) {
-    wrap.scrollLeft = graphScroll.l - (e.clientX - graphStart.x);
-    wrap.scrollTop = graphScroll.t - (e.clientY - graphStart.y);
+function runForceLayout(iterations=200){
+  const nodes=graphNodes,edges=graphEdges,cx=500,cy=400,repulsion=800000,attraction=0.003,damping=0.85,centerForce=0.002;
+  const typeRadii={'核心概念':80,'常考概念':180,'易错概念':280,'边缘概念':360};
+  nodes.forEach((n,i)=>{const radius=typeRadii[n.type]||200;const angle=(i/nodes.length)*Math.PI*2+Math.random()*0.1;n.x=cx+Math.cos(angle)*radius*(0.8+Math.random()*0.4);n.y=cy+Math.sin(angle)*radius*(0.8+Math.random()*0.4);});
+  for(let iter=0;iter<iterations;iter++){const k=1-iter/iterations;
+    for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){let dx=nodes[j].x-nodes[i].x,dy=nodes[j].y-nodes[i].y,dist=Math.sqrt(dx*dx+dy*dy)||1;let force=repulsion/(dist*dist)*k,fx=dx/dist*force,fy=dy/dist*force;nodes[i].vx-=fx;nodes[i].vy-=fy;nodes[j].vx+=fx;nodes[j].vy+=fy;}
+    for(const e of edges){const si=nodes.findIndex(n=>n.id===e.source),ti=nodes.findIndex(n=>n.id===e.target);if(si===-1||ti===-1)continue;const dx=nodes[ti].x-nodes[si].x,dy=nodes[ti].y-nodes[si].y,dist=Math.sqrt(dx*dx+dy*dy)||1;const ideal=80+(e.weight||1)*10,f=(dist-ideal)*attraction*k;nodes[si].vx+=dx/dist*f;nodes[si].vy+=dy/dist*f;nodes[ti].vx-=dx/dist*f;nodes[ti].vy-=dy/dist*f;}
+    for(const n of nodes){n.vx+=(cx-n.x)*centerForce*k;n.vy+=(cy-n.y)*centerForce*k;n.vx*=damping;n.vy*=damping;n.x+=n.vx;n.y+=n.vy;}
   }
 }
-function stopGraphDrag() { graphDragging = false; }
-
-// Node detail via modal
-function showNodeDetail(conceptId) {
-  showConceptModal(conceptId);
+function renderGraph(){
+  const svg=$('graphSvg'),wrap=$('graphWrap'),w=wrap.clientWidth||1000,h=Math.max(wrap.clientHeight||600,500);
+  svg.setAttribute('viewBox','0 0 '+w+' '+h);
+  const nodeMap={};graphNodes.forEach(n=>nodeMap[n.id]=n);
+  const maxWeight=Math.max(...graphEdges.map(e=>e.weight),1);
+  let html='<g transform="translate('+graphTransform.x+','+graphTransform.y+') scale('+graphTransform.scale+')">';
+  for(const e of graphEdges){const s=nodeMap[e.source],t=nodeMap[e.target];if(!s||!t)continue;const op=0.15+(e.weight/maxWeight)*0.4;html+='<line x1="'+s.x+'" y1="'+s.y+'" x2="'+t.x+'" y2="'+t.y+'" stroke="var(--accent)" stroke-opacity="'+op+'" stroke-width="'+(0.5+e.weight/maxWeight*1.5)+'"/>';}
+  for(const n of graphNodes){const color=tierColors[n.type]||'var(--text3)';html+='<g class=gn data-id="'+n.id+'" transform="translate('+n.x.toFixed(1)+','+n.y.toFixed(1)+')" style=cursor:pointer><circle r="'+n.r+'" fill="'+color+'" stroke="#fff" stroke-width="1.5" opacity=".85"><title>'+esc(n.name)+'</title></circle><text y="'+(n.r+12)+'" text-anchor="middle" font-size="'+(n.r>8?9:7)+'" fill="var(--text)" font-weight="600" style="text-shadow:0 0 2px var(--card)">'+(n.name.length>6?n.name.slice(0,5)+'…':n.name)+'</text></g>';}
+  html+='</g>';svg.innerHTML=html;
+  svg.querySelectorAll('.gn').forEach(g=>{g.addEventListener('mouseenter',e=>{const id=parseInt(g.dataset.id);const n=graphNodes.find(nd=>nd.id===id);const c=_C.find(cc=>cc.id===id);if(!n)return;const tip=$('graphTip');tip.innerHTML='<strong>'+esc(n.name)+'</strong><br><span style=font-size:11px;color:'+tierColors[n.type]+'>'+n.type+'</span>'+(c&&c.definition?'<br><span style=font-size:11px>'+esc(c.definition.slice(0,120))+'</span>':'');tip.style.display='block';const rect=wrap.getBoundingClientRect();let x=e.clientX-rect.left+12,y=e.clientY-rect.top+12;if(x+200>rect.width)x=e.clientX-rect.left-200;if(y+100>rect.height)y=e.clientY-rect.top-80;tip.style.left=x+'px';tip.style.top=y+'px';});g.addEventListener('mouseleave',()=>{$('graphTip').style.display='none';});});
+  let dragNode=null,dragOff={x:0,y:0};
+  function pos(e){const rect=svg.getBoundingClientRect();return{x:(e.clientX-rect.left-graphTransform.x)/graphTransform.scale,y:(e.clientY-rect.top-graphTransform.y)/graphTransform.scale};}
+  function findNode(x,y){for(let i=graphNodes.length-1;i>=0;i--){const n=graphNodes[i];if((x-n.x)**2+(y-n.y)**2<(n.r+5)**2)return n;}return null;}
+  svg.onpointerdown=e=>{const p=pos(e),n=findNode(p.x,p.y);if(n){dragNode=n;dragOff={x:p.x-n.x,y:p.y-n.y};svg.setPointerCapture(e.pointerId);e.preventDefault();}};
+  svg.onpointermove=e=>{if(dragNode){const p=pos(e);dragNode.x=p.x-dragOff.x;dragNode.y=p.y-dragOff.y;renderGraph();}};
+  svg.onpointerup=()=>{dragNode=null;};
+  svg.onwheel=e=>{e.preventDefault();const d=e.deltaY>0?.9:1.1;graphTransform.scale=Math.min(Math.max(graphTransform.scale*d,.1),5);const rect=svg.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;graphTransform.x=mx-(mx-graphTransform.x)*d;graphTransform.y=my-(my-graphTransform.y)*d;renderGraph();};
 }
+function resetGraphView(){graphTransform={x:0,y:0,scale:1};setTimeout(filterGraph,50);}
+function filterGraph(){buildGraphData($('graphFilter').value);runForceLayout(150);renderGraph();}
+function runGraph(){if(!graphNodes.length)filterGraph();}
+window.addEventListener('resize',()=>{if(graphNodes.length)renderGraph();});
 
-// ═══════════════════════════════════════════
-// TAB 4: STUDY PLAN
-// ═══════════════════════════════════════════
-function renderStudyPlan() {
-  const sec = document.getElementById('sec4');
-
-  // Group wrong by concept for priority list
-  const conceptErrors = {};
-  ST.wrong_answers.forEach(w => {
-    const q = Q_MAP[w.question_id];
-    if (q && q.concept_id) {
-      conceptErrors[q.concept_id] = (conceptErrors[q.concept_id] || 0) + 1;
-    }
-  });
-
-  // Build priority list
-  const priorityList = CON.filter(c => conceptErrors[c.id] > 0)
-    .map(c => ({
-      ...c,
-      errCnt: conceptErrors[c.id],
-      priorityScore: (c.priority === 1 ? 100 : c.priority === 2 ? 70 : c.priority === 3 ? 50 : 20) + conceptErrors[c.id] * 10
-    }))
-    .sort((a, b) => b.priorityScore - a.priorityScore);
-
-  // Weekly schedule
-  const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-  const todayIdx = TODAY.getDay();
-  const weekStart = (todayIdx === 0 ? 6 : todayIdx - 1); // Monday=0
-
-  // Daily recommended review count
-  const dailyTarget = Math.ceil(wrongQ / Math.max(DAYS_LEFT, 1));
-
-  // Urgent: 核心概念 with errors
-  const urgent = priorityList.filter(c => c.priority <= 2).slice(0, 10);
-  const imp = priorityList.filter(c => c.priority >= 3).slice(0, 10);
-  const normal = CON.filter(c => !conceptErrors[c.id] && c.priority <= 2).slice(0, 8);
-
-  const nowDate = new Date();
-  const dateStr = `${nowDate.getFullYear()}/${nowDate.getMonth()+1}/${nowDate.getDate()}`;
-
-  sec.innerHTML = `
-    <div class="sp-header">
-      <div class="days">${DAYS_LEFT}</div>
-      <div class="lbl">距离考试（预计6月27日）</div>
-      <div class="date">📅 今天 ${dateStr} · 每天建议复习 ${dailyTarget} 道错题</div>
-    </div>
-
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">📅 本周日程</div>
-        <div class="sp-week">
-          ${weekDays.map((d, i) => {
-            const isToday = i === (todayIdx === 0 ? 6 : todayIdx - 1);
-            const isWeekend = i >= 5;
-            return `<div class="sp-day ${isToday?'strong':''}" style="${isWeekend?'opacity:.7':''}">
-              ${d}<br>${isToday?'📌':isWeekend?'🎯':''}
-              ${isToday ? dailyTarget+'题' : ''}
-            </div>`;
-          }).join('')}
-        </div>
-        <div style="font-size:10px;color:var(--text2);text-align:center">
-          周末集中攻克高频错题，工作日每天${dailyTarget}题保持手感
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📋 复习进度</div>
-        <div class="grid-2">
-          <div class="stat-card green"><div class="big">${correctQ}</div><div class="lbl">已掌握</div></div>
-          <div class="stat-card gold"><div class="big">${wrongQ + halfQ}</div><div class="lbl">待复习</div></div>
-        </div>
-        <div style="margin-top:8px">
-          <div class="kp-row"><span class="name">总进度</span>
-            <div class="bar"><div class="fill" style="width:${accuracyPct}%;background:var(--green)"></div></div>
-            <span style="font-size:10px;font-weight:600;color:var(--green)">${accuracyPct}%</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">🔴 紧急优先 · 核心/常考概念有错题</div>
-      ${urgent.length === 0 ? '<div style="font-size:11px;color:var(--text2)">🎉 核心概念没有错题！</div>' :
-        urgent.map((c, i) => `<div class="sp-prio-item">
-          <div class="level urgent">${i+1}</div>
-          <span class="name"><b>${esc(c.name)}</b></span>
-          <span class="err-cnt">${c.errCnt}错题</span>
-        </div>`).join('')}
-    </div>
-
-    <div class="card">
-      <div class="card-title">🟡 重要 · 易错/边缘概念巩固</div>
-      ${imp.length === 0 ? '<div style="font-size:11px;color:var(--text2)">✨ 这部分已掌握</div>' :
-        imp.map((c, i) => `<div class="sp-prio-item">
-          <div class="level imp">${i+1}</div>
-          <span class="name"><b>${esc(c.name)}</b></span>
-          <span class="err-cnt">${c.errCnt}错题</span>
-        </div>`).join('')}
-    </div>
-
-    <div class="card">
-      <div class="card-title">🟢 预习 · 零错题核心概念</div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px">
-        ${normal.map(c => `<span class="km-chip ${TYPE_CLASS[c.priority]}" onclick="showConceptModal(${c.id})">
-          <span class="sym">${c.symbol}</span>${esc(c.name)}
-        </span>`).join('')}
-      </div>
-    </div>
-
-    <div class="sp-tip">
-      <b>📌 复习策略：</b><br>
-      ① 优先复习🔴紧急区，这些是考试重点且有错题积累<br>
-      ② 每日坚持做 ${dailyTarget} 道错题重做，记录不会的知识点<br>
-      ③ 周末用完整时间做一次模拟考试（30题/15分钟）<br>
-      ④ 考前3天回归教材，浏览所有页面查漏补缺<br>
-      ⑤ 🧘 保证睡眠，考试当天带好文具和自信！
-    </div>
-  `;
+/* === STUDY PLAN === */
+function generatePlan(){
+  const conceptErrors={};
+  wrongQ.forEach(q=>{if(!q.concept_id)return;if(!conceptErrors[q.concept_id])conceptErrors[q.concept_id]={count:0,questions:[],kps:new Set()};conceptErrors[q.concept_id].count++;conceptErrors[q.concept_id].questions.push(q);if(q.knowledge_point)conceptErrors[q.concept_id].kps.add(q.knowledge_point);});
+  const prioritized=Object.entries(conceptErrors).map(([cid,data])=>{const c=conceptMap[parseInt(cid)];return{concept:c,errors:data.count,kps:[...data.kps],score:data.count*(5-(c?c.priority:2))};}).filter(x=>x.concept).sort((a,b)=>b.score-a.score);
+  const today=new Date(),dayNames=['日','一','二','三','四','五','六'];
+  const itemsPerDay=Math.max(3,Math.ceil(prioritized.length/7));
+  const plans=[];const colors=['var(--red)','var(--accent)','var(--orange)','var(--amber)','var(--teal)','var(--purple)','var(--pink)'];
+  for(let day=0;day<7;day++){const date=new Date(today);date.setDate(date.getDate()+day);const dateStr=(date.getMonth()+1)+'/'+date.getDate()+' ('+dayNames[date.getDay()]+')';const dayItems=prioritized.slice(day*itemsPerDay,(day+1)*itemsPerDay);const focus=day===0?'🔥 重点突破':day<3?'📚 巩固提升':day<5?'🔄 循环复习':'🧪 综合测试';const reviewNote=day===0?'优先复习错题，理解错误原因':day===1?'重做错题，检验掌握程度':day===2?'对照教材溯源，夯实概念':day===3?'做同类题巩固':day===4?'总结易错 pattern':day===5?'限时模拟测试':'整体回顾查漏补缺';
+    if(!dayItems.length){plans.push('<div class="plan-day done"><div class=pd-hdr><span class=pd-title>'+focus+'</span><span class=pd-badge style="background:var(--green-light);color:var(--green)">完成 ✅</span></div><div style=font-size:13px;color:var(--text2)>'+dateStr+' · 无待复习内容</div></div>');continue;}
+    plans.push('<div class=plan-day><div class=pd-hdr><span><span class=pd-title>'+focus+'</span><span style=font-size:12px;color:var(--text3);margin-left:8px>'+dateStr+'</span></span><span class=pd-badge style="background:var(--accent-light);color:var(--accent)">'+dayItems.length+'项</span></div><div class=pd-items>'+dayItems.map((item,i)=>'<div class=pd-item><span class=pd-dot style=background:'+colors[i%colors.length]+'></span><span><strong>'+esc(item.concept.name)+'</strong>（'+item.errors+'题错）'+(item.concept.type_name!=='核心概念'?'<span style=font-size:11px;color:var(--text3)> · '+item.concept.type_name+'</span>':'')+'</span></div>').join('')+'</div><div style="font-size:11.5px;color:var(--text3);margin-top:6px;padding-top:6px;border-top:1px solid var(--border2)">💡 '+reviewNote+'</div></div>');}
+  const prioTop5=prioritized.slice(0,5).map((p,i)=>'<div style=padding:2px 0;font-size:12.5px>'+(i+1)+'. '+esc(p.concept.name)+' '+('🔴'.repeat(Math.min(p.errors,5)))+' ('+p.errors+'次错误)</div>').join('');
+  $('planContainer').innerHTML=plans.join('')+'<div class=card style=margin-top:12px><div class=card-title><span class=ico>📌</span> 复习统计</div><div style=font-size:13px;color:var(--text2)><div>📊 共 <strong>'+prioritized.length+'</strong> 个薄弱概念需要重点复习</div><div>⏱️ 建议每日复习 <strong>'+itemsPerDay+'</strong> 个概念，每次约 30 分钟</div><div>🔄 遵循艾宾浩斯遗忘曲线：1天→3天→7天循环回顾</div><div style=margin-top:8px>'+prioTop5+'</div></div></div>';
 }
-renderStudyPlan();
+generatePlan();
 
-// ═══════════════════════════════════════════
-// TAB 5: TEXTBOOK SOURCE
-// ═══════════════════════════════════════════
-let tbFilter = 'all';
-
-function renderTextbook(filter) {
-  filter = filter || tbFilter;
-  tbFilter = filter;
-  const sec = document.getElementById('sec5');
-  const mats = Object.keys(PGS_BY_MAT).sort();
-
-  const flatPages = PGS.slice().sort((a, b) => {
-    if (a.material_title !== b.material_title) return a.material_title?.localeCompare(b.material_title || '');
-    return (a.page_number || 0) - (b.page_number || 0);
-  });
-
-  // Filter pages
-  let displayPages = flatPages;
-  if (filter === 'has_err') {
-    // Find pages with wrong answers
-    const wrongQIds = new Set(ST.wrong_answers.map(w => w.question_id));
-    displayPages = flatPages.filter(p => {
-      if (!p.parsed) return false;
-      return p.parsed.some(q => {
-        const matched = Q_TEXT_MAP[q.题目 + '|' + p.id];
-        return matched && wrongQIds.has(matched.id);
-      });
-    });
-  } else if (filter === 'has_content') {
-    displayPages = flatPages.filter(p => p.parsed && p.parsed.length > 0);
-  }
-
-  // Filter buttons
-  let html = `<div class="card">
-    <div class="card-title">📖 教材溯源</div>
-    <div style="font-size:11px;color:var(--text2)">共 ${PGS.length} 页 · ${mats.length} 份材料</div>
-  </div>
-  <div class="tb-filters">
-    <div class="tb-fbtn ${filter==='all'?'on':''}" onclick="renderTextbook('all')">全部 (${PGS.length})</div>
-    <div class="tb-fbtn ${filter==='has_content'?'on':''}" onclick="renderTextbook('has_content')">有题目 (${flatPages.filter(p=>p.parsed&&p.parsed.length>0).length})</div>
-    <div class="tb-fbtn ${filter==='has_err'?'on':''}" onclick="renderTextbook('has_err')">有错题</div>
-  </div>`;
-
-  // Group display pages by material
-  const grouped = {};
-  displayPages.forEach(p => {
-    const m = p.material_title || '未知';
-    if (!grouped[m]) grouped[m] = [];
-    grouped[m].push(p);
-  });
-
-  Object.entries(grouped).forEach(([mat, pages]) => {
-    html += `<div style="font-size:11px;font-weight:700;color:var(--text2);margin:8px 0 4px 4px">📁 ${esc(mat)} (${pages.length}页)</div>`;
-    pages.forEach(p => {
-      const parsed = p.parsed || [];
-      const hasErr = parsed.some(q => {
-        const matched = Q_TEXT_MAP[q.题目 + '|' + p.id];
-        return matched && matched.is_correct === '✗';
-      });
-      html += `<div class="tb-page" style="${hasErr?'border-left:3px solid var(--red)':''}">
-        <div class="tb-phead" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none';this.querySelector('.arrow').classList.toggle('open')">
-          <span class="arrow open">▶</span>
-          第 ${p.page_number} 页 ${hasErr ? '⚠️' : ''}
-          <span class="src">${parsed.length} 题</span>
-        </div>
-        <div class="tb-items">`;
-      if (parsed.length === 0) {
-        html += `<div class="tb-q" style="color:var(--text2);font-size:10px">此页暂未提取到题目</div>`;
-      } else {
-        parsed.forEach(q => {
-          const matched = Q_TEXT_MAP[q.题目 + '|' + p.id];
-          const isWrong = matched && matched.is_correct === '✗';
-          html += `<div class="tb-q">
-            <span class="num">${esc(q.题号 || '?')}</span>
-            <div class="txt">
-              <div>${esc(q.题目 || '')}</div>
-              <div class="ans">
-                <span>${isWrong ? '<span class="wrong">✗ ' + esc(q.学生作答 || '') + '</span>' : '<span class="right">✓ ' + esc(q.学生作答 || '') + '</span>'}</span>
-                ${q.知识点 ? `<span class="kp">${esc(q.知识点)}</span>` : ''}
-              </div>
-            </div>
-          </div>`;
-        });
-      }
-      html += `</div></div>`;
-    });
-  });
-  sec.innerHTML = html;
+/* === TEXTBOOK SOURCE === */
+function renderPages(){
+  const q=($('pageSearch').value||'').trim().toLowerCase(),sort=$('pageSort').value;
+  let pages=[..._P];if(q)pages=pages.filter(p=>(p.ocr_text||'').toLowerCase().includes(q)||(p.material_title||'').toLowerCase().includes(q));
+  pages.sort((a,b)=>(a.page_number-b.page_number)*(sort==='asc'?1:-1));
+  $('pageCount').textContent=pages.length+'/'+_P.length;
+  $('pageContainer').innerHTML=pages.length?pages.map(p=>{
+    let preview=p.ocr_text||'';try{const parsed=JSON.parse(p.ocr_text);if(Array.isArray(parsed))preview=parsed.map(item=>item.题目||item.question||JSON.stringify(item)).filter(Boolean).join(' | ');}catch(e){}
+    const summary=preview.slice(0,150)+(preview.length>150?'…':'');
+    return '<div class=page-card onclick="this.querySelector(\'.pc-full\')?.classList.toggle(\'show\');this.querySelector(\'.pc-summary\')?.classList.toggle(\'hide\')"><div class=pc-hdr><span>📄 第'+p.page_number+'页 · '+(p.material_title||'科学教材')+'</span><span style=font-size:11px;color:var(--text3)>点击展开</span></div><div class=pc-summary>'+esc(summary)+'</div><div class=pc-full>'+esc(preview.slice(0,3000))+'</div></div>';
+  }).join(''):'<div class=empty><span class=ico>🔍</span>未找到匹配内容</div>';
 }
-renderTextbook();
+function filterPages(){renderPages();}
+renderPages();
 
-// ═══════════════════════════════════════════
-// MODAL
-// ═══════════════════════════════════════════
-function showConceptModal(id) {
-  const c = CON_MAP[id];
-  if (!c) return;
-  const rawDef = c.definition || '暂无定义';
-  const mainDef = rawDef.split('|')[0].trim();
-  const trap = rawDef.includes('陷阱') ? rawDef.split('陷阱')[1].replace(/^[:：]/, '').trim() : '';
-  const errCnt = ERR_BY_CONCEPT[c.id] || 0;
-
-  // Find related questions
-  const relatedQs = QS_BY_CONCEPT[c.id] || [];
-  const wrongRelated = relatedQs.filter(q => q.is_correct === '✗');
-
-  document.getElementById('modal-name').textContent = c.name;
-  let body = `<span class="msym">${c.symbol || TYPE_ICON[c.priority] || '★★'} ${TYPE_NAME[c.priority] || ''}</span>
-    <div class="mbody">${esc(mainDef)}</div>`;
-
-  if (c.example) body += `<div class="msec"><h4>📌 典型例子</h4><p>${esc(c.example)}</p></div>`;
-  if (c.analogy) body += `<div class="msec"><h4>🔗 类比记忆</h4><p>${esc(c.analogy)}</p></div>`;
-  if (trap) body += `<div class="trapbox">⚠️ <b>常见陷阱：</b>${esc(trap)}</div>`;
-
-  if (errCnt > 0) {
-    body += `<div class="m-err">🔴 历史错误次数: ${errCnt}</div>`;
-    if (wrongRelated.length > 0) {
-      body += `<div class="m-err-qs"><h4 style="font-size:10.5px;color:var(--red);margin-bottom:3px">相关错题：</h4>`;
-      wrongRelated.slice(0, 5).forEach(q => {
-        body += `<div class="eq">❌ ${esc(q.question_number || '')} ${esc(q.question_text || '').slice(0, 40)}${(q.question_text||'').length > 40 ? '…' : ''}</div>`;
-      });
-      if (wrongRelated.length > 5) body += `<div class="eq" style="color:var(--text2)">…还有${wrongRelated.length - 5}道错题</div>`;
-      body += `</div>`;
-    }
-  }
-
-  if (c.counter_example) body += `<div class="msec"><h4>⚠️ 反例辨析</h4><p>${esc(c.counter_example)}</p></div>`;
-  if (c.unit) body += `<div class="msec"><h4>📂 所属单元</h4><p>${esc(c.unit)}</p></div>`;
-
-  document.getElementById('modal-body').innerHTML = body;
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-function closeModal(e) {
-  if (!e || e.target === document.getElementById('modal-overlay'))
-    document.getElementById('modal-overlay').classList.remove('open');
-}
-
-// ═══════════════════════════════════════════
-// UTILITY
-// ═══════════════════════════════════════════
-function esc(s) {
-  if (s == null) return '';
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-// ═══════════════════════════════════════════
-// RE-RENDER GRAPH ON THEME CHANGE
-// ═══════════════════════════════════════════
-const origToggle = toggleTheme;
-toggleTheme = function() {
-  origToggle();
-  graphRendered = false; // force re-render on next graph tab switch
-  // Re-render graph if visible
-  const sec3 = document.getElementById('sec3');
-  if (sec3 && sec3.classList.contains('on')) {
-    renderGraph();
-  }
-};
+console.log('宝科科学备考 · '+_Q.length+'题 '+_C.length+'概念 '+wrongQ.length+'错题');
+})();
 </script>
 </body>
 </html>
