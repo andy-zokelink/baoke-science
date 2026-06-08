@@ -1,0 +1,13 @@
+{
+  "effortLevel": "xhigh",
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "sk-gtFXL7iTSdrdbVnKzQNeBL1ZgYDkzTOT8P2V57rJeXwUUWbi",
+    "ANTHROPIC_BASE_URL": "https://ai-api.kkidc.com",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-6",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL_NAME": "claude-opus-4-6",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-6",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL_NAME": "claude-sonnet-4-6"
+  },
+  "model": "sonnet",
+  "skipDangerousModePermissionPrompt": true
+}
