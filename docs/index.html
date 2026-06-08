@@ -270,6 +270,16 @@ body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei
   .cgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 }
 
+
+.gr-item:hover{background:var(--accent-light)}
+#graph-svg{min-height:360px}
+@media(max-width:600px){#graph-rank{flex:1 1 100%}}
+
+
+.gr-item:hover{background:var(--accent-light)}
+#graph-svg{min-height:360px}
+@media(max-width:600px){#graph-rank{flex:1 1 100%}}
+
 </style>
 </head>
 <body>
@@ -292,7 +302,7 @@ body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei
   <div class="nav-t" onclick="showTab(1)" id="tab1">🃏 知识卡片 <span class="bdg">99</span></div>
   <div class="nav-t" onclick="showTab(2)" id="tab2">✏️ 模拟考试 <span class="bdg">30</span></div>
   <div class="nav-t" onclick="showTab(3)" id="tab3">📕 错题本 <span class="bdg">183</span></div>
-  <div class="nav-t" onclick="showTab(4)" id="tab4">🕸 思维导图</div>
+  <div class="nav-t" onclick="showTab(4)" id="tab4">🕸 知识图谱</div>
 </nav>
 
 <!-- ── 知识概览 ── -->
