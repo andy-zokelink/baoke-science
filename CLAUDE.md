@@ -10,12 +10,13 @@
 from db_utils_v2 import *
 get_student()   # {'name': 'Harry', 'school': '深圳某小学'}
 get_course()    # {'subject': '科学', 'grade': '六年级', 'target_score': 80.0}
-get_question_count()  # 688
+get_question_count()  # 799
 get_wrong_count()     # 183
 ```
-· 433✓ / 183✗ / 2半对 / 31未答
-· 99概念全部已填定义（核心6/常考84/易错5/边缘4）
-· 题型：填空337 / 简答335 / 判断11 / 选择5
+· 616✓ / 183✗ / 0半对 / 0未答
+· 182概念（含教材提取83个新概念）
+· 教材来源：教科版六年级上册（40页，35页已入库）
+· 题型：填空337 / 简答446 / 判断14 / 选择2
 
 ## 再生脚本
 - `regenerate_wrongbook.py` — 从DB重新生成错题本HTML section

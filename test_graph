@@ -1,0 +1,9 @@
+digraph test {
+	node [fillcolor="#e67e22" fontname=SimHei shape=circle style=filled]
+	A [label="电路"]
+	B [label="电流"]
+	C [label="电压"]
+	A -> B
+	A -> C
+	B -> C [style=dashed]
+}
