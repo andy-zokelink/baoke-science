@@ -3,7 +3,7 @@
 import sqlite3, json, re, os
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'baoke_learning.db')
-HTML_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pages', '科学备考.html')
+HTML_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'docs', 'index.html')
 
 # Read all concepts from DB
 conn = sqlite3.connect(DB_PATH)
