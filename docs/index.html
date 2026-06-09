@@ -220,6 +220,7 @@ a{color:var(--accent);text-decoration:none}
 </select>
 <button class="btn btn-primary" onclick=startOnlineTest() style="white-space:nowrap">📝 在线测试</button>
 <button class="btn btn-outline" onclick=exportWrongPrint() style="white-space:nowrap">🖨️ 导出错题</button>
+<button class="btn btn-outline" onclick=exportWrongWord() style="white-space:nowrap">📄 导出Word</button>
 </div>
 <div style=font-size:12px;color:var(--text3);margin-top:6px>共 <strong id=wrongCount></strong> 道错题，<strong id=wrongKpCount></strong> 个知识点</div>
 </div>
@@ -246,6 +247,7 @@ a{color:var(--accent);text-decoration:none}
 <span style="display:inline-flex;align-items:center;gap:3px"><span style=width:14px;height:2px;background:var(--accent);display:inline-block></span>同知识点</span>
 </span>
 <span style=font-size:12px;color:var(--text3)>拖动节点 · 滚轮缩放</span>
+<span style=font-size:12px;color:var(--text3)>共 <span id=relationCount></span> 条概念关系</span>
 </span>
 </div>
 <div class=graph-wrap id=graphWrap>
@@ -550,11 +552,72 @@ function exportWrongPrint(){
   },200);
 }
 
+function exportWrongWord(){
+  const kpCount=new Set(wrongQ.map(w=>w.knowledge_point)).size;
+  const now=new Date();
+  const dateStr=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset=utf-8><title>宝科科学错题报告</title>'
+    +'<style>'
+    +'body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;color:#000;background:#fff;padding:30px;font-size:12pt}'
+    +'h1{font-size:22pt;margin-bottom:4pt;color:#1e293b}'
+    +'h2{font-size:16pt;color:#475569;margin:20pt 0 10pt;border-bottom:2px solid #e2e8f0;padding-bottom:4pt}'
+    +'h3{font-size:14pt;color:#1e40af;margin:16pt 0 8pt;padding:4pt 0;border-bottom:1px solid #dbeafe}'
+    +'h4{font-size:12pt;color:#334155;margin:8pt 0 4pt}'
+    +'p{font-size:11pt;color:#475569;margin:4pt 0;line-height:1.5}'
+    +'table{border-collapse:collapse;width:100%;margin:10pt 0;font-size:11pt}'
+    +'td,th{border:1px solid #cbd5e1;padding:6pt 10pt;text-align:center}'
+    +'th{background:#eff6ff;color:#1e40af;font-weight:700}'
+    +'.stats td{text-align:center}'
+    +'.w-item{padding:8pt 10pt;margin-bottom:6pt;border:1px solid #e2e8f0;border-radius:4pt}'
+    +'.w-q{font-size:11pt;font-weight:600;margin-bottom:3pt}'
+    +'.w-meta{font-size:10pt;color:#64748b;margin-bottom:3pt}'
+    +'.w-tag{color:#dc2626;font-weight:600}'
+    +'.w-resp{font-size:10pt;color:#475569;margin-top:4pt;padding:4pt 6pt;background:#fef2f2;border-left:3px solid #dc2626}'
+    +'.w-strat{font-size:10pt;color:#0d9488;margin-top:4pt;padding:4pt 6pt;background:#f0fdfa}'
+    +'.w-footer{text-align:center;margin-top:30pt;font-size:9pt;color:#94a3b8;border-top:1px solid #e2e8f0;padding-top:10pt}'
+    +'@page{size:A4;margin:2cm}'
+    +'</style></head><body>'
+    +'<h1>🔬 宝科科学错题报告</h1>'
+    +'<p>学生：Harry · 六年级科学 · 生成日期：'+dateStr+'</p>'
+    +'<h2>一、统计概要</h2>'
+    +'<table><tr><th>总错题数</th><th>涉及知识点</th><th>总题数</th><th>正确率</th></tr>'
+    +'<tr><td>'+wrongQ.length+'</td><td>'+kpCount+'</td><td>'+_Q.length+'</td><td>'+((_Q.length-wrongQ.length)/_Q.length*100).toFixed(1)+'%</td></tr>'
+    +'</table>'
+    +'<h2>二、按知识点分组错题详情</h2>';
+  const grouped={};wrongQ.forEach(w=>{const kp=w.knowledge_point||'未分类';if(!grouped[kp])grouped[kp]=[];grouped[kp].push(w);});
+  const sortedKps=Object.entries(grouped).sort((a,b)=>b[1].length-a[1].length);
+  sortedKps.forEach(([kp,ws])=>{
+    html+='<h3>'+esc(kp)+' <span style=font-size:10pt;color:#94a3b8;font-weight:400>（'+ws.length+'题）</span></h3>';
+    ws.forEach((w,i)=>{
+      html+='<div class=w-item>'
+        +'<p class=w-q>'+(i+1)+'. '+esc(w.question_text||'')+'</p>'
+        +'<p class=w-meta><span class=w-tag>✗ 错题</span>'+(w.question_number?' · 题号：'+esc(w.question_number):'')+'</p>'
+        +(w.student_response?'<p class=w-resp><strong>学生作答：</strong>'+esc(limitStr(w.student_response,200))+'</p>':'')
+        +(w.error_cause?'<p style="font-size:10pt;color:#d97706;margin-top:3pt"><strong>归因分析：</strong>'+esc(w.error_cause)+'</p>':'')
+        +(w.exam_strategy?'<p class=w-strat><strong>策略：</strong>'+esc(w.exam_strategy)+'</p>':'')
+        +'</div>';
+    });
+  });
+  html+='<p class=w-footer>宝科科学备考 · Harry学习追踪系统 · 导出时间：'+dateStr+'</p>'
+    +'</body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/msword'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='科学错题报告_'+dateStr+'.doc';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(a.href);},100);
+}
+
 /* === KNOWLEDGE GRAPH === */
 let graphNodes=[],graphEdges=[],graphTransform={x:0,y:0,scale:1};
 function buildGraphData(filter='all'){
+  console.log('DEBUG buildGraphData called, filter:', filter, 'total concepts:', _C.length, 'relations:', BAOKE_DATA.relations?.length);
   let concepts=_C;if(filter!=='all')concepts=concepts.filter(c=>c.type_name===filter);
+  console.log('DEBUG buildGraphData filtered concepts:', concepts.length);
   graphNodes=concepts.map((c,i)=>({id:c.id,name:c.name,type:c.type_name,priority:c.priority,x:200+Math.random()*600,y:150+Math.random()*400,vx:0,vy:0,r:c.priority===1?10:c.priority===2?8:c.priority===3?7:6}));
+  // Update relation count display
+  const rcEl=$('relationCount');if(rcEl)rcEl.textContent=(BAOKE_DATA.relations?.length||0)+'';
   const kpConcepts={};
   _Q.forEach(q=>{if(q.knowledge_point&&q.concept_id){if(!kpConcepts[q.knowledge_point])kpConcepts[q.knowledge_point]=new Set();kpConcepts[q.knowledge_point].add(q.concept_id);}});
   const edgeSet=new Set();graphEdges=[];
@@ -604,6 +667,7 @@ function runForceLayout(iterations=200){
   }
 }
 function renderGraph(){
+  console.log('DEBUG renderGraph called, nodes:', graphNodes.length, 'edges:', graphEdges.length);
   const svg=$('graphSvg'),wrap=$('graphWrap'),w=wrap.clientWidth||1000,h=Math.max(wrap.clientHeight||600,500);
   svg.setAttribute('viewBox','0 0 '+w+' '+h);
   const nodeMap={};graphNodes.forEach(n=>nodeMap[n.id]=n);
@@ -625,7 +689,12 @@ function renderGraph(){
 }
 function resetGraphView(){graphTransform={x:0,y:0,scale:1};setTimeout(filterGraph,50);}
 function filterGraph(){buildGraphData($('graphFilter').value);runForceLayout(150);renderGraph();}
-function runGraph(){if(!graphNodes.length)filterGraph();}
+function runGraph(){
+  console.log('DEBUG runGraph called, graphNodes.length:', graphNodes.length);
+  const wrap=$('graphWrap');
+  if(wrap && wrap.clientWidth === 0){console.log('DEBUG runGraph: wrap has 0 width, setting default 1000x600');}
+  if(!graphNodes.length)filterGraph();
+}
 window.addEventListener('resize',()=>{if(graphNodes.length)renderGraph();});
 
 /* === STUDY PLAN === */
@@ -1030,6 +1099,7 @@ window.selectTestMode = selectTestMode;
 window.selectQty = selectQty;
 window.selectTestKp = selectTestKp;
 window.exportWrongPrint = exportWrongPrint;
+window.exportWrongWord = exportWrongWord;
 window.togglePlanDay = togglePlanDay;
 window.togglePlanItem = togglePlanItem;
 window.startStudyFromPlan = startStudyFromPlan;
