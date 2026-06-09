@@ -1,15 +1,28 @@
 """
 从 baoke_learning.db 导出全量数据为 data.js
 增强：从 concept_relations.json 读取关系数据（DB表可能为空）
+增强：从 auto_choices.json 注入选择题选项
 """
+
 import json, sqlite3, os
 
 DB_PATH = r"C:\Users\HermesCC\baoke-science\baoke_learning.db"
 OUTPUT = r"C:\Users\HermesCC\baoke-science\docs\data.js"
 RELATIONS_JSON = r"C:\Users\HermesCC\baoke-science\concept_relations.json"
+AUTO_CHOICES_JSON = r"C:\Users\HermesCC\baoke-science\docs\auto_choices.json"
 
 conn = sqlite3.connect(DB_PATH)
 conn.row_factory = sqlite3.Row
+
+# 0. Load auto-generated choices
+auto_choices = {}
+if os.path.exists(AUTO_CHOICES_JSON):
+    try:
+        with open(AUTO_CHOICES_JSON, 'r', encoding='utf-8') as f:
+            auto_choices = json.load(f)
+        print(f"从 {AUTO_CHOICES_JSON} 读取 {len(auto_choices)} 组选项")
+    except Exception as e:
+        print(f"读取 auto_choices.json 失败: {e}")
 
 # 1. 所有题目 + 学生作答
 questions = []
@@ -27,6 +40,19 @@ for r in conn.execute("""
     for k, v in d.items():
         if isinstance(v, bytes):
             d[k] = v.decode()
+    
+    # Inject auto-generated choices
+    qid = str(d['id'])
+    if qid in auto_choices:
+        choices_data = auto_choices[qid]
+        # Format: ["A. xxx", "B. xxx", "C. xxx", "D. xxx", correct_index]
+        if isinstance(choices_data, list) and len(choices_data) == 5:
+            # Extract the 4 option texts (strip label)
+            opts = choices_data[:4]
+            correct_idx = choices_data[4]
+            d['options'] = opts
+            d['correct_answer'] = str(correct_idx)
+    
     questions.append(d)
 
 # 2. 概念 + 类型
@@ -121,3 +147,7 @@ print(f"  概念: {len(concepts)}")
 print(f"  关系: {len(relations)}")
 print(f"  教材页面: {len(source_pages)}")
 print(f"  错题: {len([q for q in questions if q.get('is_correct') == '✗'])}")
+
+# Verify options injection
+opts_count = len([q for q in questions if q.get('options') and isinstance(q.get('options'), list) and len(q['options']) >= 4])
+print(f"  选项注入: {opts_count}/{len(questions)} 题有4个选项")

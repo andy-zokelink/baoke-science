@@ -855,14 +855,14 @@ function filterPages(){renderPages();}
 renderPages();
 
 /* === ONLINE TEST === */
-let testState = {mode:'easy', qty:10, questions:[], current:0, correct:0, answers:[], timer:0, timerInterval:null, selectedKp:null};
+let testState = {mode:'easy', qty:10, questions:[], current:0, correct:0, answers:[], timer:0, timerInterval:null, selectedKp:null, paperMode:false};
 function startOnlineTest(){
   $('testOverlay').style.display='block';
   $('testHeader').style.display='none';
   $('testModeScreen').style.display='block';
   $('testQuestionScreen').style.display='none';
   $('testResultScreen').style.display='none';
-  testState = {mode:'easy', qty:10, questions:[], current:0, correct:0, answers:[], timer:0, timerInterval:null, selectedKp:null};
+  testState = {mode:'easy', qty:10, questions:[], current:0, correct:0, answers:[], timer:0, timerInterval:null, selectedKp:null, paperMode:false, userSelections:{}};
   selectTestMode('easy');
   buildKpSelector();
 }
@@ -918,7 +918,6 @@ function beginTest(){
       pool=[...wrongQ];
     }
   }else{ // easy
-    // Sort wrong questions by error frequency per knowledge_point
     const kpErr={};wrongQ.forEach(q=>{const kp=q.knowledge_point||'(None)';kpErr[kp]=(kpErr[kp]||0)+1;});
     const sortedKps=Object.entries(kpErr).sort((a,b)=>b[1]-a[1]);
     pool=[];
@@ -932,143 +931,239 @@ function beginTest(){
     pool=pool.slice(0,qty);
   }
   testState.questions=shuffleArray([...pool]).slice(0,qty);
-  testState.current=0;testState.correct=0;testState.answers=[];
+  testState.current=0;testState.correct=0;testState.answers=[];testState.userSelections={};
   if(!testState.questions.length){alert('没有符合条件的题目，请选择其他模式');return;}
-  // Show question screen immediately before starting timer
+  // Paper mode: show all questions at once
+  testState.paperMode=true;
   $('testHeader').style.display='block';
   $('testModeScreen').style.display='none';
   $('testQuestionScreen').style.display='block';
   $('testResultScreen').style.display='none';
-  // Start timer after screen is visible
+  // Update header info
+  const modeLabel={easy:'易错题专练',kp:'知识点专练',mock:'模拟测试'}[mode]||'在线测试';
+  $('testHeader').querySelector('span').textContent='📝 '+modeLabel+' · '+testState.questions.length+'题';
+  // Update progress bar to show paper mode (full width, no progress)
+  $('testProgressFill').style.width='100%';
+  // Start timer
   testState.timer=0;
   if(testState.timerInterval)clearInterval(testState.timerInterval);
   testState.timerInterval=setInterval(()=>{testState.timer++;const m=String(Math.floor(testState.timer/60)).padStart(2,'0');const s=String(testState.timer%60).padStart(2,'0');$('testTimer').textContent='⏱ '+m+':'+s;},1000);
-  showQuestion();
+  renderExamPaper();
 }
-function showQuestion(){
-  const idx=testState.current,qs=testState.questions;
-  if(idx>=qs.length){showResult();return;}
-  const q=qs[idx],total=qs.length;
-  const pct=((idx+1)/total*100).toFixed(0);
-  $('testProgressFill').style.width=pct+'%';
-  const qType=q.question_type_id;
-  const typeName={1:'选择题',2:'填空题',3:'判断题',4:'简答题'}[qType]||'题目';
-  let answerHtml='';
-  if(qType===1 && q.options){
-    // Multiple choice
-    const opts=typeof q.options==='string'?q.options.split('\n'):q.options;
-    answerHtml='<div class=flex-c style=gap:8px;margin-top:12px>'+
-      (Array.isArray(opts)?opts.map((o,i)=>
-        '<button class=opt-btn data-idx='+i+' onclick="submitOnlineAnswer('+i+')" style="display:block;width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);text-align:left;cursor:pointer;font-size:13px;transition:all .2s">'+
-        String.fromCharCode(65+i)+'. '+esc(o.trim())+'</button>'
-      ).join(''):'');
-    answerHtml+='</div>';
-  }else{
-    // Fill-blank, judgment, short answer: show self-assessment
-    answerHtml='<div style=margin-top:12px;padding:14px;background:var(--amber-light);border-radius:8px;font-size:13px>'
-      +'<strong>💡 自评题：</strong>请在心中作答，然后点击下方查看参考答案进行自我评定。</div>'
-      +'<div style=display:flex;gap:8px;margin-top:10px;flex-wrap:wrap>'
-      +'<button class="btn btn-outline btn-sm" onclick=showAnswerForQuestion(true) style=flex:1>✅ 我答对了</button>'
-      +'<button class="btn btn-outline btn-sm" onclick=showAnswerForQuestion(false) style=flex:1;color:var(--red);border-color:var(--red)>❌ 我答错了</button>'
+/* === RENDER EXAM PAPER (试卷模式) === */
+function renderExamPaper(){
+  const qs=testState.questions;
+  if(!qs.length){showResult();return;}
+  
+  // Group questions by knowledge_point
+  const kpGroups={};
+  qs.forEach((q,i)=>{
+    const kp=q.knowledge_point||'未分类';
+    if(!kpGroups[kp])kpGroups[kp]=[];
+    kpGroups[kp].push({q,i});
+  });
+  const sortedKps=Object.keys(kpGroups).sort();
+  
+  // Color palette for KP group headers
+  const kpColors=['#dc2626','#2563eb','#16a34a','#ea580c','#7c3aed','#0d9488','#db2777','#ca8a04'];
+  
+  let html='<div class=flex-c style=gap:6px;margin-bottom:16px>';
+  
+  // Question count + submit button at top
+  html+='<div style=display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:8px 0>'
+    +'<span style=font-size:13px;color:var(--text2)>共 <strong>'+qs.length+'</strong> 题 · 全部为选择题</span>'
+    +'<span style=font-size:13px;color:var(--text2)><span id=paperAnsweredCount>0</span>/'+qs.length+' 已答</span>'
+    +'</div>';
+  
+  // Render each KP group
+  sortedKps.forEach((kp,ki)=>{
+    const items=kpGroups[kp];
+    const color=kpColors[ki%kpColors.length];
+    html+='<div style="border:1px solid var(--border2);border-radius:10px;overflow:hidden;margin-bottom:10px;background:var(--card)">'
+      +'<div style="background:'+color+';color:#fff;padding:8px 14px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px">'
+      +'<span>📘</span> '+esc(kp)
+      +'<span style="font-weight:400;font-size:11px;opacity:.8;margin-left:auto">'+items.length+'题</span>'
       +'</div>'
-      +'<div id=testAnswerReveal style=display:none;margin-top:12px></div>';
+      +'<div style=padding:10px 14px>'
+      +items.map(({q,i})=>{
+        const typeName={1:'选择题',2:'填空题',3:'判断题',4:'简答题'}[q.question_type_id]||'题目';
+        // Get options
+        const opts=q.options||[];
+        const optsArray=Array.isArray(opts)?opts:(typeof opts==='string'?opts.split('\n'):[]);
+        // Build option buttons
+        let optsHtml='';
+        if(optsArray.length>=4){
+          optsHtml='<div class=flex-c style=gap:6px;margin-top:8px>'+
+            optsArray.map((o,oi)=>{
+              // Strip the A. B. C. D. label for cleaner display, but keep it
+              const isSelected=testState.userSelections[i]===oi;
+              return '<div class=paper-opt data-qidx="'+i+'" data-oidx="'+oi+'" onclick="selectPaperOption('+i+','+oi+')" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:6px;border:1.5px solid '+(isSelected?'var(--accent)':'var(--border)')+';background:'+(isSelected?'var(--accent-light)':'var(--card)')+';cursor:pointer;transition:all .15s;font-size:13px">'
+                +'<span class="paper-radio" style="width:16px;height:16px;border-radius:50%;border:2px solid '+(isSelected?'var(--accent)':'var(--border)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s">'
+                +(isSelected?'<span style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></span>':'')
+                +'</span>'
+                +'<span>'+esc(o)+'</span>'
+                +'</div>';
+            }).join('')+'</div>';
+        }
+        return '<div class=paper-question style="padding:10px 0'+(i<qs.length-1?';border-bottom:1px solid var(--border2)':'')+'">'
+          +'<div style=display:flex;align-items:flex-start;gap:6px>'
+          +'<span style="background:'+color+';color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px">'+(i+1)+'</span>'
+          +'<div style=flex:1>'
+          +'<div style=font-size:13px;font-weight:600;line-height:1.6>'+esc(q.question_text||'')+'</div>'
+          +'<div style=font-size:11px;color:var(--text3);margin-top:2px><span style="background:var(--bg2);padding:1px 6px;border-radius:3px">'+typeName+'</span></div>'
+          +optsHtml
+          +'</div></div></div>';
+      }).join('')
+      +'</div></div>';
+  });
+  
+  // Submit button at bottom
+  html+='<div style=text-align:center;padding:16px 0>'
+    +'<button class="btn btn-primary" onclick=submitExam() style=font-size:15px;padding:12px 48px;border-radius:10px>📊 提交批改</button>'
+    +'</div></div>';
+  
+  $('testQuestionCard').innerHTML=html;
+  
+  // Update answered count
+  updatePaperAnsweredCount();
+}
+
+function selectPaperOption(qidx,oidx){
+  // Toggle selection (radio style - one per question)
+  testState.userSelections[qidx]=oidx;
+  
+  // Update UI for this question's options
+  const qDiv=document.querySelectorAll('.paper-question')[qidx];
+  if(!qDiv)return;
+  const opts=qDiv.querySelectorAll('.paper-opt');
+  opts.forEach((opt,oi)=>{
+    const radio=opt.querySelector('.paper-radio');
+    const isSel=oi===oidx;
+    opt.style.borderColor=isSel?'var(--accent)':'var(--border)';
+    opt.style.background=isSel?'var(--accent-light)':'var(--card)';
+    if(radio){
+      radio.style.borderColor=isSel?'var(--accent)':'var(--border)';
+      radio.innerHTML=isSel?'<span style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></span>':'';
+    }
+  });
+  
+  updatePaperAnsweredCount();
+}
+
+function updatePaperAnsweredCount(){
+  const answered=Object.keys(testState.userSelections).length;
+  const el=$('paperAnsweredCount');
+  if(el)el.textContent=answered;
+}
+
+function submitExam(){
+  const qs=testState.questions;
+  if(!qs.length)return;
+  
+  // Check unanswered questions
+  const unanswered=[];
+  qs.forEach((q,i)=>{
+    if(testState.userSelections[i]===undefined)unanswered.push(i+1);
+  });
+  if(unanswered.length>0){
+    if(!confirm('还有 '+unanswered.length+' 题未作答（第 '+unanswered.join(',')+' 题），确定要提交吗？'))return;
   }
-  const kp=q.knowledge_point||'未分类';
-  $('testQuestionCard').innerHTML='<div style=font-size:12px;color:var(--text3);margin-bottom:8px>'
-    +'<span style="background:var(--accent-light);color:var(--accent);padding:2px 8px;border-radius:4px;font-weight:600">'+(idx+1)+'/'+total+'</span>'
-    +'<span style=margin-left:8px;background:var(--bg2);padding:2px 8px;border-radius:4px>'+typeName+'</span>'
-    +'<span style=margin-left:8px;background:var(--orange-light);color:var(--orange);padding:2px 8px;border-radius:4px>'+esc(kp)+'</span>'
-    +'</div>'
-    +'<div style=font-size:15px;font-weight:600;line-height:1.7;margin-bottom:4px>'+esc(q.question_text||'')+'</div>'
-    +answerHtml
-    +'<div id=testFeedback style=display:none;margin-top:12px></div>'
-    +'<div id=testNextBtnArea style=display:none;margin-top:12px;text-align:right></div>';
+  
+  // Grade
+  let correct=0;
+  const answers=[];
+  qs.forEach((q,i)=>{
+    const selected=testState.userSelections[i];
+    let isCorrect=false;
+    if(selected!==undefined){
+      // correct_answer is the index
+      const ca=q.correct_answer;
+      if(ca!==undefined && ca!==null && ca!==''){
+        const correctIdx=parseInt(ca);
+        isCorrect=(selected===correctIdx);
+      }else{
+        isCorrect=false;
+      }
+    }
+    if(isCorrect)correct++;
+    answers.push({qid:q.id,correct:isCorrect,selected:selected});
+  });
+  
+  testState.correct=correct;
+  testState.answers=answers;
+  
+  // Show result
+  showResult();
 }
-function submitOnlineAnswer(idx){
-  const q=testState.questions[testState.current];
-  const opts=typeof q.options==='string'?q.options.split('\n'):q.options;
-  let isCorrect=false;
-  if(q.correct_answer){
-    const correctIdx=parseInt(q.correct_answer);
-    isCorrect=(idx===correctIdx);
-  }else if(q.student_response){
-    // Fallback: compare with student's response
-    isCorrect=(q.is_correct==='✓');
-  }
-  // Disable all option buttons
-  document.querySelectorAll('.opt-btn').forEach(b=>{b.style.pointerEvents='none';b.style.opacity='.6';});
-  const clickedBtn=document.querySelector('.opt-btn[data-idx="'+idx+'"]');
-  if(clickedBtn){clickedBtn.style.background=isCorrect?'var(--green-light)':'var(--red-light)';clickedBtn.style.borderColor=isCorrect?'var(--green)':'var(--red)';}
-  // Highlight correct answer if wrong
-  if(!isCorrect && q.correct_answer && !isNaN(parseInt(q.correct_answer))){
-    const correctBtn=document.querySelector('.opt-btn[data-idx="'+parseInt(q.correct_answer)+'"]');
-    if(correctBtn){correctBtn.style.background='var(--green-light)';correctBtn.style.borderColor='var(--green)';}
-  }
-  if(isCorrect)testState.correct++;
-  testState.answers.push({qid:q.id,correct:isCorrect});
-  showTestFeedback(q,isCorrect,true);
-}
-function showAnswerForQuestion(isCorrect){
-  const q=testState.questions[testState.current];
-  // Hide the self-assessment buttons
-  const btns=document.querySelectorAll('#testQuestionCard .btn-outline');
-  btns.forEach(b=>b.style.display='none');
-  if(isCorrect)testState.correct++;
-  testState.answers.push({qid:q.id,correct:isCorrect});
-  const reveal=$('testAnswerReveal');
-  reveal.style.display='block';
-  reveal.innerHTML='<div style="padding:10px;background:var(--green-light);color:var(--green);border-radius:6px;font-size:13px;font-weight:600">'+(isCorrect?'✅ 自评正确！':'❌ 自评错误')+'</div>';
-  showTestFeedback(q,isCorrect,false);
-}
-function showTestFeedback(q,isCorrect,hasOptions){
-  const fb=$('testFeedback');
-  fb.style.display='block';
-  const ec=q.error_cause||'';const ed=q.error_detail||'';const es=q.exam_strategy||'';
-  const correctLabel=isCorrect?'✅ 回答正确':'❌ 回答错误';
-  const correctClass=isCorrect?'var(--green)':'var(--red)';
-  fb.innerHTML='<div style="padding:12px;border-radius:8px;background:'+(isCorrect?'var(--green-light)':'var(--red-light)')+';color:'+correctClass+';font-weight:600;font-size:13px;margin-bottom:8px">'+correctLabel+'</div>'
-    +(ec&&ec!=='无'&&ec!=='无（假设正确）'?'<div style="font-size:12px;color:var(--orange);background:var(--orange-light);padding:8px;border-radius:6px;margin-bottom:6px"><strong>归因：</strong>'+esc(ec)+'</div>':'')
-    +(es?'<div style="font-size:12px;color:var(--teal);background:var(--teal-light);padding:8px;border-radius:6px;margin-bottom:6px"><strong>策略：</strong>'+esc(es)+'</div>':'')
-    +(ed?'<div style="font-size:12px;color:var(--amber);background:var(--amber-light);padding:8px;border-radius:6px"><strong>详解：</strong>'+esc(ed)+'</div>':'');
-  const nextArea=$('testNextBtnArea');
-  nextArea.style.display='block';
-  const isLast=testState.current>=testState.questions.length-1;
-  nextArea.innerHTML='<button class="btn btn-primary" onclick=nextOnlineQuestion() style=font-size:13px;padding:8px 24px>'+(isLast?'查看成绩 📊':'下一题 →')+'</button>';
-}
-function nextOnlineQuestion(){
-  if(testState.timerInterval)clearInterval(testState.timerInterval);
-  testState.timerInterval=null;
-  testState.current++;
-  showQuestion();
-}
+
 function showResult(){
   const total=testState.questions.length,correct=testState.correct;
   const pct=total>0?(correct/total*100).toFixed(1):'0.0';
   const tm=testState.timer;const min=Math.floor(tm/60),sec=tm%60;
-  const wrongList=testState.answers.filter(a=>!a.correct).map(a=>{const q=testState.questions.find(qq=>qq.id===a.qid);return q;}).filter(Boolean);
+  const wrongList=testState.answers.filter(a=>!a.correct);
+  
+  // Stop timer
+  if(testState.timerInterval)clearInterval(testState.timerInterval);
+  testState.timerInterval=null;
+  
   $('testHeader').style.display='block';
   $('testQuestionScreen').style.display='none';
   $('testResultScreen').style.display='block';
   $('testProgressFill').style.width='100%';
+  
+  // Update header
+  $('testHeader').querySelector('span').textContent='📊 测试结果';
+  
   // Donut
   const angle=correct/total*360;
   const donutHtml='<div class=donut><div class="donut-seg half" style="transform:rotate('+(-90+Math.min(angle,180))+'deg);background:var(--green)"></div>'+
     (angle>180?'<div class="donut-seg cover" style=background:var(--border2)></div><div class="donut-seg cover" style="transform:rotate('+(-90+(angle-180))+'deg);background:var(--green)"></div>':'<div class="donut-seg cover" style="transform:rotate('+(-90+angle)+'deg);background:var(--border2)"></div>')+
     '<div class=donut-hole><div class=val style=color:var(--green)>'+pct+'%</div><div class=lbl>正确率</div></div></div>';
-  const wrongHtml=wrongList.length?wrongList.map((q,i)=>'<div class=wrong-item style=margin-bottom:6px>'+
-    '<div class=wi-q>'+(i+1)+'. '+esc(q.question_text||'')+'</div>'+
-    '<div class=wi-meta><span class=wi-tag>✗ '+esc(q.knowledge_point||'')+'</span></div>'+
-    (q.error_cause&&q.error_cause!=='无'?'<div class=wi-cause>'+esc(q.error_cause)+'</div>':'')+
-    (q.exam_strategy?'<div class=wi-strat>'+esc(q.exam_strategy)+'</div>':'')+
-  '</div>').join(''):'<div style=padding:12px;text-align:center;color:var(--text3);font-size:13px>🎉 全部答对！</div>';
-  $('testResultContent').innerHTML='<div style=text-align:center;margin-bottom:16px><div style=font-size:24px;font-weight:800>测试完成！</div></div>'+
-    '<div style=display:flex;align-items:center;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap><div class=donut-wrap>'+donutHtml+'</div></div>'+
-    '<div style=text-align:center;font-size:15px;margin-bottom:4px><strong>'+correct+'</strong> / '+total+' 题正确</div>'+
-    '<div style=text-align:center;font-size:12px;color:var(--text3);margin-bottom:16px>⏱ 用时 '+min+' 分 '+sec+' 秒</div>'+
-    (wrongList.length?'<div class=card style=margin-bottom:12px><div class=card-title><span class=ico>📋</span> 错题回顾</div>'+wrongHtml+'</div>':'')+
-    '<div style=display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px>'+
-    '<button class="btn btn-primary" onclick=restartOnlineTest() style=font-size:13px;padding:8px 20px>🔄 重新测试</button>'+
-    '<button class="btn btn-outline" onclick=closeOnlineTest() style=font-size:13px;padding:8px 20px>↩ 返回错题诊疗</button></div>';
+  
+  // Build wrong list with options feedback
+  const qs=testState.questions;
+  let wrongHtml='';
+  if(wrongList.length){
+    wrongHtml='<div class=card style=margin-bottom:12px><div class=card-title><span class=ico>📋</span> 错题回顾</div>';
+    wrongList.forEach((a,ai)=>{
+      const q=qs.find(qq=>qq.id===a.qid);
+      if(!q)return;
+      const opts=Array.isArray(q.options)?q.options:(typeof q.options==='string'?q.options.split('\n'):[]);
+      const selectedIdx=a.selected;
+      const correctIdx=parseInt(q.correct_answer);
+      
+      wrongHtml+='<div class=wrong-item style=margin-bottom:8px>'
+        +'<div class=wi-q>'+(ai+1)+'. '+esc(q.question_text||'')+'</div>'
+        +'<div style=font-size:12px;margin-top:6px>' 
+        +opts.map((o,oi)=>{
+          const isCorrect=(oi===correctIdx);
+          const isSelected=(oi===selectedIdx);
+          let style='padding:6px 10px;border-radius:4px;margin-bottom:3px;font-size:12px;';
+          if(isCorrect && isSelected)style+='background:var(--green-light);color:var(--green);border:1px solid var(--green);font-weight:600;';
+          else if(isCorrect)style+='background:var(--green-light);color:var(--green);border:1px solid var(--green);';
+          else if(isSelected)style+='background:var(--red-light);color:var(--red);border:1px solid var(--red);';
+          else style+='background:var(--bg2);color:var(--text3);border:1px solid var(--border2);opacity:.6;';
+          const mark=isCorrect?' ✅':(isSelected?' ❌':'');
+          return '<div style="'+style+'">'+esc(o)+mark+'</div>';
+        }).join('')
+        +'</div>'
+        +(q.error_cause&&q.error_cause!=='无'?'<div class=wi-cause>'+esc(q.error_cause)+'</div>':'')
+        +(q.exam_strategy?'<div class=wi-strat>'+esc(q.exam_strategy)+'</div>':'')
+        +'</div>';
+    });
+    wrongHtml+='</div>';
+  }else{
+    wrongHtml='<div style=padding:12px;text-align:center;color:var(--text3);font-size:13px>🎉 全部答对！</div>';
+  }
+  
+  $('testResultContent').innerHTML='<div style=text-align:center;margin-bottom:16px><div style=font-size:24px;font-weight:800>测试完成！</div></div>'
+    +'<div style=display:flex;align-items:center;gap:20px;justify-content:center;margin-bottom:16px;flex-wrap:wrap><div class=donut-wrap>'+donutHtml+'</div></div>'
+    +'<div style=text-align:center;font-size:15px;margin-bottom:4px><strong>'+correct+'</strong> / '+total+' 题正确</div>'
+    +'<div style=text-align:center;font-size:12px;color:var(--text3);margin-bottom:16px>⏱ 用时 '+min+' 分 '+sec+' 秒</div>'
+    +wrongHtml
+    +'<div style=display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px>'
+    +'<button class="btn btn-primary" onclick=restartOnlineTest() style=font-size:13px;padding:8px 20px>🔄 重新测试</button>'
+    +'<button class="btn btn-outline" onclick=closeOnlineTest() style=font-size:13px;padding:8px 20px>↩ 返回错题诊疗</button></div>';
 }
 function restartOnlineTest(){
   startOnlineTest();
@@ -1097,6 +1192,9 @@ window.showAnswerForQuestion = showAnswerForQuestion;
 window.beginTest = beginTest;
 window.selectTestMode = selectTestMode;
 window.selectQty = selectQty;
+window.renderExamPaper = renderExamPaper;
+window.selectPaperOption = selectPaperOption;
+window.submitExam = submitExam;
 window.selectTestKp = selectTestKp;
 window.exportWrongPrint = exportWrongPrint;
 window.exportWrongWord = exportWrongWord;
