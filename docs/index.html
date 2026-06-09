@@ -141,6 +141,41 @@ a{color:var(--accent);text-decoration:none}
 .dot-edge-bg{background:var(--bg2);border-left:3px solid var(--text3)}
 .anim-count{animation:countUp .4s ease}
 @keyframes countUp{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+
+/* === KNOWLEDGE STORY === */
+.domain-tab{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--card);color:var(--text2);transition:all .2s;white-space:nowrap}
+.domain-tab:hover{border-color:var(--accent);color:var(--accent)}
+.domain-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.story-chapter{margin-bottom:16px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border2);background:var(--card);box-shadow:var(--sh);transition:all .25s}
+.story-chapter:hover{box-shadow:var(--shm)}
+.story-chapter .ch-hdr{padding:12px 16px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;background:var(--bg2);border-bottom:1px solid var(--border2);transition:background .2s}
+.story-chapter .ch-hdr:hover{background:var(--accent-light)}
+.story-chapter .ch-hdr .ch-count{font-size:11px;font-weight:400;color:var(--text3);margin-left:auto}
+.story-chapter .ch-body{padding:12px 16px}
+.story-chapter .ch-body.hide{display:none}
+.story-chapter .ch-summary{padding:10px 14px;margin-bottom:10px;border-radius:8px;background:var(--accent-light);font-size:12.5px;line-height:1.6;color:var(--text2);border-left:3px solid var(--accent)}
+.story-chapter .ch-summary .ico{font-size:14px}
+.story-flow{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.story-flow .sf-node{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--border2);background:var(--bg2);line-height:1.3}
+.story-flow .sf-node:hover{transform:translateY(-1px);box-shadow:var(--sh)}
+.story-flow .sf-node.core{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.story-flow .sf-node.common{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
+.story-flow .sf-node.error{border-color:var(--orange);background:var(--orange-light);color:var(--orange)}
+.story-flow .sf-node.edge{border-color:var(--text3);background:var(--bg2);color:var(--text2)}
+.story-flow .sf-arrow{font-size:10px;color:var(--text3);flex-shrink:0}
+.story-flow .sf-arrow .dep{color:var(--orange)}
+.story-flow .sf-arrow .contain{color:var(--blue,#3b82f6)}
+.story-flow .sf-arrow .parallel{color:var(--green)}
+.story-chapter .ch-detail{display:none;margin-top:10px;padding:10px 14px;border-radius:8px;background:var(--bg2);font-size:12px;line-height:1.6;color:var(--text2);border:1px solid var(--border2)}
+.story-chapter .ch-detail.show{display:block}
+.story-chapter .ch-detail .cd-def{color:var(--text);margin-bottom:6px}
+.story-chapter .ch-detail .cd-def .lbl{font-weight:600;color:var(--accent);font-size:11px}
+.story-chapter .ch-detail .cd-trap{color:var(--orange);font-size:11.5px;margin-top:4px;padding:4px 8px;background:var(--orange-light);border-radius:4px}
+.story-chapter .ch-detail .cd-quest{font-size:11px;color:var(--text3);margin-top:6px}
+.story-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--text3);margin-top:6px;padding:0 2px}
+.story-legend span{display:inline-flex;align-items:center;gap:3px}
+.story-legend .ldot{width:8px;height:8px;border-radius:3px;display:inline-block}
+
 @media(max-width:480px){
   .nav h1{font-size:14px}.nav h1 .badge{display:none}
   .tab{padding:0 10px;font-size:11px}.tab .ico{font-size:13px}
@@ -214,22 +249,18 @@ a{color:var(--accent);text-decoration:none}
 <div id=testRecordsArea></div>
 </div>
 
-<!-- TAB 1: KNOWLEDGE MAP -->
+<!-- TAB 1: KNOWLEDGE STORY (Concept Storytelling) -->
 <div class=tab-pane id=pane1>
-<div class=card style=margin-bottom:12px>
-<div class=flex style=align-items:center;gap:8px;margin-bottom:8px>
-<input type=text id=conceptSearch placeholder="🔍 搜索概念..." style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none" oninput=filterConcepts()>
-<select id=conceptFilter onchange=filterConcepts() style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none">
-<option value=all>全部</option>
-<option value=核心概念>⭐ 核心概念</option>
-<option value=常考概念>📘 常考概念</option>
-<option value=易错概念>⚠️ 易错概念</option>
-<option value=边缘概念>🌱 边缘概念</option>
-</select>
-</div>
-<div id=conceptCountBar style=font-size:12px;color:var(--text3);margin-bottom:8px></div>
-</div>
-<div id=conceptMapContainer></div>
+  <div class=card style=margin-bottom:12px>
+    <div class=card-title><span class=ico>🔬</span> 科学知识全景图</div>
+    <div id=domainTabs style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <!-- 领域切换按钮，动态生成 -->
+    </div>
+    <div id=domainInfo style="font-size:12px;color:var(--text3);margin-bottom:4px"></div>
+  </div>
+  <div id=storyContainer>
+    <!-- 故事线内容 -->
+  </div>
 </div>
 
 <!-- TAB 2: WRONG CLINIC -->
@@ -376,6 +407,7 @@ a{color:var(--accent);text-decoration:none}
 </div></div></div>
 
 <script src=data.js></script>
+<script src=domain_map.js></script>
 <script>
 (function(){
 const _Q = BAOKE_DATA.questions;
@@ -522,37 +554,309 @@ function renderTestRecords(){
   container.innerHTML=html;
 }
 
-/* === KNOWLEDGE MAP === */
-function filterConcepts(){renderConceptMap($('conceptSearch').value.trim().toLowerCase(),$('conceptFilter').value);}
-function renderConceptMap(search='',filter='all'){
-  let concepts=_C;if(filter!=='all')concepts=concepts.filter(c=>c.type_name===filter);
-  if(search)concepts=concepts.filter(c=>c.name.toLowerCase().includes(search)||(c.definition||'').toLowerCase().includes(search));
-  const grouped={};tierOrder.forEach(t=>grouped[t]=[]);concepts.forEach(c=>{if(grouped[c.type_name])grouped[c.type_name].push(c);});
-  $('conceptCountBar').textContent=search||filter!=='all'?`显示 ${concepts.length}/${_C.length} 个概念`:`共 ${_C.length} 个概念`;
-  const container=$('conceptMapContainer');
-  if(!concepts.length){container.innerHTML='<div class=empty><span class=ico>🔍</span>未找到匹配概念</div>';return;}
-  const dotBg={'核心概念':'dot-core-bg','常考概念':'dot-common-bg','易错概念':'dot-error-bg','边缘概念':'dot-edge-bg'};
-  container.innerHTML=tierOrder.map(t=>{
-    const items=grouped[t]||[];if(!items.length)return '';
-    return `<div class=tier-group>
-      <div class="tier-hdr ${dotBg[t]} open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-        <span class=arrow>▶</span><span style=color:${tierColors[t]}>●</span> ${t} <span class=count>${items.length} 个</span>
-      </div>
-      <div class="tier-body open">${items.map(c=>{
-        const defShow=c.definition?'show':'';
-        return `<div class=concept-item onclick="this.querySelector('.ci-def')?.classList.toggle('show')">
-          <div class=ci-name>${esc(c.name)}</div>
-          <div class="ci-def ${defShow}">
-            ${c.definition?`<div><span class=lbl>定义：</span>${esc(c.definition)}</div>`:''}
-            ${c.analogy?`<div style=margin-top:4px>🧩 ${esc(c.analogy)}</div>`:''}
-            ${c.example?`<div style=margin-top:4px>📝 ${esc(c.example)}</div>`:''}
-            ${c.counter_example?`<div style=margin-top:4px;color:var(--red)><span class=lbl>反例：</span>${esc(c.counter_example)}</div>`:''}
-          </div>
-        </div>`;
-      }).join('')}</div></div>`;
-  }).join('');
+/* === KNOWLEDGE STORY === */
+// --- helpers ---
+function getDomain(c){
+  return _DOMAIN_MAP[c.name] || '其他';
 }
-renderConceptMap();
+function domainIcon(d){
+  const icons={'物质科学':'🔬','生命科学':'🧬','地球宇宙':'🌍','技术工程':'⚙️','其他':'📚'};
+  return icons[d]||'📚';
+}
+
+// --- build domain groups ---
+function buildDomainGroups(){
+  const groups={};
+  _C.forEach(c=>{
+    const d=getDomain(c);
+    if(!groups[d]) groups[d]={name:d,icon:domainIcon(d),concepts:[]};
+    groups[d].concepts.push(c);
+  });
+  // sort domains: 物质科学, 生命科学, 地球宇宙, 技术工程, 其他
+  const order=['物质科学','生命科学','地球宇宙','技术工程','其他'];
+  const sorted=[];
+  order.forEach(d=>{if(groups[d]) sorted.push(groups[d]);});
+  Object.keys(groups).forEach(d=>{if(!order.includes(d)) sorted.push(groups[d]);});
+  return sorted;
+}
+
+// --- cluster concepts by relation density ---
+function clusterConceptsByRelations(concepts){
+  // Build name→concept lookup
+  const nameMap={};
+  concepts.forEach(c=>{nameMap[c.name]=c;});
+  
+  // Union-find structure
+  const parent={};
+  const allNames=concepts.map(c=>c.name);
+  allNames.forEach(n=>{parent[n]=n;});
+  function find(x){while(parent[x]!==x){parent[x]=parent[parent[x]];x=parent[x];}return x;}
+  function union(a,b){parent[find(a)]=find(b);}
+  
+  // Get relations that involve these concepts
+  const localRels=[];
+  if(BAOKE_DATA.relations){
+    BAOKE_DATA.relations.forEach(r=>{
+      if(nameMap[r.source] && nameMap[r.target]) localRels.push(r);
+    });
+  }
+  
+  // Union concepts connected by relations
+  localRels.forEach(r=>{union(r.source,r.target);});
+  
+  // Group by root
+  const clusters={};
+  allNames.forEach(n=>{
+    const root=find(n);
+    if(!clusters[root]) clusters[root]=[];
+    clusters[root].push(nameMap[n]);
+  });
+  
+  // Convert to array of clusters, sorted by size descending
+  let result=Object.values(clusters).filter(arr=>arr.length>0);
+  
+  // Sort clusters: larger first, then by min priority
+  result.forEach(cl=>{
+    cl.sort((a,b)=>(a.priority||4)-(b.priority||4));
+  });
+  result.sort((a,b)=>b.length-a.length);
+  
+  // If any cluster is too large, split by relation subgraphs
+  const finalClusters=[];
+  result.forEach(cl=>{
+    if(cl.length<=12){
+      finalClusters.push(cl);
+    } else {
+      // Split large cluster into subclusters based on internal relation connectivity
+      const subClusters=splitLargeCluster(cl,localRels);
+      subClusters.forEach(sc=>finalClusters.push(sc));
+    }
+  });
+  
+  // Name each cluster
+  return finalClusters.map(cl=>{
+    const core=cl.filter(c=>c.type_name==='核心概念'||c.priority===1);
+    const name = core.length>0 ? core[0].name : cl[0].name;
+    return {name,concepts:cl};
+  });
+}
+
+function splitLargeCluster(concepts,allRels){
+  if(concepts.length<=12) return [concepts];
+  const nameSet={};concepts.forEach(c=>{nameSet[c.name]=c;});
+  const rels=allRels.filter(r=>nameSet[r.source]&&nameSet[r.target]);
+  
+  // Build adjacency
+  const adj={};
+  concepts.forEach(c=>{adj[c.name]=[];});
+  rels.forEach(r=>{
+    adj[r.source].push(r.target);
+    adj[r.target].push(r.source);
+  });
+  
+  // BFS to find connected components within this cluster
+  const visited=new Set();
+  const components=[];
+  concepts.forEach(c=>{
+    if(visited.has(c.name)) return;
+    const comp=[];
+    const queue=[c.name];
+    visited.add(c.name);
+    while(queue.length){
+      const cur=queue.shift();
+      comp.push(nameSet[cur]);
+      (adj[cur]||[]).forEach(nb=>{
+        if(!visited.has(nb)){visited.add(nb);queue.push(nb);}
+      });
+    }
+    if(comp.length) components.push(comp);
+  });
+  
+  // If still just 1 component, split by type
+  if(components.length===1){
+    const cores=concepts.filter(c=>c.type_name==='核心概念'||c.priority<=2);
+    const others=concepts.filter(c=>c.type_name!=='核心概念'&&c.priority>2);
+    const result=[];
+    if(cores.length) result.push(cores);
+    if(others.length){
+      // Split others into chunks of 10
+      for(let i=0;i<others.length;i+=10){
+        result.push(others.slice(i,i+10));
+      }
+    }
+    return result.length?result:[concepts];
+  }
+  return components;
+}
+
+// --- generate chapter summary ---
+function generateChapterSummary(chapterConcepts){
+  const coreConcepts=chapterConcepts.filter(c=>c.type_name==='核心概念'||c.priority===1).map(c=>c.name);
+  const allNames=chapterConcepts.map(c=>c.name);
+  if(coreConcepts.length<=3){
+    return '💡 包含 '+coreConcepts.join('、')+' 等 '+chapterConcepts.length+' 个核心概念';
+  } else {
+    return '💡 包含 '+coreConcepts.slice(0,3).join('、')+' 等 '+coreConcepts.length+' 个核心概念，共 '+chapterConcepts.length+' 个概念';
+  }
+}
+
+// --- render single chapter story line ---
+function renderStoryChapter(chapter,domain){
+  const cls=chapter.concepts;
+  // Build flow: show concepts with arrows between related ones
+  const nameMap={};cls.forEach(c=>{nameMap[c.name]=c;});
+  
+  // Get relations within this chapter
+  const localRels=[];
+  if(BAOKE_DATA.relations){
+    BAOKE_DATA.relations.forEach(r=>{
+      if(nameMap[r.source]&&nameMap[r.target]) localRels.push(r);
+    });
+  }
+  
+  // Type to CSS class
+  const typeClass={'核心概念':'core','常考概念':'common','易错概念':'error','边缘概念':'edge'};
+  
+  // Build flow elements: first show related groups, then remaining
+  let flowHtml='';
+  if(localRels.length){
+    // Show relations as pairs with arrows
+    const shown=new Set();
+    localRels.forEach(r=>{
+      if(shown.has(r.source+r.target)) return;
+      shown.add(r.source+r.target);
+      shown.add(r.target+r.source);
+      const src=nameMap[r.source], tgt=nameMap[r.target];
+      const sc=typeClass[src.type_name]||'edge', tc=typeClass[tgt.type_name]||'edge';
+      const arrowIcon=r.relation==='依赖'?'→':r.relation==='包含'?'⊂':'↔';
+      const arrowCls=r.relation==='依赖'?'dep':r.relation==='包含'?'contain':'parallel';
+      flowHtml+=`<span class="sf-node ${sc}" onclick="toggleStoryDetail('${esc(src.name)}')">${esc(src.name)}</span>`;
+      flowHtml+=`<span class="sf-arrow"><span class="${arrowCls}">${arrowIcon}</span></span>`;
+      flowHtml+=`<span class="sf-node ${tc}" onclick="toggleStoryDetail('${esc(tgt.name)}')">${esc(tgt.name)}</span>`;
+      flowHtml+=`<span class="sf-arrow" style="opacity:0.3">•</span>`;
+    });
+  }
+  // Add any concepts not yet shown
+  const shownInFlow=new Set();
+  flowHtml.replace(/sf-node[^>]*>([^<]+)<\/span>/g,(m,n)=>{shownInFlow.add(n);return m;});
+  const remaining=cls.filter(c=>!shownInFlow.has(c.name));
+  remaining.forEach(c=>{
+    const sc=typeClass[c.type_name]||'edge';
+    flowHtml+=`<span class="sf-node ${sc}" onclick="toggleStoryDetail('${esc(c.name)}')">${esc(c.name)}</span>`;
+  });
+  
+  // Remove trailing separator
+  flowHtml=flowHtml.replace(/<span class="sf-arrow"[^>]*>•<\/span>\s*$/,'');
+  
+  // Summary
+  const summary=generateChapterSummary(cls);
+  
+  // Detail (hidden initially)
+  const detailHtml=cls.map(c=>{
+    const def=c.definition||'';
+    const trapIdx=def.indexOf('| 陷阱');
+    const cleanDef=trapIdx>=0?def.slice(0,trapIdx).trim():def;
+    const trap=trapIdx>=0?def.slice(trapIdx).trim():'';
+    const sc=typeClass[c.type_name]||'edge';
+    return `<div id="storyDetail_${esc(c.name)}" class="ch-detail">
+      <div class="cd-def"><span class="lbl">${c.type_name||'概念'}：</span>${esc(c.name)}</div>
+      ${cleanDef?`<div class="cd-def"><span class="lbl">定义：</span>${esc(cleanDef)}</div>`:''}
+      ${trap?`<div class="cd-trap">⚠️ ${esc(trap)}</div>`:''}
+      ${c.analogy?`<div style="margin-top:4px;font-size:11.5px">🧩 ${esc(c.analogy)}</div>`:''}
+      ${c.example?`<div style="margin-top:4px;font-size:11px;color:var(--teal)">📝 ${esc(c.example)}</div>`:''}
+    </div>`;
+  }).join('');
+  
+  return `<div class="story-chapter">
+    <div class="ch-hdr" onclick="this.nextElementSibling.classList.toggle('hide')">
+      📖 ${esc(chapter.name)} <span class="ch-count">${cls.length} 个概念</span>
+    </div>
+    <div class="ch-body">
+      <div class="ch-summary">${summary}</div>
+      <div class="story-flow">${flowHtml}</div>
+      ${detailHtml}
+    </div>
+  </div>`;
+}
+
+// --- toggle story detail ---
+function toggleStoryDetail(name){
+  const el=$(('storyDetail_'+name).replace(/[^a-zA-Z0-9_\u4e00-\u9fff]/g,'_'));
+  if(!el){
+    // try exact match
+    const all=document.querySelectorAll('[id^="storyDetail_"]');
+    for(let i=0;i<all.length;i++){
+      if(all[i].id.includes(name)||all[i].id.replace('storyDetail_','')===name){
+        all[i].classList.toggle('show');
+        return;
+      }
+    }
+    return;
+  }
+  el.classList.toggle('show');
+}
+window.toggleStoryDetail = toggleStoryDetail;
+
+// --- switch domain ---
+function switchDomain(domain){
+  // Update tab active state
+  document.querySelectorAll('.domain-tab').forEach(t=>{
+    t.classList.toggle('active',t.dataset.domain===domain);
+  });
+  renderStoryForDomain(domain);
+}
+window.switchDomain = switchDomain;
+
+// --- render story for a specific domain ---
+function renderStoryForDomain(domain){
+  const groups=buildDomainGroups();
+  const group=groups.find(g=>g.name===domain);
+  if(!group){
+    $('storyContainer').innerHTML='<div class=empty><span class=ico>🔍</span>未找到该领域</div>';
+    return;
+  }
+  
+  // Update domain info
+  $('domainInfo').innerHTML=group.icon+' '+group.name+' · '+group.concepts.length+' 个概念';
+  
+  // Cluster the concepts
+  const chapters=clusterConceptsByRelations(group.concepts);
+  
+  // Render
+  const legendHtml='<div class=story-legend>'+
+    '<span><span class=ldot style=background:var(--red)></span>核心概念</span>'+
+    '<span><span class=ldot style=background:var(--accent)></span>常考概念</span>'+
+    '<span><span class=ldot style=background:var(--orange)></span>易错概念</span>'+
+    '<span><span class=ldot style=background:var(--text3)></span>边缘概念</span>'+
+    '<span>→ 依赖</span><span>⊂ 包含</span><span>↔ 并列</span>'+
+    '</div>';
+  
+  let html=chapters.map(ch=>renderStoryChapter(ch,domain)).join('');
+  if(!html) html='<div class=empty><span class=ico>🔍</span>该领域暂无概念关联展示</div>';
+  else html+=legendHtml;
+  
+  $('storyContainer').innerHTML=html;
+}
+
+// --- render domain tabs ---
+function renderDomainTabs(){
+  const groups=buildDomainGroups();
+  const tabsHtml=groups.map((g,i)=>{
+    const active=i===0?' active':'';
+    return `<span class="domain-tab${active}" data-domain="${g.name}" onclick="switchDomain('${g.name}')">${g.icon} ${g.name}</span>`;
+  }).join('');
+  $('domainTabs').innerHTML=tabsHtml;
+  
+  // Show first domain
+  if(groups.length){
+    renderStoryForDomain(groups[0].name);
+  }
+}
+
+// --- main entry ---
+(function renderKnowledgeStory(){
+  renderDomainTabs();
+})();
 
 /* === WRONG CLINIC === */
 function renderWrongClinic(){
@@ -1290,7 +1594,6 @@ console.log('宝科科学备考 · '+_Q.length+'题 '+_C.length+'概念 '+wrongQ
 
 /* Export functions for HTML event handlers */
 window.toggleTheme = toggleTheme;
-window.filterConcepts = filterConcepts;
 window.renderWrongClinic = renderWrongClinic;
 window.filterWrongs = filterWrongs;
 window.generatePlan = generatePlan;
