@@ -155,7 +155,7 @@ a{color:var(--accent);text-decoration:none}
   .donut-hole .val{font-size:18px}
   .bar-row .bar-lbl{flex:0 0 80px;font-size:10.5px}
 }
-@media print{.nav,.tabs,.theme-btn,.graph-controls{display:none}.tab-pane{display:block!important}}
+@media print{.nav,.tabs,.theme-btn,.graph-controls,.btn{display:none!important}.tab-pane{display:block!important}}
 </style>
 </head>
 <body>
@@ -219,6 +219,7 @@ a{color:var(--accent);text-decoration:none}
 <option value=all>全部列表</option>
 </select>
 <button class="btn btn-primary" onclick=startOnlineTest() style="white-space:nowrap">📝 在线测试</button>
+<button class="btn btn-outline" onclick=exportWrongPrint() style="white-space:nowrap">🖨️ 导出错题</button>
 </div>
 <div style=font-size:12px;color:var(--text3);margin-top:6px>共 <strong id=wrongCount></strong> 道错题，<strong id=wrongKpCount></strong> 个知识点</div>
 </div>
@@ -236,7 +237,16 @@ a{color:var(--accent);text-decoration:none}
 <option value=易错概念>⚠️ 易错概念</option>
 <option value=边缘概念>🌱 边缘概念</option>
 </select>
+<span style=display:flex;gap:10px;flex-wrap:wrap;align-items:center>
+<span id=graphLegend style="font-size:11px;color:var(--text3);display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+<span>📌 图例：</span>
+<span style="display:inline-flex;align-items:center;gap:3px"><span style=width:14px;height:2px;background:var(--blue,#3b82f6);display:inline-block></span>包含</span>
+<span style="display:inline-flex;align-items:center;gap:3px"><span style=width:14px;height:2px;background:var(--orange);display:inline-block></span>依赖</span>
+<span style="display:inline-flex;align-items:center;gap:3px"><span style=width:14px;height:2px;background:var(--green);display:inline-block></span>并列</span>
+<span style="display:inline-flex;align-items:center;gap:3px"><span style=width:14px;height:2px;background:var(--accent);display:inline-block></span>同知识点</span>
+</span>
 <span style=font-size:12px;color:var(--text3)>拖动节点 · 滚轮缩放</span>
+</span>
 </div>
 <div class=graph-wrap id=graphWrap>
 <svg id=graphSvg></svg>
@@ -486,6 +496,60 @@ function wi(w){const c=w.error_cause||'',d=w.error_detail||'',s=w.exam_strategy|
 function filterWrongs(){renderWrongClinic();}
 renderWrongClinic();
 
+/* === EXPORT WRONG ANSWERS === */
+function exportWrongPrint(){
+  const kpCount=new Set(wrongQ.map(w=>w.knowledge_point)).size;
+  let html='<div id=printArea style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;overflow-y:auto;padding:20px;display:none">'
+    +'<style>'
+    +'body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;color:#000;background:#fff;padding:20px}'
+    +'h1{font-size:22px;margin-bottom:4px;color:#1e293b}'
+    +'h2{font-size:16px;color:#475569;margin:16px 0 8px;border-bottom:2px solid #e2e8f0;padding-bottom:4px}'
+    +'.stats{display:flex;gap:20px;flex-wrap:wrap;margin:12px 0 20px;padding:12px;background:#f8fafc;border-radius:8px;font-size:14px}'
+    +'.stat-item{display:flex;gap:4px}'
+    +'.stat-item .num{font-weight:700;color:#2563eb}'
+    +'.w-item{padding:10px 12px;margin-bottom:8px;border:1px solid #e2e8f0;border-radius:6px;page-break-inside:avoid}'
+    +'.w-q{font-size:13px;font-weight:600;margin-bottom:4px}'
+    +'.w-meta{font-size:11px;color:#64748b;margin-bottom:4px}'
+    +'.w-tag{color:#dc2626;font-weight:600;margin-right:6px}'
+    +'.w-resp{font-size:12px;color:#475569;margin-top:4px;padding:6px 8px;background:#fef2f2;border-radius:4px;border-left:3px solid #dc2626}'
+    +'.w-strat{font-size:11px;color:#0d9488;margin-top:4px;padding:4px 8px;background:#f0fdfa;border-radius:4px}'
+    +'.w-footer{text-align:center;margin-top:30px;font-size:11px;color:#94a3b8;border-top:1px solid #e2e8f0;padding-top:12px}'
+    +'@media print{body{padding:0}}'
+    +'</style>'
+    +'<div style="max-width:800px;margin:0 auto">'
+    +'<h1>🔬 宝科科学备考 — 错题报告</h1>'
+    +'<div style=font-size:13px;color:#64748b;margin-bottom:4px>学生：Harry · 六年级科学</div>'
+    +'<div style=font-size:12px;color:#94a3b8;margin-bottom:12px>生成时间：'+new Date().toLocaleString('zh-CN')+'</div>'
+    +'<div class=stats>'
+    +'<div class=stat-item>总错题：<span class=num>'+wrongQ.length+'</span></div>'
+    +'<div class=stat-item>涉及知识点：<span class=num>'+kpCount+'</span></div>'
+    +'<div class=stat-item>总题数：<span class=num>'+_Q.length+'</span></div>'
+    +'<div class=stat-item>正确率：<span class=num>'+((_Q.length-wrongQ.length)/_Q.length*100).toFixed(1)+'%</span></div>'
+    +'</div>';
+  const grouped={};wrongQ.forEach(w=>{const kp=w.knowledge_point||'未分类';if(!grouped[kp])grouped[kp]=[];grouped[kp].push(w);});
+  const sortedKps=Object.entries(grouped).sort((a,b)=>b[1].length-a[1].length);
+  sortedKps.forEach(([kp,ws])=>{
+    html+='<h2>📌 '+kp+' <span style=font-size:12px;color:#94a3b8;font-weight:400>（'+ws.length+'题）</span></h2>';
+    ws.forEach((w,i)=>{
+      html+='<div class=w-item>'
+        +'<div class=w-q>'+(i+1)+'. '+esc(w.question_text||'')+'</div>'
+        +'<div class=w-meta><span class=w-tag>✗ 错题</span>'+(w.question_number?' · 题号：'+w.question_number:'')+'</div>'
+        +(w.student_response?'<div class=w-resp><strong>学生作答：</strong>'+esc(limitStr(w.student_response,200))+'</div>':'')
+        +(w.error_cause?'<div style="font-size:11px;color:#d97706;margin-top:4px"><strong>归因：</strong>'+esc(w.error_cause)+'</div>':'')
+        +(w.exam_strategy?'<div class=w-strat><strong>策略：</strong>'+esc(w.exam_strategy)+'</div>':'')
+        +'</div>';
+    });
+  });
+  html+='<div class=w-footer>宝科科学备考 · Harry学习追踪系统</div></div></div>';
+  const div=document.createElement('div');
+  div.innerHTML=html;
+  document.body.appendChild(div);
+  setTimeout(()=>{
+    window.print();
+    setTimeout(()=>{document.body.removeChild(div);},500);
+  },200);
+}
+
 /* === KNOWLEDGE GRAPH === */
 let graphNodes=[],graphEdges=[],graphTransform={x:0,y:0,scale:1};
 function buildGraphData(filter='all'){
@@ -494,14 +558,40 @@ function buildGraphData(filter='all'){
   const kpConcepts={};
   _Q.forEach(q=>{if(q.knowledge_point&&q.concept_id){if(!kpConcepts[q.knowledge_point])kpConcepts[q.knowledge_point]=new Set();kpConcepts[q.knowledge_point].add(q.concept_id);}});
   const edgeSet=new Set();graphEdges=[];
+  // Edges from shared knowledge_point (existing logic)
   Object.values(kpConcepts).forEach(conIds=>{
     const arr=[...conIds].filter(id=>graphNodes.some(n=>n.id===id));
-    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++){const key=Math.min(arr[i],arr[j])+'-'+Math.max(arr[i],arr[j]);if(!edgeSet.has(key)){edgeSet.add(key);graphEdges.push({source:arr[i],target:arr[j],weight:1});}else{const e=graphEdges.find(e=>e.source===Math.min(arr[i],arr[j])&&e.target===Math.max(arr[i],arr[j]));if(e)e.weight++;}}
+    for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++){const key=Math.min(arr[i],arr[j])+'-'+Math.max(arr[i],arr[j]);if(!edgeSet.has(key)){edgeSet.add(key);graphEdges.push({source:arr[i],target:arr[j],weight:1,type:'kp'});}else{const e=graphEdges.find(e=>e.source===Math.min(arr[i],arr[j])&&e.target===Math.max(arr[i],arr[j]));if(e)e.weight++;}}
   });
   const nodeIds=new Set(graphNodes.map(n=>n.id));
   graphEdges=graphEdges.filter(e=>nodeIds.has(e.source)&&nodeIds.has(e.target));
   graphEdges.sort((a,b)=>b.weight-a.weight);
   graphEdges=graphEdges.slice(0,Math.max(graphNodes.length*2,50));
+  // Semantic edges from BAOKE_DATA.relations
+  const nameToId={};_C.forEach(c=>nameToId[c.name]=c.id);
+  if(BAOKE_DATA.relations && BAOKE_DATA.relations.length){
+    const relColors={'依赖':'var(--orange)','包含':'var(--blue, #3b82f6)','并列':'var(--green)'};
+    BAOKE_DATA.relations.forEach(r=>{
+      const sId=nameToId[r.source];
+      const tId=nameToId[r.target];
+      if(!sId||!tId)return;
+      if(!nodeIds.has(sId)||!nodeIds.has(tId))return;
+      const key=Math.min(sId,tId)+'-'+Math.max(sId,tId);
+      const relation=r.relation||'并列';
+      if(!edgeSet.has(key)){
+        edgeSet.add(key);
+        graphEdges.push({source:sId,target:tId,weight:1,type:'semantic',relation:relation,color:relColors[relation]||'var(--accent)'});
+      }else{
+        // Update existing edge to include relation info
+        const e=graphEdges.find(e=>e.source===Math.min(sId,tId)&&e.target===Math.max(sId,tId));
+        if(e && !e.relation){
+          e.relation=relation;
+          e.color=relColors[relation]||'var(--accent)';
+          e.weight=Math.min(e.weight+0.5,5);
+        }
+      }
+    });
+  }
 }
 function runForceLayout(iterations=200){
   const nodes=graphNodes,edges=graphEdges,cx=500,cy=400,repulsion=800000,attraction=0.003,damping=0.85,centerForce=0.002;
@@ -519,7 +609,9 @@ function renderGraph(){
   const nodeMap={};graphNodes.forEach(n=>nodeMap[n.id]=n);
   const maxWeight=Math.max(...graphEdges.map(e=>e.weight),1);
   let html='<g transform="translate('+graphTransform.x+','+graphTransform.y+') scale('+graphTransform.scale+')">';
-  for(const e of graphEdges){const s=nodeMap[e.source],t=nodeMap[e.target];if(!s||!t)continue;const op=0.15+(e.weight/maxWeight)*0.4;html+='<line x1="'+s.x+'" y1="'+s.y+'" x2="'+t.x+'" y2="'+t.y+'" stroke="var(--accent)" stroke-opacity="'+op+'" stroke-width="'+(0.5+e.weight/maxWeight*1.5)+'"/>';}
+  for(const e of graphEdges){const s=nodeMap[e.source],t=nodeMap[e.target];if(!s||!t)continue;const op=0.15+(e.weight/maxWeight)*0.4;const strokeColor=e.color||'var(--accent)';html+='<line x1="'+s.x+' y1="'+s.y+' x2="'+t.x+' y2="'+t.y+' stroke="'+strokeColor+'" stroke-opacity="'+op+'" stroke-width="'+(0.5+e.weight/maxWeight*1.5)+'"/>';}
+  // Legend for relation types
+  const legendEdges=graphEdges.filter(e=>e.type==='semantic');
   for(const n of graphNodes){const color=tierColors[n.type]||'var(--text3)';html+='<g class=gn data-id="'+n.id+'" transform="translate('+n.x.toFixed(1)+','+n.y.toFixed(1)+')" style=cursor:pointer><circle r="'+n.r+'" fill="'+color+'" stroke="#fff" stroke-width="1.5" opacity=".85"><title>'+esc(n.name)+'</title></circle><text y="'+(n.r+12)+'" text-anchor="middle" font-size="'+(n.r>8?9:7)+'" fill="var(--text)" font-weight="600" style="text-shadow:0 0 2px var(--card)">'+(n.name.length>6?n.name.slice(0,5)+'…':n.name)+'</text></g>';}
   html+='</g>';svg.innerHTML=html;
   svg.querySelectorAll('.gn').forEach(g=>{g.addEventListener('mouseenter',e=>{const id=parseInt(g.dataset.id);const n=graphNodes.find(nd=>nd.id===id);const c=_C.find(cc=>cc.id===id);if(!n)return;const tip=$('graphTip');tip.innerHTML='<strong>'+esc(n.name)+'</strong><br><span style=font-size:11px;color:'+tierColors[n.type]+'>'+n.type+'</span>'+(c&&c.definition?'<br><span style=font-size:11px>'+esc(c.definition.slice(0,120))+'</span>':'');tip.style.display='block';const rect=wrap.getBoundingClientRect();let x=e.clientX-rect.left+12,y=e.clientY-rect.top+12;if(x+200>rect.width)x=e.clientX-rect.left-200;if(y+100>rect.height)y=e.clientY-rect.top-80;tip.style.left=x+'px';tip.style.top=y+'px';});g.addEventListener('mouseleave',()=>{$('graphTip').style.display='none';});});
@@ -538,17 +630,143 @@ window.addEventListener('resize',()=>{if(graphNodes.length)renderGraph();});
 
 /* === STUDY PLAN === */
 function generatePlan(){
+  // Build concept errors, with fallback to knowledge_point for NULL concept_id
   const conceptErrors={};
-  wrongQ.forEach(q=>{if(!q.concept_id)return;if(!conceptErrors[q.concept_id])conceptErrors[q.concept_id]={count:0,questions:[],kps:new Set()};conceptErrors[q.concept_id].count++;conceptErrors[q.concept_id].questions.push(q);if(q.knowledge_point)conceptErrors[q.concept_id].kps.add(q.knowledge_point);});
-  const prioritized=Object.entries(conceptErrors).map(([cid,data])=>{const c=conceptMap[parseInt(cid)];return{concept:c,errors:data.count,kps:[...data.kps],score:data.count*(5-(c?c.priority:2))};}).filter(x=>x.concept).sort((a,b)=>b.score-a.score);
+  const kpErrors={}; // fallback for questions without concept_id
+  wrongQ.forEach(q=>{
+    if(q.concept_id){
+      if(!conceptErrors[q.concept_id])conceptErrors[q.concept_id]={count:0,questions:[],kps:new Set()};
+      conceptErrors[q.concept_id].count++;
+      conceptErrors[q.concept_id].questions.push(q);
+      if(q.knowledge_point)conceptErrors[q.concept_id].kps.add(q.knowledge_point);
+    }else{
+      // Fallback: group by knowledge_point
+      const kp=q.knowledge_point||'未分类';
+      if(!kpErrors[kp])kpErrors[kp]={count:0,questions:[]};
+      kpErrors[kp].count++;
+      kpErrors[kp].questions.push(q);
+    }
+  });
+  // Prioritized items from concept_id
+  const prioritized=Object.entries(conceptErrors).map(([cid,data])=>{
+    const c=conceptMap[parseInt(cid)];
+    return{concept:c,errors:data.count,kps:[...data.kps],score:data.count*(5-(c?c.priority:2)),key:cid};
+  }).filter(x=>x.concept).sort((a,b)=>b.score-a.score);
+  // Fallback items from knowledge_point (no concept_id)
+  const fallbackItems=Object.entries(kpErrors).map(([kp,data])=>{
+    return{concept:{name:kp+' 📌',type_name:'易错概念',priority:2},errors:data.count,kps:[kp],score:data.count*3,key:kp,isFallback:true};
+  }).sort((a,b)=>b.score-a.score);
+  // Merge: prioritized first, then fallbacks
+  const allItems=[...prioritized,...fallbackItems];
   const today=new Date(),dayNames=['日','一','二','三','四','五','六'];
-  const itemsPerDay=Math.max(3,Math.ceil(prioritized.length/7));
+  const itemsPerDay=Math.max(2,Math.ceil(allItems.length/7));
   const plans=[];const colors=['var(--red)','var(--accent)','var(--orange)','var(--amber)','var(--teal)','var(--purple)','var(--pink)'];
-  for(let day=0;day<7;day++){const date=new Date(today);date.setDate(date.getDate()+day);const dateStr=(date.getMonth()+1)+'/'+date.getDate()+' ('+dayNames[date.getDay()]+')';const dayItems=prioritized.slice(day*itemsPerDay,(day+1)*itemsPerDay);const focus=day===0?'🔥 重点突破':day<3?'📚 巩固提升':day<5?'🔄 循环复习':'🧪 综合测试';const reviewNote=day===0?'优先复习错题，理解错误原因':day===1?'重做错题，检验掌握程度':day===2?'对照教材溯源，夯实概念':day===3?'做同类题巩固':day===4?'总结易错 pattern':day===5?'限时模拟测试':'整体回顾查漏补缺';
-    if(!dayItems.length){plans.push('<div class="plan-day done"><div class=pd-hdr><span class=pd-title>'+focus+'</span><span class=pd-badge style="background:var(--green-light);color:var(--green)">完成 ✅</span></div><div style=font-size:13px;color:var(--text2)>'+dateStr+' · 无待复习内容</div></div>');continue;}
-    plans.push('<div class=plan-day><div class=pd-hdr><span><span class=pd-title>'+focus+'</span><span style=font-size:12px;color:var(--text3);margin-left:8px>'+dateStr+'</span></span><span class=pd-badge style="background:var(--accent-light);color:var(--accent)">'+dayItems.length+'项</span></div><div class=pd-items>'+dayItems.map((item,i)=>'<div class=pd-item><span class=pd-dot style=background:'+colors[i%colors.length]+'></span><span><strong>'+esc(item.concept.name)+'</strong>（'+item.errors+'题错）'+(item.concept.type_name!=='核心概念'?'<span style=font-size:11px;color:var(--text3)> · '+item.concept.type_name+'</span>':'')+'</span></div>').join('')+'</div><div style="font-size:11.5px;color:var(--text3);margin-top:6px;padding-top:6px;border-top:1px solid var(--border2)">💡 '+reviewNote+'</div></div>');}
+  for(let day=0;day<7;day++){
+    const date=new Date(today);date.setDate(date.getDate()+day);
+    const dateStr=(date.getMonth()+1)+'/'+date.getDate()+' ('+dayNames[date.getDay()]+')';
+    const dayItems=allItems.slice(day*itemsPerDay,(day+1)*itemsPerDay);
+    const focus=day===0?'🔥 重点突破':day<3?'📚 巩固提升':day<5?'🔄 循环复习':'🧪 综合测试';
+    const reviewNote=day===0?'优先复习错题，理解错误原因':day===1?'重做错题，检验掌握程度':day===2?'对照教材溯源，夯实概念':day===3?'做同类题巩固':day===4?'总结易错 pattern':day===5?'限时模拟测试':'整体回顾查漏补缺';
+    const dayId='plan-day-'+day;
+    // Load saved check state from localStorage
+    const savedDone=localStorage.getItem('baoke-plan-'+day)==='1';
+    if(!dayItems.length){
+      plans.push('<div class="plan-day'+(savedDone?' done':'')+'" id="'+dayId+'"><div class=pd-hdr><span class=pd-title>'+focus+'</span><span class=pd-badge style="background:var(--green-light);color:var(--green)">完成 ✅</span></div><div style=font-size:13px;color:var(--text2)>'+dateStr+' · 无待复习内容</div></div>');
+      continue;
+    }
+    const allDone=dayItems.every((_,i)=>localStorage.getItem('baoke-plan-item-'+day+'-'+i)==='1');
+    plans.push('<div class=plan-day'+(savedDone?' done':'')+'" id="'+dayId+'">'
+      +'<div class=pd-hdr>'
+      +'<span><span class=pd-title>'+focus+'</span><span style=font-size:12px;color:var(--text3);margin-left:8px>'+dateStr+'</span></span>'
+      +'<span><span class=pd-badge style="background:var(--accent-light);color:var(--accent);margin-right:8px">'+dayItems.length+'项</span>'
+      +'<input type=checkbox class=plan-day-check data-day="'+day+'" '+(savedDone?'checked':'')+' onchange="togglePlanDay(this)" title="标记本日完成"></span>'
+      +'</div>'
+      +'<div class=pd-items>'+dayItems.map((item,i)=>{
+        const itemId='plan-item-'+day+'-'+i;
+        const itemDone=localStorage.getItem('baoke-plan-item-'+day+'-'+i)==='1';
+        return '<div class=pd-item style="display:flex;align-items:center;gap:8px">'
+          +'<input type=checkbox class=plan-item-check data-day="'+day+'" data-idx="'+i+'" '+(itemDone?'checked':'')+' onchange="togglePlanItem(this,'+day+','+i+')">'
+          +'<span class=pd-dot style=background:'+colors[i%colors.length]+'></span>'
+          +'<span'+(itemDone?' style="text-decoration:line-through;opacity:.6"':'')+'><strong>'+esc(item.concept.name)+'</strong>（'+item.errors+'题错）'+(item.concept.type_name!=='核心概念'?'<span style=font-size:11px;color:var(--text3)> · '+item.concept.type_name+'</span>':'')+'</span>'
+          +'</div>';
+      }).join('')+'</div>'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--text3);margin-top:6px;padding-top:6px;border-top:1px solid var(--border2)">'
+      +'<span>💡 '+reviewNote+'</span>'
+      +'<button class="btn btn-sm btn-outline" onclick="startStudyFromPlan('+day+')" style=font-size:10px>📝 今日学习</button>'
+      +'</div></div>');
+  }
   const prioTop5=prioritized.slice(0,5).map((p,i)=>'<div style=padding:2px 0;font-size:12.5px>'+(i+1)+'. '+esc(p.concept.name)+' '+('🔴'.repeat(Math.min(p.errors,5)))+' ('+p.errors+'次错误)</div>').join('');
-  $('planContainer').innerHTML=plans.join('')+'<div class=card style=margin-top:12px><div class=card-title><span class=ico>📌</span> 复习统计</div><div style=font-size:13px;color:var(--text2)><div>📊 共 <strong>'+prioritized.length+'</strong> 个薄弱概念需要重点复习</div><div>⏱️ 建议每日复习 <strong>'+itemsPerDay+'</strong> 个概念，每次约 30 分钟</div><div>🔄 遵循艾宾浩斯遗忘曲线：1天→3天→7天循环回顾</div><div style=margin-top:8px>'+prioTop5+'</div></div></div>';
+  $('planContainer').innerHTML=plans.join('')+'<div class=card style=margin-top:12px><div class=card-title><span class=ico>📌</span> 复习统计</div><div style=font-size:13px;color:var(--text2)><div>📊 共 <strong>'+allItems.length+'</strong> 个薄弱项需要重点复习</div><div>⏱️ 建议每日复习 <strong>'+itemsPerDay+'</strong> 个概念，每次约 30 分钟</div><div>🔄 遵循艾宾浩斯遗忘曲线：1天→3天→7天循环回顾</div><div style=margin-top:8px>'+prioTop5+'</div></div></div>';
+}
+// Toggle plan day checkbox
+function togglePlanDay(el){
+  const day=el.dataset.day;
+  localStorage.setItem('baoke-plan-'+day,el.checked?'1':'0');
+  const dayEl=document.getElementById('plan-day-'+day);
+  if(dayEl)dayEl.classList.toggle('done',el.checked);
+  // Also toggle all items in this day
+  document.querySelectorAll('.plan-item-check[data-day="'+day+'"]').forEach(cb=>{
+    cb.checked=el.checked;
+    localStorage.setItem('baoke-plan-item-'+day+'-'+cb.dataset.idx,el.checked?'1':'0');
+  });
+}
+// Toggle individual plan item
+function togglePlanItem(el,day,idx){
+  localStorage.setItem('baoke-plan-item-'+day+'-'+idx,el.checked?'1':'0');
+  // Update parent strikethrough
+  const parent=el.closest('.pd-item');
+  if(parent){
+    const textSpan=parent.querySelector('span:last-child');
+    if(textSpan)textSpan.style.textDecoration=el.checked?'line-through':'none';
+    if(textSpan)textSpan.style.opacity=el.checked?'.6':'1';
+  }
+  // Check if all items in the day are done
+  const allCb=document.querySelectorAll('.plan-item-check[data-day="'+day+'"]');
+  const allDone=[...allCb].every(cb=>cb.checked);
+  const dayCb=document.querySelector('.plan-day-check[data-day="'+day+'"]');
+  if(dayCb){
+    dayCb.checked=allDone;
+    localStorage.setItem('baoke-plan-'+day,allDone?'1':'0');
+    const dayEl=document.getElementById('plan-day-'+day);
+    if(dayEl)dayEl.classList.toggle('done',allDone);
+  }
+}
+// Start study from plan: extract questions for the day's concepts
+function startStudyFromPlan(day){
+  const dayItems=document.querySelectorAll('.plan-item-check[data-day="'+day+'"]');
+  if(!dayItems.length){alert('该天无复习内容');return;}
+  // Find the concept names from the checked items
+  const kps=[];[...dayItems].forEach(cb=>{
+    const parent=cb.closest('.pd-item');
+    if(parent){
+      const text=parent.textContent||'';
+      const match=text.match(/(.+?)（(\d+)题错）/);
+      if(match)kps.push(match[1].trim());
+    }
+  });
+  if(!kps.length){alert('请先勾选要复习的条目');return;}
+  // Start online test with these KPs
+  testState.mode='easy';
+  testState.qty=10;
+  testState.selectedKp='';
+  // Filter wrong questions by these KPs
+  const relatedQs=wrongQ.filter(q=>{
+    const kp=q.knowledge_point||'';
+    return kps.some(k=>kp.includes(k)||k.includes(kp));
+  });
+  if(!relatedQs.length){alert('没有找到相关错题');return;}
+  testState.questions=shuffleArray([...relatedQs]).slice(0,Math.min(10,relatedQs.length));
+  testState.current=0;testState.correct=0;testState.answers=[];
+  // Start timer and show test
+  testState.timer=0;
+  if(testState.timerInterval)clearInterval(testState.timerInterval);
+  testState.timerInterval=setInterval(()=>{testState.timer++;const m=String(Math.floor(testState.timer/60)).padStart(2,'0');const s=String(testState.timer%60).padStart(2,'0');$('testTimer').textContent='⏱ '+m+':'+s;},1000);
+  $('testOverlay').style.display='block';
+  $('testHeader').style.display='block';
+  $('testModeScreen').style.display='none';
+  $('testQuestionScreen').style.display='block';
+  $('testResultScreen').style.display='none';
+  showQuestion();
 }
 generatePlan();
 
@@ -647,15 +865,15 @@ function beginTest(){
   testState.questions=shuffleArray([...pool]).slice(0,qty);
   testState.current=0;testState.correct=0;testState.answers=[];
   if(!testState.questions.length){alert('没有符合条件的题目，请选择其他模式');return;}
-  // Start timer
-  testState.timer=0;
-  if(testState.timerInterval)clearInterval(testState.timerInterval);
-  testState.timerInterval=setInterval(()=>{testState.timer++;const m=String(Math.floor(testState.timer/60)).padStart(2,'0');const s=String(testState.timer%60).padStart(2,'0');$('testTimer').textContent='⏱ '+m+':'+s;},1000);
-  // Show question screen
+  // Show question screen immediately before starting timer
   $('testHeader').style.display='block';
   $('testModeScreen').style.display='none';
   $('testQuestionScreen').style.display='block';
   $('testResultScreen').style.display='none';
+  // Start timer after screen is visible
+  testState.timer=0;
+  if(testState.timerInterval)clearInterval(testState.timerInterval);
+  testState.timerInterval=setInterval(()=>{testState.timer++;const m=String(Math.floor(testState.timer/60)).padStart(2,'0');const s=String(testState.timer%60).padStart(2,'0');$('testTimer').textContent='⏱ '+m+':'+s;},1000);
   showQuestion();
 }
 function showQuestion(){
@@ -811,6 +1029,10 @@ window.beginTest = beginTest;
 window.selectTestMode = selectTestMode;
 window.selectQty = selectQty;
 window.selectTestKp = selectTestKp;
+window.exportWrongPrint = exportWrongPrint;
+window.togglePlanDay = togglePlanDay;
+window.togglePlanItem = togglePlanItem;
+window.startStudyFromPlan = startStudyFromPlan;
 
 })();
 </script>

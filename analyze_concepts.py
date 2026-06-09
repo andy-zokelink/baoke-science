@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
-"""分析 concepts 表，提取概念之间的显式关系，输出 concept_relations.json"""
+"""分析 concepts 表，提取概念之间的显式关系，输出 concept_relations.json
+
+增强策略（目标：182节点 → 300+边）：
+1. 保持已有的 keyword_deps 精确匹配
+2. 基于 domain 分组，同 domain 内建立"同域"连接（每个节点连3-5个最相似的）
+3. 基于 definition 文本相似度（共享关键词）建立边
+4. 概念名子串匹配：如果概念A的名称包含在概念B的名称中，建立包含/依赖关系
+"""
 import sqlite3, os, json, re
+from collections import Counter, defaultdict
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'baoke_learning.db')
 
@@ -28,20 +36,20 @@ with get_conn() as conn:
 
     # 3. raw_questions → concept mapping
     questions_raw = conn.execute("""
-        SELECT rq.id AS qid, rq.question_text, rq.concept_id
+        SELECT rq.id AS qid, rq.question_text, rq.concept_id, rq.knowledge_point
         FROM raw_questions rq
         WHERE rq.concept_id IS NOT NULL
     """).fetchall()
     q_by_concept = {}
     for q in questions_raw:
         cid = q['concept_id']
-        q_by_concept.setdefault(cid, []).append(q['qid'])
+        q_by_concept.setdefault(cid, []).append({'qid': q['qid'], 'kp': q['knowledge_point']})
     print(f"题目总数(有概念关联): {len(questions_raw)}")
 
     # 4. student_answers → wrong count per concept
     wrong_counts = {}
     for cid in q_by_concept:
-        qids = q_by_concept[cid]
+        qids = [q['qid'] for q in q_by_concept[cid]]
         placeholders = ','.join('?' * len(qids))
         row = conn.execute(f"""
             SELECT COUNT(*) as wrong
@@ -50,31 +58,37 @@ with get_conn() as conn:
         """, qids).fetchone()
         wrong_counts[cid] = row['wrong'] if row else 0
 
-    # 补充 total_questions per concept
     total_counts = {}
-    for cid, qids in q_by_concept.items():
-        total_counts[cid] = len(qids)
+    for cid, qlist in q_by_concept.items():
+        total_counts[cid] = len(qlist)
 
 # ═══ 第二步：分析概念关系 ═══
 
 # 领域关键词映射
 DOMAIN_RULES = {
     "物质科学": ['电', '磁', '力', '热', '光', '声', '物质', '化学', '物理', '能量',
-                 '金属', '铁', '燃烧', '反应', '分子', '原子', '溶液', '溶解'],
+                 '金属', '铁', '燃烧', '反应', '分子', '原子', '溶液', '溶解',
+                 '密度', '压强', '浮力', '杠杆', '滑轮', '简单机械', '电路', '电磁'],
     "生命科学": ['生物', '细胞', '植物', '动物', '微生物', '遗传', '基因', '进化',
-                 '生态', '环境', '人体', '健康', '营养', '食物'],
+                 '生态', '环境', '人体', '健康', '营养', '食物', '消化', '呼吸',
+                 '循环', '神经', '骨骼', '肌肉', '仿生'],
     "地球宇宙": ['地球', '太阳', '月球', '行星', '星座', '银河', '宇宙', '天文',
-                 '化石', '地质', '气候', '天气', '季节', '宇宙', '恒星', '卫星'],
+                 '化石', '地质', '气候', '天气', '季节', '恒星', '卫星',
+                 '日食', '月食', '月相', '自转', '公转'],
     "技术工程": ['工程', '结构', '材料', '设计', '建筑', '机械', '杠杆', '滑轮',
-                 '斜面', '工具', '简单机械'],
+                 '斜面', '工具', '简单机械', '稳定性', '框架', '重心', '塔台',
+                 '评价', '功能', '优化', '测试', '承重', '抗震'],
 }
 
 def classify_domain(name, definition):
     text = name + (definition or '')
+    scores = {}
     for domain, keywords in DOMAIN_RULES.items():
-        for kw in keywords:
-            if kw in text:
-                return domain
+        score = sum(1 for kw in keywords if kw in text)
+        if score > 0:
+            scores[domain] = score
+    if scores:
+        return max(scores, key=scores.get)
     return "其他"
 
 # 构建所有概念的字典
@@ -93,30 +107,153 @@ for r in concepts_raw:
     }
 
 # 定义显式关系
-# 规则：根据概念名称和定义中的语义关联建立关系
 edges = []
 edge_set = set()  # 去重用 (source, target, relation)
 
 def add_edge(source, target, relation):
-    key = (source, target, relation)
+    key = (source, target, relation) if source < target else (target, source, relation)
     if source != target and key not in edge_set:
         edges.append({"source": source, "target": target, "relation": relation})
         edge_set.add(key)
 
 # 概念名反向索引
 name_to_id = {v['name']: k for k, v in concepts.items()}
+id_to_name = {k: v['name'] for k, v in concepts.items()}
+concept_names_set = set(concepts[cid]['name'] for cid in concepts)
 
-# ── 依赖关系（A依赖B：学A之前需要懂B）──
+# ── 获取概念名称中的分词关键词 ──
+def tokenize_concept_name(name):
+    """从概念名称中提取有意义的关键词（2-4个中文字符的片段）"""
+    # 移除标点符号和空格
+    clean = re.sub(r'[/,，、；：()（）【】""''.。·\-]', ' ', name)
+    # 提取2-4字的关键词
+    tokens = set()
+    for i in range(len(clean)):
+        for j in range(i+2, min(i+5, len(clean)+1)):
+            token = clean[i:j].strip()
+            if len(token) >= 2 and ' ' not in token:
+                tokens.add(token)
+    return tokens
 
-# 获取概念名列表以便模式匹配
-concept_names = [c['name'] for c in concepts.values()]
-concept_names_set = set(concept_names)
+# 为每个概念提取关键词
+concept_tokens = {}
+for cid, c in concepts.items():
+    concept_tokens[cid] = tokenize_concept_name(c['name'])
 
-def find_concepts_containing(text):
-    """在概念名中查找包含指定文本的概念"""
-    return [n for n in concept_names_set if text in n]
+# ── 匹配1: 基于domain的"同域"连接 ──
+# 同domain内每个概念连接3-5个其他概念（基于名称相似度）
+domain_groups = defaultdict(list)
+for cid, c in concepts.items():
+    domain_groups[c['domain']].append(cid)
 
-# 逐个概念分析定义中的"依赖"暗示
+for domain, cids in domain_groups.items():
+    if len(cids) < 2:
+        continue
+    # 对每个概念，找同domain中名称最相似的其他概念
+    for i, cid in enumerate(cids):
+        c_tokens = concept_tokens[cid]
+        c_name = concepts[cid]['name']
+        c_def_tokens = set(re.findall(r'[\u4e00-\u9fff]{2,4}', concepts[cid]['definition']))
+        
+        scored = []
+        for j, other_id in enumerate(cids):
+            if i == j:
+                continue
+            other_tokens = concept_tokens[other_id]
+            other_name = concepts[other_id]['name']
+            
+            # 名称相似度：共享token数
+            shared = len(c_tokens & other_tokens)
+            # 定义相似度：共享中文字词
+            other_def_tokens = set(re.findall(r'[\u4e00-\u9fff]{2,4}', concepts[other_id]['definition']))
+            def_shared = len(c_def_tokens & other_def_tokens)
+            
+            # 子串匹配：一个概念名包含在另一个中
+            substr_match = c_name in other_name or other_name in c_name
+            
+            score = shared * 2 + def_shared + (3 if substr_match else 0)
+            if score > 0:
+                scored.append((score, other_id))
+        
+        # 连接最相似的3-5个
+        scored.sort(reverse=True)
+        max_links = min(5, len(scored))
+        for rank, (score, other_id) in enumerate(scored[:max_links]):
+            relation = '并列'  # 同域默认为并列
+            add_edge(c_name, concepts[other_id]['name'], relation)
+
+# ── 匹配2: 基于definition关键词匹配 ──
+# 两个概念的definition有相同关键词则建立边
+print("\n基于definition匹配...")
+for cid, c in concepts.items():
+    def_text = c['definition']
+    if not def_text:
+        continue
+    # 提取定义中的所有2-4字关键词
+    def_kws = set(re.findall(r'[\u4e00-\u9fff]{2,4}', def_text))
+    # 排除通用词
+    stop_words = {'一个', '一些', '可以', '通过', '进行', '称为', '这个', '就是', '不是',
+                  '那么', '没有', '如果', '因为', '所以', '但是', '或者', '并且', '而且',
+                  '如何', '什么', '可能', '不能', '需要', '具有', '之间', '过程'}
+    def_kws -= stop_words
+    
+    # 找其他概念，其名称出现在此定义中
+    for other_id, other_c in concepts.items():
+        if cid == other_id:
+            continue
+        other_name = other_c['name']
+        # 如果其他概念名出现在本概念的定义中 → 依赖关系
+        if other_name in def_text:
+            add_edge(c['name'], other_name, '依赖')
+        
+        # 如果本概念名出现在其他概念的定义中 → 反向依赖
+        if c['name'] in other_c['definition']:
+            add_edge(c['name'], other_c['name'], '依赖')
+    
+    # 共享重要关键词的建立关联
+    for other_id in range(cid + 1, max(concepts.keys()) + 1):
+        if other_id not in concepts:
+            continue
+        other_c = concepts[other_id]
+        other_def = other_c['definition']
+        if not other_def:
+            continue
+        other_kws = set(re.findall(r'[\u4e00-\u9fff]{2,4}', other_def))
+        shared_kws = def_kws & other_kws
+        if len(shared_kws) >= 3:  # 共享3个以上关键词
+            add_edge(c['name'], other_c['name'], '并列')
+
+# ── 匹配3: 概念名子串匹配（A包含于B，或B包含于A）──
+# 先建立概念名长度排序列表
+name_sorted = sorted([(c['name'], cid) for cid, c in concepts.items()], key=lambda x: -len(x[0]))
+
+print("\n基于概念名子串匹配...")
+for i, (name_a, cid_a) in enumerate(name_sorted):
+    for name_b, cid_b in name_sorted[i+1:]:
+        # A是B的子串 → A是更基础的概念
+        if name_a in name_b and name_a != name_b:
+            # 短概念是长概念的基础 → 长概念依赖短概念
+            # 但有些是包含关系，有些是并列
+            # 短概念名在长概念名中 → 偏向"包含"关系（长包含短）
+            add_edge(name_b, name_a, '包含')
+
+# ── 匹配4: 共享knowledge_point的题目概念之间建立边 ──
+# 如果两个概念共享相同的knowledge_point题目，它们相关
+print("\n基于共享知识点匹配...")
+kp_to_concepts = defaultdict(set)
+for q in questions_raw:
+    if q['concept_id'] and q['knowledge_point']:
+        kp_to_concepts[q['knowledge_point']].add(q['concept_id'])
+
+for kp, cids in kp_to_concepts.items():
+    cids_list = list(cids)
+    for i in range(len(cids_list)):
+        for j in range(i+1, len(cids_list)):
+            cid_a, cid_b = cids_list[i], cids_list[j]
+            if cid_a in concepts and cid_b in concepts:
+                add_edge(concepts[cid_a]['name'], concepts[cid_b]['name'], '并列')
+
+# ── 匹配5: 原有的精确keyword_deps匹配 ──
 keyword_deps = {
     '电路': ['电源', '导线', '电流', '电压', '电阻', '用电器'],
     '电流': ['电压', '电阻', '电源', '电路', '导体'],
@@ -217,7 +354,6 @@ keyword_deps = {
     '真菌': ['细胞', '孢子', '微生物'],
     '细菌': ['细胞', '微生物', '分裂'],
     '病毒': ['微生物', '遗传物质', '蛋白质'],
-    '人体': ['细胞', '组织', '器官', '系统'],
     '健康': ['营养', '运动', '休息', '卫生'],
     '环境保护': ['生态', '环境', '污染', '资源'],
     '生态': ['生物', '环境', '食物链', '生态系统'],
@@ -225,17 +361,28 @@ keyword_deps = {
     '天气': ['温度', '降水', '风', '云'],
     '气候': ['天气', '温度', '降水', '季节'],
     '化石': ['生物', '沉积', '地层', '古生物'],
+    '遗传': ['基因', 'DNA', '染色体', '生物'],
+    '变异': ['遗传', '基因', '生物', '进化'],
 }
 
-# 对每个概念，如果依赖关键词是已知概念名则建立"依赖"关系
+# 对每个概念，如果名称在keyword_deps中则建立精确匹配
 for cid, c in concepts.items():
     name = c['name']
+    # 精确匹配
     deps = keyword_deps.get(name, [])
     for dep_name in deps:
         if dep_name in concept_names_set:
             add_edge(name, dep_name, '依赖')
+    
+    # 模糊匹配：如果概念名包含keyword_deps中的key
+    for key_name, dep_list in keyword_deps.items():
+        if key_name in name and key_name != name:
+            # 这个概念名包含已知关键词（如"电路基础"包含"电路"）
+            for dep_name in dep_list:
+                if dep_name in concept_names_set:
+                    add_edge(name, dep_name, '依赖')
 
-# ── 包含关系（上位概念→下位概念）──
+# ── 原有的包含关系 ──
 contain_relations = {
     '电路': ['电源', '导线', '开关', '用电器'],
     '物质': ['纯净物', '混合物'],
@@ -275,13 +422,21 @@ contain_relations = {
 }
 
 for parent, children in contain_relations.items():
-    if parent not in concept_names_set:
-        continue
-    for child in children:
-        if child in concept_names_set:
-            add_edge(parent, child, '包含')
+    # 精确匹配
+    if parent in concept_names_set:
+        for child in children:
+            if child in concept_names_set:
+                add_edge(parent, child, '包含')
+    
+    # 模糊匹配：如果概念名包含父概念名称
+    for cid, c in concepts.items():
+        name = c['name']
+        if parent in name and name != parent:
+            for child in children:
+                if child in concept_names_set:
+                    add_edge(name, child, '包含')
 
-# ── 并列关系（同级、同领域，成对互补）──
+# ── 原有的并列关系 ──
 coordinate_pairs = [
     ('串联', '并联'),
     ('导体', '绝缘体'),
@@ -383,11 +538,10 @@ for e in edges:
 print(f"\n孤立节点（无边）:")
 isolated = [n['name'] for n in nodes if node_edge_counts.get(n['name'], 0) == 0]
 if isolated:
-    print(f"  {', '.join(isolated)}")
+    print(f"  共{len(isolated)}个: {', '.join(isolated[:20])}{'...' if len(isolated) > 20 else ''}")
 else:
     print("  无")
 
-# 验证每个概念至少1条边
 min_edges = min(node_edge_counts.values()) if node_edge_counts else 0
 max_edges = max(node_edge_counts.values())
 avg_edges = sum(node_edge_counts.values()) / len(nodes) if nodes else 0

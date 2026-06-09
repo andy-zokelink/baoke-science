@@ -1,10 +1,12 @@
 """
 从 baoke_learning.db 导出全量数据为 data.js
+增强：从 concept_relations.json 读取关系数据（DB表可能为空）
 """
-import json, sqlite3
+import json, sqlite3, os
 
 DB_PATH = r"C:\Users\HermesCC\baoke-science\baoke_learning.db"
 OUTPUT = r"C:\Users\HermesCC\baoke-science\docs\data.js"
+RELATIONS_JSON = r"C:\Users\HermesCC\baoke-science\concept_relations.json"
 
 conn = sqlite3.connect(DB_PATH)
 conn.row_factory = sqlite3.Row
@@ -37,10 +39,26 @@ for r in conn.execute("""
 """).fetchall():
     concepts.append(dict(r))
 
-# 3. 概念关系
+# 3. 概念关系 — 从 JSON 文件读取（因为 DB 表可能为空）
 relations = []
-for r in conn.execute("SELECT * FROM concept_relations").fetchall():
-    relations.append(dict(r))
+if os.path.exists(RELATIONS_JSON):
+    try:
+        with open(RELATIONS_JSON, 'r', encoding='utf-8') as f:
+            rel_data = json.load(f)
+        # Extract edges with source/target/relation format
+        for e in rel_data.get('edges', []):
+            relations.append({
+                "source": e.get("source", ""),
+                "target": e.get("target", ""),
+                "relation": e.get("relation", "并列")
+            })
+        print(f"从 concept_relations.json 读取 {len(relations)} 条关系")
+    except Exception as e:
+        print(f"读取 concept_relations.json 失败: {e}")
+else:
+    # Fallback: read from DB
+    for r in conn.execute("SELECT * FROM concept_relations").fetchall():
+        relations.append(dict(r))
 
 # 4. 教材页面
 source_pages = []

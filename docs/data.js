@@ -23091,7 +23091,2833 @@ const BAOKE_DATA = {
       "priority": 1
     }
   ],
-  "relations": [],
+  "relations": [
+    {
+      "source": "工程设计与评价指标",
+      "target": "工程设计的核心要素与权衡",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计与评价指标",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计与评价指标",
+      "target": "团队合作与工程设计规范",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计与评价指标",
+      "target": "测试与评价",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计与评价指标",
+      "target": "工程优化设计",
+      "relation": "并列"
+    },
+    {
+      "source": "团队合作与工程设计规范",
+      "target": "工程设计的核心要素与权衡",
+      "relation": "并列"
+    },
+    {
+      "source": "团队合作与工程设计规范",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "团队合作与工程设计规范",
+      "target": "工程优化设计",
+      "relation": "并列"
+    },
+    {
+      "source": "团队合作与工程设计规范",
+      "target": "中国航天与重大工程",
+      "relation": "并列"
+    },
+    {
+      "source": "工程评估与分析",
+      "target": "中国航天与重大工程",
+      "relation": "并列"
+    },
+    {
+      "source": "工程评估与分析",
+      "target": "工程设计的核心要素与权衡",
+      "relation": "并列"
+    },
+    {
+      "source": "工程评估与分析",
+      "target": "工程的功能性需求",
+      "relation": "并列"
+    },
+    {
+      "source": "工程评估与分析",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "工程评估与分析",
+      "target": "工程优化设计",
+      "relation": "并列"
+    },
+    {
+      "source": "工程优化设计",
+      "target": "工程设计的核心要素与权衡",
+      "relation": "并列"
+    },
+    {
+      "source": "工程优化设计",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "工程优化设计",
+      "target": "中国航天与重大工程",
+      "relation": "并列"
+    },
+    {
+      "source": "结构与稳定性/材料力学",
+      "target": "重心与稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "结构与稳定性/材料力学",
+      "target": "框架结构的稳定性（三角形的稳定性）",
+      "relation": "并列"
+    },
+    {
+      "source": "结构与稳定性/材料力学",
+      "target": "结构稳定性（上小下大）",
+      "relation": "并列"
+    },
+    {
+      "source": "结构与稳定性/材料力学",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "结构与稳定性/材料力学",
+      "target": "结构与仿生",
+      "relation": "并列"
+    },
+    {
+      "source": "仿生学与结构强度",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "仿生学与结构强度",
+      "target": "结构与仿生",
+      "relation": "并列"
+    },
+    {
+      "source": "仿生学与结构强度",
+      "target": "框架结构的稳定性（三角形的稳定性）",
+      "relation": "并列"
+    },
+    {
+      "source": "仿生学与结构强度",
+      "target": "框架结构与抗变形能力",
+      "relation": "并列"
+    },
+    {
+      "source": "仿生学与结构强度",
+      "target": "结构稳定性（上小下大）",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计原则与结构稳定性",
+      "target": "结构稳定性（上小下大）",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计原则与结构稳定性",
+      "target": "工程设计的核心要素与权衡",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计原则与结构稳定性",
+      "target": "框架结构的稳定性（三角形的稳定性）",
+      "relation": "并列"
+    },
+    {
+      "source": "工程的功能性需求",
+      "target": "中国航天与重大工程",
+      "relation": "并列"
+    },
+    {
+      "source": "工程的功能性需求",
+      "target": "工程设计的核心要素与权衡",
+      "relation": "并列"
+    },
+    {
+      "source": "工程的功能性需求",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "工程的功能性需求",
+      "target": "工程优化设计",
+      "relation": "并列"
+    },
+    {
+      "source": "工程设计的核心要素与权衡",
+      "target": "中国航天与重大工程",
+      "relation": "并列"
+    },
+    {
+      "source": "结构稳定性（上小下大）",
+      "target": "重心与稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "结构稳定性（上小下大）",
+      "target": "框架结构的稳定性（三角形的稳定性）",
+      "relation": "并列"
+    },
+    {
+      "source": "结构稳定性（上小下大）",
+      "target": "结构与仿生",
+      "relation": "并列"
+    },
+    {
+      "source": "框架结构的稳定性（三角形的稳定性）",
+      "target": "框架结构与抗变形能力",
+      "relation": "并列"
+    },
+    {
+      "source": "框架结构的稳定性（三角形的稳定性）",
+      "target": "重心与稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "重心与稳定性",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "重心与稳定性",
+      "target": "科学研究方法与逻辑思维",
+      "relation": "并列"
+    },
+    {
+      "source": "框架结构与抗变形能力",
+      "target": "结构与仿生",
+      "relation": "并列"
+    },
+    {
+      "source": "框架结构与抗变形能力",
+      "target": "结构与稳定性/材料力学",
+      "relation": "并列"
+    },
+    {
+      "source": "框架结构与抗变形能力",
+      "target": "结构稳定性（上小下大）",
+      "relation": "并列"
+    },
+    {
+      "source": "框架结构与抗变形能力",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "科学实验设计、控制变量法",
+      "target": "科学研究方法与逻辑思维",
+      "relation": "并列"
+    },
+    {
+      "source": "科学实验设计、控制变量法",
+      "target": "工程设计的核心要素与权衡",
+      "relation": "并列"
+    },
+    {
+      "source": "科学实验设计、控制变量法",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "科学实验设计、控制变量法",
+      "target": "工程优化设计",
+      "relation": "并列"
+    },
+    {
+      "source": "中国航天与重大工程",
+      "target": "工程设计原则与结构稳定性",
+      "relation": "并列"
+    },
+    {
+      "source": "简单机械",
+      "target": "科学研究方法与逻辑思维",
+      "relation": "并列"
+    },
+    {
+      "source": "简单机械",
+      "target": "结构与仿生",
+      "relation": "并列"
+    },
+    {
+      "source": "简单机械",
+      "target": "中国航天与重大工程",
+      "relation": "并列"
+    },
+    {
+      "source": "简单机械",
+      "target": "科学实验设计、控制变量法",
+      "relation": "并列"
+    },
+    {
+      "source": "结构与仿生",
+      "target": "框架结构的稳定性（三角形的稳定性）",
+      "relation": "并列"
+    },
+    {
+      "source": "科学研究方法与逻辑思维",
+      "target": "科学模型",
+      "relation": "并列"
+    },
+    {
+      "source": "科学研究方法与逻辑思维",
+      "target": "结构与仿生",
+      "relation": "并列"
+    },
+    {
+      "source": "工具与技术",
+      "target": "工具",
+      "relation": "并列"
+    },
+    {
+      "source": "工具与技术",
+      "target": "技术与工具的关系",
+      "relation": "并列"
+    },
+    {
+      "source": "工具与技术",
+      "target": "技术演进",
+      "relation": "并列"
+    },
+    {
+      "source": "工具与技术",
+      "target": "信息传播工具",
+      "relation": "并列"
+    },
+    {
+      "source": "工具与技术",
+      "target": "组合工具",
+      "relation": "并列"
+    },
+    {
+      "source": "视野",
+      "target": "科学模型",
+      "relation": "并列"
+    },
+    {
+      "source": "工具",
+      "target": "技术与工具的关系",
+      "relation": "并列"
+    },
+    {
+      "source": "工具",
+      "target": "信息传播工具",
+      "relation": "并列"
+    },
+    {
+      "source": "工具",
+      "target": "组合工具",
+      "relation": "并列"
+    },
+    {
+      "source": "组合工具",
+      "target": "技术与工具的关系",
+      "relation": "并列"
+    },
+    {
+      "source": "组合工具",
+      "target": "信息传播工具",
+      "relation": "并列"
+    },
+    {
+      "source": "信息传播工具",
+      "target": "技术与工具的关系",
+      "relation": "并列"
+    },
+    {
+      "source": "技术演进",
+      "target": "技术与工具的关系",
+      "relation": "并列"
+    },
+    {
+      "source": "科学模型",
+      "target": "科学实验设计、控制变量法",
+      "relation": "并列"
+    },
+    {
+      "source": "材料的特性与工程应用",
+      "target": "淀粉的特性、碘酒的显色反应",
+      "relation": "并列"
+    },
+    {
+      "source": "材料的特性与工程应用",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "材料的特性与工程应用",
+      "target": "化学变化的特征现象",
+      "relation": "并列"
+    },
+    {
+      "source": "材料的特性与工程应用",
+      "target": "化学反应的吸放热特性",
+      "relation": "并列"
+    },
+    {
+      "source": "材料的特性与工程应用",
+      "target": "物质的物理性质",
+      "relation": "并列"
+    },
+    {
+      "source": "日冕",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "日冕",
+      "target": "电动机与发电机",
+      "relation": "并列"
+    },
+    {
+      "source": "日冕",
+      "target": "金属防锈与冶炼",
+      "relation": "并列"
+    },
+    {
+      "source": "日冕",
+      "target": "光学显微镜与观察工具",
+      "relation": "并列"
+    },
+    {
+      "source": "日冕",
+      "target": "能量与能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "米粒组织",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "米粒组织",
+      "target": "电动机与发电机",
+      "relation": "并列"
+    },
+    {
+      "source": "米粒组织",
+      "target": "金属防锈与冶炼",
+      "relation": "并列"
+    },
+    {
+      "source": "米粒组织",
+      "target": "光学显微镜与观察工具",
+      "relation": "并列"
+    },
+    {
+      "source": "米粒组织",
+      "target": "能量与能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳的定义与能量释放",
+      "target": "能量与能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳的定义与能量释放",
+      "target": "能量",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳的定义与能量释放",
+      "target": "能量形式",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳的定义与能量释放",
+      "target": "能量来源",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳的定义与能量释放",
+      "target": "能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "天文观测工具",
+      "target": "光学显微镜与观察工具",
+      "relation": "并列"
+    },
+    {
+      "source": "天文观测工具",
+      "target": "科学观察工具的使用",
+      "relation": "并列"
+    },
+    {
+      "source": "天文观测工具",
+      "target": "观察工具的发展",
+      "relation": "并列"
+    },
+    {
+      "source": "天文观测工具",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "天文观测工具",
+      "target": "电动机与发电机",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化（物理变化与化学变化）",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化（物理变化与化学变化）",
+      "target": "物质的变化与煤的形成过程",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化（物理变化与化学变化）",
+      "target": "物质变化与化学反应",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化（物理变化与化学变化）",
+      "target": "化学变化产生新物质的判断",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉与碘酒的反应、化学变化",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉与碘酒的反应、化学变化",
+      "target": "化学变化产生新物质的判断",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉与碘酒的反应、化学变化",
+      "target": "化学变化的特征现象",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉与碘酒的反应、化学变化",
+      "target": "化学变化中的气体产生现象",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉与碘酒的反应、化学变化",
+      "target": "物质的变化（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉的特性、碘酒的显色反应",
+      "target": "淀粉与碘酒的反应、化学变化",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉的特性、碘酒的显色反应",
+      "target": "生活常识、碘与淀粉的反应",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉的特性、碘酒的显色反应",
+      "target": "化学反应的吸放热特性",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉的特性、碘酒的显色反应",
+      "target": "化学反应及其产物",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的物理性质",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的物理性质",
+      "target": "物质的变化（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的物理性质",
+      "target": "物质的状态与物理变化",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的物理性质",
+      "target": "物质的变化与煤的形成过程",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应中的现象观察",
+      "target": "物质变化与化学反应",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应中的现象观察",
+      "target": "化学反应及其产物",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应中的现象观察",
+      "target": "化学反应的吸放热特性",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应中的现象观察",
+      "target": "化学变化的特征现象",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应中的现象观察",
+      "target": "化学变化中的气体产生现象",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应的吸放热特性",
+      "target": "化学反应及其产物",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应的吸放热特性",
+      "target": "物质变化与化学反应",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应的吸放热特性",
+      "target": "淀粉与碘酒的反应、化学变化",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质（密度大于空气、不支持燃烧）",
+      "target": "二氧化碳的性质",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质（密度大于空气、不支持燃烧）",
+      "target": "物质的物理性质",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质（密度大于空气、不支持燃烧）",
+      "target": "化学反应及其产物",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质（密度大于空气、不支持燃烧）",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质（密度大于空气、不支持燃烧）",
+      "target": "电动机与发电机",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质",
+      "target": "物质的物理性质",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质",
+      "target": "化学变化中的气体产生现象",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "二氧化碳的性质",
+      "target": "电动机与发电机",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应及其产物",
+      "target": "物质变化与化学反应",
+      "relation": "并列"
+    },
+    {
+      "source": "化学反应及其产物",
+      "target": "淀粉与碘酒的反应、化学变化",
+      "relation": "并列"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "观察工具的发展",
+      "relation": "并列"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "光学显微镜与观察工具",
+      "relation": "并列"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "化学反应中的现象观察",
+      "relation": "并列"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的状态与物理变化",
+      "target": "物质的变化（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的状态与物理变化",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的状态与物理变化",
+      "target": "物质的变化与煤的形成过程",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的状态与物理变化",
+      "target": "化学变化产生新物质的判断",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化中的气体产生现象",
+      "target": "化学变化的特征现象",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化中的气体产生现象",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化中的气体产生现象",
+      "target": "化学变化产生新物质的判断",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化中的气体产生现象",
+      "target": "物质的变化（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化的特征现象",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化的特征现象",
+      "target": "物质的变化（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化的特征现象",
+      "target": "化学变化产生新物质的判断",
+      "relation": "并列"
+    },
+    {
+      "source": "化学变化产生新物质的判断",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化与煤的形成过程",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化与煤的形成过程",
+      "target": "物质变化与化学反应",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化与煤的形成过程",
+      "target": "化学变化产生新物质的判断",
+      "relation": "并列"
+    },
+    {
+      "source": "物质的变化类型（物理变化与化学变化）",
+      "target": "物质变化与化学反应",
+      "relation": "并列"
+    },
+    {
+      "source": "生活常识、碘与淀粉的反应",
+      "target": "淀粉与碘酒的反应、化学变化",
+      "relation": "并列"
+    },
+    {
+      "source": "生活常识、碘与淀粉的反应",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "生活常识、碘与淀粉的反应",
+      "target": "物质变化与化学反应",
+      "relation": "并列"
+    },
+    {
+      "source": "生活常识、碘与淀粉的反应",
+      "target": "化学反应及其产物",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁与电磁效应",
+      "target": "电磁铁",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁与电磁效应",
+      "target": "电磁铁磁性强弱的影响因素",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁与电磁效应",
+      "target": "电磁铁的磁极",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁与电磁效应",
+      "target": "电流磁效应",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁与电磁效应",
+      "target": "能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "能量与能量转换",
+      "target": "能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "能量与能量转换",
+      "target": "能量",
+      "relation": "并列"
+    },
+    {
+      "source": "能量与能量转换",
+      "target": "能量形式",
+      "relation": "并列"
+    },
+    {
+      "source": "能量与能量转换",
+      "target": "能量来源",
+      "relation": "并列"
+    },
+    {
+      "source": "光学显微镜与观察工具",
+      "target": "光学显微镜",
+      "relation": "并列"
+    },
+    {
+      "source": "光学显微镜与观察工具",
+      "target": "观察工具的发展",
+      "relation": "并列"
+    },
+    {
+      "source": "光学显微镜与观察工具",
+      "target": "显微镜",
+      "relation": "并列"
+    },
+    {
+      "source": "光学显微镜与观察工具",
+      "target": "电子显微镜",
+      "relation": "并列"
+    },
+    {
+      "source": "金属防锈与冶炼",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "金属防锈与冶炼",
+      "target": "电动机与发电机",
+      "relation": "并列"
+    },
+    {
+      "source": "金属防锈与冶炼",
+      "target": "光学显微镜与观察工具",
+      "relation": "并列"
+    },
+    {
+      "source": "金属防锈与冶炼",
+      "target": "能量与能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "金属防锈与冶炼",
+      "target": "电磁铁与电磁效应",
+      "relation": "并列"
+    },
+    {
+      "source": "电动机与发电机",
+      "target": "发电机",
+      "relation": "并列"
+    },
+    {
+      "source": "电动机与发电机",
+      "target": "小电动机",
+      "relation": "并列"
+    },
+    {
+      "source": "电动机与发电机",
+      "target": "物理常识与生活应用",
+      "relation": "并列"
+    },
+    {
+      "source": "电动机与发电机",
+      "target": "光学显微镜与观察工具",
+      "relation": "并列"
+    },
+    {
+      "source": "物理常识与生活应用",
+      "target": "物质的变化类型（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "物理常识与生活应用",
+      "target": "物质的状态与物理变化",
+      "relation": "并列"
+    },
+    {
+      "source": "物理常识与生活应用",
+      "target": "物质的物理性质",
+      "relation": "并列"
+    },
+    {
+      "source": "物理常识与生活应用",
+      "target": "物质的变化（物理变化与化学变化）",
+      "relation": "并列"
+    },
+    {
+      "source": "射电望远镜",
+      "target": "FAST（500米口径球面射电望远镜）",
+      "relation": "并列"
+    },
+    {
+      "source": "能量",
+      "target": "能量形式",
+      "relation": "并列"
+    },
+    {
+      "source": "能量",
+      "target": "能量来源",
+      "relation": "并列"
+    },
+    {
+      "source": "能量",
+      "target": "能量转换",
+      "relation": "并列"
+    },
+    {
+      "source": "光学显微镜",
+      "target": "显微镜",
+      "relation": "并列"
+    },
+    {
+      "source": "光学显微镜",
+      "target": "电子显微镜",
+      "relation": "并列"
+    },
+    {
+      "source": "电子显微镜",
+      "target": "显微镜",
+      "relation": "并列"
+    },
+    {
+      "source": "正午太阳仰角",
+      "target": "太阳的定义与能量释放",
+      "relation": "并列"
+    },
+    {
+      "source": "昼行性动物",
+      "target": "夜行性动物",
+      "relation": "并列"
+    },
+    {
+      "source": "用力点",
+      "target": "阻力点",
+      "relation": "并列"
+    },
+    {
+      "source": "车轮",
+      "target": "车轮的作用",
+      "relation": "并列"
+    },
+    {
+      "source": "能量转换",
+      "target": "能量形式",
+      "relation": "并列"
+    },
+    {
+      "source": "能量转换",
+      "target": "能量来源",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁",
+      "target": "电磁铁磁性强弱的影响因素",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁",
+      "target": "电磁铁的磁极",
+      "relation": "并列"
+    },
+    {
+      "source": "电磁铁的磁极",
+      "target": "电磁铁磁性强弱的影响因素",
+      "relation": "并列"
+    },
+    {
+      "source": "能量来源",
+      "target": "能量形式",
+      "relation": "并列"
+    },
+    {
+      "source": "观察工具的发展",
+      "target": "化学反应中的现象观察",
+      "relation": "并列"
+    },
+    {
+      "source": "生物遗传学、优生优育",
+      "target": "生物的遗传现象",
+      "relation": "并列"
+    },
+    {
+      "source": "生物遗传学、优生优育",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物遗传学、优生优育",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "生物遗传学、优生优育",
+      "target": "微生物与病毒",
+      "relation": "并列"
+    },
+    {
+      "source": "生物遗传学、优生优育",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传现象",
+      "target": "生物的遗传现象",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传现象",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传现象",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传现象",
+      "target": "遗传与变异的意义",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传现象",
+      "target": "遗传规律的应用",
+      "relation": "并列"
+    },
+    {
+      "source": "伴性遗传规律",
+      "target": "遗传规律的应用",
+      "relation": "并列"
+    },
+    {
+      "source": "伴性遗传规律",
+      "target": "科学史：孟德尔及其遗传规律",
+      "relation": "并列"
+    },
+    {
+      "source": "伴性遗传规律",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "伴性遗传规律",
+      "target": "遗传与变异的应用",
+      "relation": "并列"
+    },
+    {
+      "source": "伴性遗传规律",
+      "target": "遗传与变异的意义",
+      "relation": "并列"
+    },
+    {
+      "source": "生物与环境的关系",
+      "target": "微生物与病毒",
+      "relation": "并列"
+    },
+    {
+      "source": "生物与环境的关系",
+      "target": "环境保护与生物多样性保护",
+      "relation": "并列"
+    },
+    {
+      "source": "生物与环境的关系",
+      "target": "生物适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物与环境的关系",
+      "target": "环境科学与保护",
+      "relation": "并列"
+    },
+    {
+      "source": "生物与环境的关系",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "阅读理解与生物特征分析",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "阅读理解与生物特征分析",
+      "target": "环境保护与生物多样性保护",
+      "relation": "并列"
+    },
+    {
+      "source": "阅读理解与生物特征分析",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "阅读理解与生物特征分析",
+      "target": "微生物与病毒",
+      "relation": "并列"
+    },
+    {
+      "source": "阅读理解与生物特征分析",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性的意义",
+      "target": "生物多样性调查指标",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性的意义",
+      "target": "环境保护与生物多样性保护",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性的意义",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性的意义",
+      "target": "遗传与变异的意义",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性的意义",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "环境保护与生物多样性保护",
+      "target": "生物多样性调查指标",
+      "relation": "并列"
+    },
+    {
+      "source": "环境保护与生物多样性保护",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "环境保护与生物多样性保护",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性调查指标",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性调查指标",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "生物多样性调查指标",
+      "target": "微生物与病毒",
+      "relation": "并列"
+    },
+    {
+      "source": "植物形态分类（草质茎与木质茎）",
+      "target": "二歧分类法定义",
+      "relation": "并列"
+    },
+    {
+      "source": "植物形态分类（草质茎与木质茎）",
+      "target": "人体与健康常识",
+      "relation": "并列"
+    },
+    {
+      "source": "植物形态分类（草质茎与木质茎）",
+      "target": "环境科学与保护",
+      "relation": "并列"
+    },
+    {
+      "source": "植物形态分类（草质茎与木质茎）",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "植物形态分类（草质茎与木质茎）",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "二歧分类法定义",
+      "target": "多细胞生物",
+      "relation": "并列"
+    },
+    {
+      "source": "二歧分类法定义",
+      "target": "人体与健康常识",
+      "relation": "并列"
+    },
+    {
+      "source": "二歧分类法定义",
+      "target": "环境科学与保护",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的遗传现象",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的遗传现象",
+      "target": "生物的变异现象",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的遗传现象",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的遗传现象",
+      "target": "微生物的双重性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的变异现象",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的变异现象",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的变异现象",
+      "target": "微生物的双重性",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的变异现象",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传与变异的意义",
+      "target": "遗传与变异的应用",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传与变异的意义",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传与变异的意义",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "科学史：孟德尔及其遗传规律",
+      "target": "遗传规律的应用",
+      "relation": "并列"
+    },
+    {
+      "source": "科学史：孟德尔及其遗传规律",
+      "target": "环境科学与保护",
+      "relation": "并列"
+    },
+    {
+      "source": "科学史：孟德尔及其遗传规律",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "科学史：孟德尔及其遗传规律",
+      "target": "遗传与变异的应用",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传与变异的应用",
+      "target": "遗传规律的应用",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传与变异的应用",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传与变异的应用",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传规律的应用",
+      "target": "遗传现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传规律的应用",
+      "target": "遗传与变异的意义",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传现象的实例分析",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "变异现象的实例分析",
+      "target": "生物的遗传现象",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "微生物",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "微生物的双重性",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "病毒",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "细胞与生物基础",
+      "target": "细胞",
+      "relation": "并列"
+    },
+    {
+      "source": "细胞与生物基础",
+      "target": "多细胞生物",
+      "relation": "并列"
+    },
+    {
+      "source": "细胞与生物基础",
+      "target": "单细胞生物",
+      "relation": "并列"
+    },
+    {
+      "source": "生物的多样性与适应性",
+      "target": "生物适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "环境科学与保护",
+      "target": "环境保护与生物多样性保护",
+      "relation": "并列"
+    },
+    {
+      "source": "环境科学与保护",
+      "target": "人体与健康常识",
+      "relation": "并列"
+    },
+    {
+      "source": "环境科学与保护",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "人体与健康常识",
+      "target": "变异现象的实例分析",
+      "relation": "并列"
+    },
+    {
+      "source": "人体与健康常识",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "人体与健康常识",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "微小世界",
+      "target": "微生物与病毒",
+      "relation": "并列"
+    },
+    {
+      "source": "细胞",
+      "target": "多细胞生物",
+      "relation": "并列"
+    },
+    {
+      "source": "细胞",
+      "target": "单细胞生物",
+      "relation": "并列"
+    },
+    {
+      "source": "叶绿体",
+      "target": "细胞与生物基础",
+      "relation": "并列"
+    },
+    {
+      "source": "单细胞生物",
+      "target": "多细胞生物",
+      "relation": "并列"
+    },
+    {
+      "source": "单细胞生物",
+      "target": "微生物",
+      "relation": "并列"
+    },
+    {
+      "source": "单细胞生物",
+      "target": "微生物的双重性",
+      "relation": "并列"
+    },
+    {
+      "source": "多细胞生物",
+      "target": "微生物的双重性",
+      "relation": "并列"
+    },
+    {
+      "source": "多细胞生物",
+      "target": "生物适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物",
+      "target": "微生物的双重性",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物",
+      "target": "生物适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物",
+      "target": "多细胞生物",
+      "relation": "并列"
+    },
+    {
+      "source": "生物适应性",
+      "target": "微生物的双重性",
+      "relation": "并列"
+    },
+    {
+      "source": "病毒",
+      "target": "微生物",
+      "relation": "并列"
+    },
+    {
+      "source": "微生物的双重性",
+      "target": "生物的多样性与适应性",
+      "relation": "并列"
+    },
+    {
+      "source": "数学倍数关系/折纸几何逻辑",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "数学倍数关系/折纸几何逻辑",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "数学倍数关系/折纸几何逻辑",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "数学倍数关系/折纸几何逻辑",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "数学倍数关系/折纸几何逻辑",
+      "target": "能源类型、能源的形成周期",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置及比例尺应用",
+      "target": "太阳系行星位置",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置及比例尺应用",
+      "target": "太阳系行星特征",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置及比例尺应用",
+      "target": "太阳系行星基本常识",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置及比例尺应用",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置及比例尺应用",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星基本常识",
+      "target": "太阳系行星特征",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星基本常识",
+      "target": "太阳系行星位置",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星基本常识",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星基本常识",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置",
+      "target": "太阳系行星特征",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星位置",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星特征",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系行星特征",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳黑子",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳黑子",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳黑子",
+      "target": "太阳在太阳系中的地位",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳黑子",
+      "target": "太阳系行星特征",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳黑子",
+      "target": "太阳系行星位置",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳在太阳系中的地位",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳在太阳系中的地位",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳在太阳系中的地位",
+      "target": "太阳系行星特征",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳在太阳系中的地位",
+      "target": "太阳系行星位置",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳在太阳系中的地位",
+      "target": "太阳系行星基本常识",
+      "relation": "并列"
+    },
+    {
+      "source": "太阳系的组成",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "北极星的辨向功能",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "北极星的辨向功能",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "北极星的辨向功能",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "北极星的辨向功能",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "北极星的辨向功能",
+      "target": "能源类型、能源的形成周期",
+      "relation": "并列"
+    },
+    {
+      "source": "星座辨识方法",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "星座辨识方法",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "星座辨识方法",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "星座辨识方法",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "星座辨识方法",
+      "target": "能源类型、能源的形成周期",
+      "relation": "并列"
+    },
+    {
+      "source": "银河系的构成",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "银河系的构成",
+      "target": "太阳在太阳系中的地位",
+      "relation": "并列"
+    },
+    {
+      "source": "银河系的构成",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "银河系的构成",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "银河系的构成",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的成因（同一直线上）",
+      "target": "日食的相关天体",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的成因（同一直线上）",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的成因（同一直线上）",
+      "target": "四季成因误区",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的成因（同一直线上）",
+      "target": "太阳系行星位置及比例尺应用",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的成因（同一直线上）",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的相关天体",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的相关天体",
+      "target": "天体视运动方向",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的相关天体",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "日食的相关天体",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "凌日现象",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "凌日现象",
+      "target": "地球的运动",
+      "relation": "并列"
+    },
+    {
+      "source": "凌日现象",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "凌日现象",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "凌日现象",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "天体视运动方向",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "天体视运动方向",
+      "target": "地球自转方向",
+      "relation": "并列"
+    },
+    {
+      "source": "天体视运动方向",
+      "target": "地球的运动",
+      "relation": "并列"
+    },
+    {
+      "source": "天体视运动方向",
+      "target": "四季变化",
+      "relation": "并列"
+    },
+    {
+      "source": "地质学、化石与沉积岩",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "地质学、化石与沉积岩",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "地质学、化石与沉积岩",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "地质学、化石与沉积岩",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "地质学、化石与沉积岩",
+      "target": "能源类型、能源的形成周期",
+      "relation": "并列"
+    },
+    {
+      "source": "能源类型、能源的形成周期",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "能源类型、能源的形成周期",
+      "target": "日食、月食与地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "能源类型、能源的形成周期",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "能源类型、能源的形成周期",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "地球运动与天文现象",
+      "target": "地球的运动",
+      "relation": "并列"
+    },
+    {
+      "source": "地球运动与天文现象",
+      "target": "地球模型",
+      "relation": "并列"
+    },
+    {
+      "source": "地球运动与天文现象",
+      "target": "地球公转",
+      "relation": "并列"
+    },
+    {
+      "source": "日食、月食与地心说",
+      "target": "地心说",
+      "relation": "并列"
+    },
+    {
+      "source": "日食、月食与地心说",
+      "target": "日心说",
+      "relation": "并列"
+    },
+    {
+      "source": "日食、月食与地心说",
+      "target": "地理与气候常识",
+      "relation": "并列"
+    },
+    {
+      "source": "地理与气候常识",
+      "target": "太阳系行星基本常识",
+      "relation": "并列"
+    },
+    {
+      "source": "地理与气候常识",
+      "target": "太阳系与宇宙",
+      "relation": "并列"
+    },
+    {
+      "source": "地理与气候常识",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "地球的运动",
+      "target": "地球模型",
+      "relation": "并列"
+    },
+    {
+      "source": "地球的运动",
+      "target": "地球公转",
+      "relation": "并列"
+    },
+    {
+      "source": "地球的运动",
+      "target": "地球自转方向",
+      "relation": "并列"
+    },
+    {
+      "source": "地球的运动",
+      "target": "地球自转",
+      "relation": "并列"
+    },
+    {
+      "source": "地心说",
+      "target": "日心说",
+      "relation": "并列"
+    },
+    {
+      "source": "日心说",
+      "target": "太阳系的组成",
+      "relation": "并列"
+    },
+    {
+      "source": "日心说",
+      "target": "太阳在太阳系中的地位",
+      "relation": "并列"
+    },
+    {
+      "source": "地球自转",
+      "target": "地球自转方向",
+      "relation": "并列"
+    },
+    {
+      "source": "地球自转",
+      "target": "地球模型",
+      "relation": "并列"
+    },
+    {
+      "source": "地球自转",
+      "target": "地球公转",
+      "relation": "并列"
+    },
+    {
+      "source": "地球自转",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "相对位置",
+      "target": "太阳系行星位置",
+      "relation": "并列"
+    },
+    {
+      "source": "相对位置",
+      "target": "太阳系行星位置及比例尺应用",
+      "relation": "并列"
+    },
+    {
+      "source": "地球自转方向",
+      "target": "地球模型",
+      "relation": "并列"
+    },
+    {
+      "source": "地球自转方向",
+      "target": "地球公转",
+      "relation": "并列"
+    },
+    {
+      "source": "地球自转方向",
+      "target": "地球运动与天文现象",
+      "relation": "并列"
+    },
+    {
+      "source": "日影变化",
+      "target": "四季变化",
+      "relation": "并列"
+    },
+    {
+      "source": "地球公转",
+      "target": "地球模型",
+      "relation": "并列"
+    },
+    {
+      "source": "四季变化",
+      "target": "四季成因误区",
+      "relation": "并列"
+    },
+    {
+      "source": "四季变化",
+      "target": "地球自转方向",
+      "relation": "并列"
+    },
+    {
+      "source": "地壳",
+      "target": "地核",
+      "relation": "并列"
+    },
+    {
+      "source": "地壳",
+      "target": "地幔",
+      "relation": "并列"
+    },
+    {
+      "source": "地幔",
+      "target": "地核",
+      "relation": "并列"
+    },
+    {
+      "source": "模型构建与客观事实的差异",
+      "target": "科学、技术与社会",
+      "relation": "并列"
+    },
+    {
+      "source": "模型构建与客观事实的差异",
+      "target": "天体视运动方向",
+      "relation": "并列"
+    },
+    {
+      "source": "模型构建与客观事实的差异",
+      "target": "视觉原理（近大远小）",
+      "relation": "并列"
+    },
+    {
+      "source": "模型构建与客观事实的差异",
+      "target": "科学调查方法-区域划分",
+      "relation": "并列"
+    },
+    {
+      "source": "科学调查方法-区域划分",
+      "target": "科学、技术与社会",
+      "relation": "并列"
+    },
+    {
+      "source": "科学调查方法-区域划分",
+      "target": "科学精神",
+      "relation": "并列"
+    },
+    {
+      "source": "科学调查方法-区域划分",
+      "target": "天体视运动方向",
+      "relation": "并列"
+    },
+    {
+      "source": "科学调查方法-区域划分",
+      "target": "视觉原理（近大远小）",
+      "relation": "并列"
+    },
+    {
+      "source": "视觉原理（近大远小）",
+      "target": "科学、技术与社会",
+      "relation": "并列"
+    },
+    {
+      "source": "视觉原理（近大远小）",
+      "target": "天体视运动方向",
+      "relation": "并列"
+    },
+    {
+      "source": "天体视运动方向",
+      "target": "科学、技术与社会",
+      "relation": "并列"
+    },
+    {
+      "source": "科学、技术与社会",
+      "target": "技术",
+      "relation": "并列"
+    },
+    {
+      "source": "科学、技术与社会",
+      "target": "科学精神",
+      "relation": "并列"
+    },
+    {
+      "source": "凸透镜",
+      "target": "组合凸透镜",
+      "relation": "并列"
+    },
+    {
+      "source": "活字印刷",
+      "target": "印刷术",
+      "relation": "并列"
+    },
+    {
+      "source": "遗传现象",
+      "target": "生物的遗传现象",
+      "relation": "依赖"
+    },
+    {
+      "source": "太阳在太阳系中的地位",
+      "target": "地心说",
+      "relation": "依赖"
+    },
+    {
+      "source": "太阳在太阳系中的地位",
+      "target": "太阳的定义与能量释放",
+      "relation": "并列"
+    },
+    {
+      "source": "天文观测工具",
+      "target": "工具",
+      "relation": "依赖"
+    },
+    {
+      "source": "物质的变化（物理变化与化学变化）",
+      "target": "化学反应中的现象观察",
+      "relation": "并列"
+    },
+    {
+      "source": "淀粉的特性、碘酒的显色反应",
+      "target": "能量",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "放大镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "光学显微镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "电子显微镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "显微镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "视野",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学观察工具的使用",
+      "target": "工具",
+      "relation": "依赖"
+    },
+    {
+      "source": "天体视运动方向",
+      "target": "地球自转",
+      "relation": "依赖"
+    },
+    {
+      "source": "电磁铁与电磁效应",
+      "target": "电磁铁",
+      "relation": "依赖"
+    },
+    {
+      "source": "电磁铁与电磁效应",
+      "target": "电磁铁的磁极",
+      "relation": "依赖"
+    },
+    {
+      "source": "简单机械",
+      "target": "斜面",
+      "relation": "依赖"
+    },
+    {
+      "source": "简单机械",
+      "target": "杠杆",
+      "relation": "依赖"
+    },
+    {
+      "source": "简单机械",
+      "target": "车轮",
+      "relation": "依赖"
+    },
+    {
+      "source": "简单机械",
+      "target": "轮轴",
+      "relation": "依赖"
+    },
+    {
+      "source": "简单机械",
+      "target": "组合工具",
+      "relation": "依赖"
+    },
+    {
+      "source": "简单机械",
+      "target": "剪刀的原理",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量与能量转换",
+      "target": "能量",
+      "relation": "依赖"
+    },
+    {
+      "source": "光学显微镜与观察工具",
+      "target": "放大镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "光学显微镜与观察工具",
+      "target": "显微镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "光学显微镜与观察工具",
+      "target": "视野",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "显微镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "微生物",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "病毒",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "细菌",
+      "relation": "依赖"
+    },
+    {
+      "source": "细胞与生物基础",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "细胞与生物基础",
+      "target": "叶绿体",
+      "relation": "依赖"
+    },
+    {
+      "source": "地球运动与天文现象",
+      "target": "地球自转",
+      "relation": "依赖"
+    },
+    {
+      "source": "地球运动与天文现象",
+      "target": "昼夜交替",
+      "relation": "依赖"
+    },
+    {
+      "source": "日食、月食与地心说",
+      "target": "地心说",
+      "relation": "依赖"
+    },
+    {
+      "source": "日食、月食与地心说",
+      "target": "日心说",
+      "relation": "依赖"
+    },
+    {
+      "source": "电动机与发电机",
+      "target": "机械能",
+      "relation": "依赖"
+    },
+    {
+      "source": "电动机与发电机",
+      "target": "发电机",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学、技术与社会",
+      "target": "技术",
+      "relation": "依赖"
+    },
+    {
+      "source": "科学、技术与社会",
+      "target": "印刷术",
+      "relation": "依赖"
+    },
+    {
+      "source": "结构与仿生",
+      "target": "仿生学",
+      "relation": "依赖"
+    },
+    {
+      "source": "人体与健康常识",
+      "target": "能量",
+      "relation": "依赖"
+    },
+    {
+      "source": "射电望远镜",
+      "target": "FAST（500米口径球面射电望远镜）",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具与技术",
+      "target": "工具",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量",
+      "target": "能量转换",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量",
+      "target": "机械能",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量",
+      "target": "能量来源",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量",
+      "target": "发电机",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量",
+      "target": "能量形式",
+      "relation": "依赖"
+    },
+    {
+      "source": "放大镜",
+      "target": "凸透镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "放大镜",
+      "target": "观察工具的发展",
+      "relation": "依赖"
+    },
+    {
+      "source": "凸透镜",
+      "target": "组合凸透镜",
+      "relation": "依赖"
+    },
+    {
+      "source": "光学显微镜",
+      "target": "观察工具的发展",
+      "relation": "依赖"
+    },
+    {
+      "source": "电子显微镜",
+      "target": "观察工具的发展",
+      "relation": "依赖"
+    },
+    {
+      "source": "显微镜",
+      "target": "视野",
+      "relation": "依赖"
+    },
+    {
+      "source": "显微镜",
+      "target": "微生物",
+      "relation": "依赖"
+    },
+    {
+      "source": "显微镜",
+      "target": "观察工具的发展",
+      "relation": "依赖"
+    },
+    {
+      "source": "细胞",
+      "target": "叶绿体",
+      "relation": "依赖"
+    },
+    {
+      "source": "细胞",
+      "target": "单细胞生物",
+      "relation": "依赖"
+    },
+    {
+      "source": "细胞",
+      "target": "多细胞生物",
+      "relation": "依赖"
+    },
+    {
+      "source": "细胞",
+      "target": "病毒",
+      "relation": "依赖"
+    },
+    {
+      "source": "细胞",
+      "target": "细菌",
+      "relation": "依赖"
+    },
+    {
+      "source": "仿生学",
+      "target": "技术",
+      "relation": "依赖"
+    },
+    {
+      "source": "视野",
+      "target": "工具",
+      "relation": "依赖"
+    },
+    {
+      "source": "单细胞生物",
+      "target": "细菌",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物",
+      "target": "脱脂棉纤维",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物",
+      "target": "病毒",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物",
+      "target": "微生物的双重性",
+      "relation": "依赖"
+    },
+    {
+      "source": "地球自转",
+      "target": "昼夜交替",
+      "relation": "依赖"
+    },
+    {
+      "source": "地球公转",
+      "target": "四季变化",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具",
+      "target": "测试与评价",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具",
+      "target": "组合工具",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具",
+      "target": "技术演进",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具",
+      "target": "观察工具的发展",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具",
+      "target": "地球模型",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具",
+      "target": "科学模型",
+      "relation": "依赖"
+    },
+    {
+      "source": "工具",
+      "target": "技术与工具的关系",
+      "relation": "依赖"
+    },
+    {
+      "source": "技术",
+      "target": "测试与评价",
+      "relation": "依赖"
+    },
+    {
+      "source": "技术",
+      "target": "活字印刷",
+      "relation": "依赖"
+    },
+    {
+      "source": "技术",
+      "target": "印刷术",
+      "relation": "依赖"
+    },
+    {
+      "source": "技术",
+      "target": "信息传播工具",
+      "relation": "依赖"
+    },
+    {
+      "source": "技术",
+      "target": "技术演进",
+      "relation": "依赖"
+    },
+    {
+      "source": "技术",
+      "target": "技术与工具的关系",
+      "relation": "依赖"
+    },
+    {
+      "source": "斜面",
+      "target": "剪刀的原理",
+      "relation": "依赖"
+    },
+    {
+      "source": "杠杆",
+      "target": "支点",
+      "relation": "依赖"
+    },
+    {
+      "source": "杠杆",
+      "target": "用力点",
+      "relation": "依赖"
+    },
+    {
+      "source": "杠杆",
+      "target": "阻力点",
+      "relation": "依赖"
+    },
+    {
+      "source": "杠杆",
+      "target": "剪刀的原理",
+      "relation": "依赖"
+    },
+    {
+      "source": "车轮",
+      "target": "轮轴",
+      "relation": "依赖"
+    },
+    {
+      "source": "车轮",
+      "target": "车轮的作用",
+      "relation": "依赖"
+    },
+    {
+      "source": "机械能",
+      "target": "能量形式",
+      "relation": "依赖"
+    },
+    {
+      "source": "电磁铁",
+      "target": "电磁铁的磁极",
+      "relation": "依赖"
+    },
+    {
+      "source": "电磁铁",
+      "target": "电磁铁磁性强弱的影响因素",
+      "relation": "依赖"
+    },
+    {
+      "source": "小电动机",
+      "target": "换向器",
+      "relation": "依赖"
+    },
+    {
+      "source": "地壳",
+      "target": "地幔",
+      "relation": "依赖"
+    },
+    {
+      "source": "奥斯特实验",
+      "target": "科学实验设计、控制变量法",
+      "relation": "并列"
+    },
+    {
+      "source": "生物遗传学、优生优育",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "生物与环境的关系",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "阅读理解与生物特征分析",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "生物多样性的意义",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "环境保护与生物多样性保护",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "太阳的定义与能量释放",
+      "target": "机械能",
+      "relation": "依赖"
+    },
+    {
+      "source": "生物多样性调查指标",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "植物形态分类（草质茎与木质茎）",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "生物的遗传现象",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "生物的变异现象",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量与能量转换",
+      "target": "机械能",
+      "relation": "依赖"
+    },
+    {
+      "source": "电动机与发电机",
+      "target": "电磁铁",
+      "relation": "依赖"
+    },
+    {
+      "source": "生物的多样性与适应性",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "人体与健康常识",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物",
+      "target": "细菌",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "四季成因误区",
+      "target": "地球公转",
+      "relation": "依赖"
+    },
+    {
+      "source": "昼行性动物",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "夜行性动物",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "生物适应性",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "轮轴",
+      "target": "杠杆",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量转换",
+      "target": "机械能",
+      "relation": "依赖"
+    },
+    {
+      "source": "小电动机",
+      "target": "电磁铁",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量来源",
+      "target": "机械能",
+      "relation": "依赖"
+    },
+    {
+      "source": "发电机",
+      "target": "机械能",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物的双重性",
+      "target": "细胞",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物的双重性",
+      "target": "细菌",
+      "relation": "依赖"
+    },
+    {
+      "source": "微生物的双重性",
+      "target": "病毒",
+      "relation": "依赖"
+    },
+    {
+      "source": "能量",
+      "target": "机械能",
+      "relation": "包含"
+    },
+    {
+      "source": "太阳的定义与能量释放",
+      "target": "机械能",
+      "relation": "包含"
+    },
+    {
+      "source": "能量与能量转换",
+      "target": "机械能",
+      "relation": "包含"
+    },
+    {
+      "source": "能量转换",
+      "target": "机械能",
+      "relation": "包含"
+    },
+    {
+      "source": "能量来源",
+      "target": "机械能",
+      "relation": "包含"
+    },
+    {
+      "source": "能量形式",
+      "target": "机械能",
+      "relation": "包含"
+    },
+    {
+      "source": "简单机械",
+      "target": "杠杆",
+      "relation": "包含"
+    },
+    {
+      "source": "简单机械",
+      "target": "轮轴",
+      "relation": "包含"
+    },
+    {
+      "source": "简单机械",
+      "target": "斜面",
+      "relation": "包含"
+    },
+    {
+      "source": "细胞",
+      "target": "叶绿体",
+      "relation": "包含"
+    },
+    {
+      "source": "细胞与生物基础",
+      "target": "叶绿体",
+      "relation": "包含"
+    },
+    {
+      "source": "单细胞生物",
+      "target": "叶绿体",
+      "relation": "包含"
+    },
+    {
+      "source": "多细胞生物",
+      "target": "叶绿体",
+      "relation": "包含"
+    },
+    {
+      "source": "微生物",
+      "target": "细菌",
+      "relation": "包含"
+    },
+    {
+      "source": "微生物",
+      "target": "病毒",
+      "relation": "包含"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "细菌",
+      "relation": "包含"
+    },
+    {
+      "source": "微生物与病毒",
+      "target": "病毒",
+      "relation": "包含"
+    },
+    {
+      "source": "微生物的双重性",
+      "target": "细菌",
+      "relation": "包含"
+    },
+    {
+      "source": "微生物的双重性",
+      "target": "病毒",
+      "relation": "包含"
+    },
+    {
+      "source": "地球运动与天文现象",
+      "target": "地球自转",
+      "relation": "包含"
+    },
+    {
+      "source": "地球运动与天文现象",
+      "target": "地球公转",
+      "relation": "包含"
+    },
+    {
+      "source": "地球自转",
+      "target": "昼夜交替",
+      "relation": "包含"
+    },
+    {
+      "source": "地球自转方向",
+      "target": "昼夜交替",
+      "relation": "包含"
+    },
+    {
+      "source": "地球公转",
+      "target": "四季变化",
+      "relation": "包含"
+    },
+    {
+      "source": "组合凸透镜",
+      "target": "凸透镜",
+      "relation": "包含"
+    },
+    {
+      "source": "细菌",
+      "target": "病毒",
+      "relation": "并列"
+    }
+  ],
   "source_pages": [
     {
       "id": 1,
