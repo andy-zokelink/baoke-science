@@ -552,7 +552,7 @@ a{color:var(--accent);text-decoration:none}
 </div>
 </div>
 </div>
-<div id=examQuestionCard></div>
+<div id=examQuestionCard style=max-height:calc(100vh-200px);overflow-y:auto></div>
 </div>
 
 <div id=examResultScreen style=display:none;padding:24px>
@@ -2293,50 +2293,81 @@ function examStart(){
   document.getElementById('examResultScreen').style.display='none';
   if(timeLimit>0){
     examState.seconds=timeLimit*60;
-    document.getElementById('examTimer').textContent="\u23f1 "+timeLimit+':00';
+    document.getElementById('examTimer').textContent="⏱ "+timeLimit+':00';
     examState.timer=setInterval(function(){
       examState.seconds--;
       var m=Math.floor(examState.seconds/60);var s=examState.seconds%60;
-      document.getElementById('examTimer').textContent="\u23f1 "+m+':'+(s<10?'0':'')+s;
+      document.getElementById('examTimer').textContent="⏱ "+m+':'+(s<10?'0':'')+s;
       if(examState.seconds<=0){examSubmit();}
     },1000);
-  }else{document.getElementById('examTimer').textContent="\u23f1 --:--";}
-  examShowQuestion();
+  }else{document.getElementById('examTimer').textContent="⏱ --:--";}
+  examShowAllQuestions();
 }
-function examShowQuestion(){
-  var q=examState.questions[examState.currentIdx];
-  if(!q){examSubmit();return;}
-  var idx=examState.currentIdx;
-  document.getElementById('examProgress').textContent=(idx+1)+'/'+examState.count;
-  var html='<div class=card><div style=font-size:14px;font-weight:600;margin-bottom:12px>';
-  html+=esc('\u7b2c '+(idx+1)+' \u9898\uff1a')+esc(q.q)+'</div><div style=display:flex;flex-direction:column;gap:6px>';
-  var keys=Object.keys(q.o);
-  for(var ki=0;ki<keys.length;ki++){
-    var k=keys[ki];
-    var sel=(examState.answers[idx]===k)?' style=background:var(--accent-light);border-color:var(--accent);font-weight:600':'';
-    html+='<div class=exam-opt data-q='+idx+' data-key='+k+sel+' onclick=examSelectOption('+idx+',"'+k+'") style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;font-size:13px;display:flex;align-items:center;gap:8px">';
-    html+='<span style="width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">'+k+'</span>';
-    html+=esc(q.o[k])+'</div>';
+function examShowAllQuestions(){
+  var questions=examState.questions;
+  var count=examState.count;
+  document.getElementById('examProgress').textContent=count+'题';
+  var answered=0;
+  for(var k in examState.answers)answered++;
+  var html='<div style=margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px>'+
+    '<span style=font-size:13px;color:var(--text2)>已选 <strong id=examAnsCount>'+answered+'</strong>/'+count+'</span>'+
+    '<button class="btn" onclick=examSubmit() style="font-size:13px;padding:8px 24px;background:var(--green);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;box-shadow:0 2px 8px rgba(34,197,94,.3)">📊 交卷批改</button>'+
+    '</div>';
+  for(var i=0;i<count;i++){
+    var q=questions[i];
+    var selected=examState.answers[i]||'';
+    html+='<div class=card style=margin-bottom:10px;'+(selected?'border-left:3px solid var(--accent)':'')+'>';
+    html+='<div style=font-size:14px;font-weight:600;margin-bottom:8px><span style="display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;background:var(--bg2);font-size:12px;color:var(--text2);margin-right:6px">'+(i+1)+'</span>'+esc(q.q)+'</div>';
+    html+='<div style=display:flex;flex-direction:column;gap:5px>';
+    var keys=Object.keys(q.o);
+    for(var ki=0;ki<keys.length;ki++){
+      var k=keys[ki];
+      var isSel=(selected===k);
+      html+='<div class=exam-opt data-q='+i+' data-key='+k+' onclick=examSelectAllOption('+i+',"'+k+'") style="padding:8px 12px;border:1.5px solid '+(isSel?'var(--accent)':'var(--border)')+';border-radius:8px;cursor:pointer;transition:all .1s;font-size:13px;display:flex;align-items:center;gap:8px;background:'+(isSel?'var(--accent-light)':'transparent')+'">';
+      html+='<span style="width:22px;height:22px;border-radius:50%;border:1.5px solid '+(isSel?'var(--accent)':'var(--border)')+';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:'+(isSel?'700':'400')+';flex-shrink:0;background:'+(isSel?'var(--accent)':'transparent')+';color:'+(isSel?'#fff':'inherit')+'">'+k+'</span>';
+      html+=esc(q.o[k])+'</div>';
+    }
+    html+='</div></div>';
   }
-  html+='</div></div>';
-  html+='<div style=display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap>';
-  if(idx>0)html+='<button class="btn btn-outline" onclick=examPrev() style=font-size:12px;padding:6px 16px>\u2b05 \u4e0a\u4e00\u9898</button>';
-  html+='<button class="btn btn-primary" onclick=examNext() style=font-size:12px;padding:6px 16px>\u4e0b\u4e00\u9898 \u27a1</button>';
-  html+='<button class="btn" onclick=examSubmit() style="font-size:12px;padding:6px 16px;background:var(--green);color:#fff;border:none;border-radius:6px;cursor:pointer">\ud83d\udcca \u4ea4\u5377</button>';
-  html+='</div>';
+  // Bottom submit
+  html+='<div style=text-align:center;padding:8px 0 16px>'+
+    '<button class="btn" onclick=examSubmit() style="font-size:15px;padding:12px 48px;background:var(--green);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;box-shadow:0 4px 12px rgba(34,197,94,.35)">📊 交卷批改</button>'+
+    '</div>';
   document.getElementById('examQuestionCard').innerHTML=html;
 }
-function examSelectOption(qidx,key){
+function examSelectAllOption(qidx,key){
   examState.answers[qidx]=key;
-  examShowQuestion();
-}
-function examPrev(){
-  if(examState.currentIdx>0)examState.currentIdx--;
-  examShowQuestion();
-}
-function examNext(){
-  if(examState.currentIdx<examState.count-1)examState.currentIdx++;
-  examShowQuestion();
+  // Update count badge + border highlight
+  var cnt=0;for(var k in examState.answers)cnt++;
+  document.getElementById('examAnsCount').textContent=cnt;
+  // Highlight selected card, un-highlight others visually
+  var opts=document.querySelectorAll('#examQuestionCard .exam-opt');
+  opts.forEach(function(el){
+    var eq=parseInt(el.dataset.q);
+    var ek=el.dataset.key;
+    if(eq===qidx){
+      if(ek===key){
+        el.style.borderColor='var(--accent)';
+        el.style.background='var(--accent-light)';
+        el.querySelector('span').style.background='var(--accent)';
+        el.querySelector('span').style.color='#fff';
+        el.querySelector('span').style.fontWeight='700';
+        el.querySelector('span').style.borderColor='var(--accent)';
+      }else{
+        el.style.borderColor='var(--border)';
+        el.style.background='transparent';
+        el.querySelector('span').style.background='transparent';
+        el.querySelector('span').style.color='inherit';
+        el.querySelector('span').style.fontWeight='400';
+        el.querySelector('span').style.borderColor='var(--border)';
+      }
+    }
+  });
+  // Add left accent border to card
+  var cards=document.querySelectorAll('#examQuestionCard .card');
+  cards.forEach(function(c,idx){
+    c.style.borderLeft=examState.answers[idx]?'3px solid var(--accent)':'';
+  });
 }
 function examSubmit(){
   if(examState.timer){clearInterval(examState.timer);examState.timer=null;}
@@ -2412,9 +2443,8 @@ function examBackToConfig(){
   document.getElementById('examResultScreen').style.display='none';
 }
 window.examStart = examStart;
-window.examSelectOption = examSelectOption;
-window.examPrev = examPrev;
-window.examNext = examNext;
+window.examShowAllQuestions = examShowAllQuestions;
+window.examSelectAllOption = examSelectAllOption;
 window.examSubmit = examSubmit;
 window.examRestart = examRestart;
 window.examBackToConfig = examBackToConfig;
