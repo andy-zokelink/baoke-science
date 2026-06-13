@@ -505,6 +505,9 @@ a{color:var(--accent);text-decoration:none}
 
 </div><!-- end pane5 -->
 
+
+</div><!-- end pane5 -->
+
 <!-- TAB 6: 小升初模拟 -->
 <div class=tab-pane id=pane6>
 <div id=examConfigPage>
@@ -556,10 +559,7 @@ a{color:var(--accent);text-decoration:none}
 <div id=examResultScreen style=display:none;padding:24px>
 <div id=examResultContent></div>
 </div>
-</div><!-- end pane6 -->
-
-
-</div></div></div>
+</div>
 
 <script src=exam100_data.js></script>
 <script src=data.js></script>
@@ -2344,24 +2344,56 @@ function examSubmit(){
   document.getElementById('examResultScreen').style.display='block';
   var total=examState.count;
   var answered=Object.keys(examState.answers).length;
+  // Grade
+  var correct=0;var wrong=0;
+  for(var i=0;i<examState.questions.length;i++){
+    var q=examState.questions[i];
+    var userAns=examState.answers[i]||'';
+    if(userAns && q.a && userAns===q.a.toUpperCase()){correct++;}
+    else if(userAns){wrong++;}
+  }
+  var pct=total>0?Math.round(correct/total*100):0;
   var html='<div class=card style=text-align:center;padding:24px>';
-  html+='<div style=font-size:22px;font-weight:800;margin-bottom:8px>\ud83d\udcdd \u6a21\u62df\u8003\u8bd5\u5b8c\u6210\uff01</div>';
-  html+='<div style=font-size:14px;color:var(--text3);margin-bottom:16px>';
-  html+='\u5df2\u7b54 <strong>'+answered+'</strong> / '+total+' \u9898';
+  html+='<div style=font-size:22px;font-weight:800;margin-bottom:8px>\u2705 \u6a21\u62df\u8003\u8bd5\u5b8c\u6210\uff01</div>';
+  html+='<div style=font-size:16px;margin-bottom:4px><strong>'+correct+'</strong> / '+total+' \u9898\u6b63\u786e</div>';
+  html+='<div style=font-size:28px;font-weight:800;color:'+(pct>=80?'var(--green)':pct>=60?'var(--orange)':'var(--red)')+'>'+pct+'%</div>';
   if(examState.seconds>0){
     var tm=Math.floor(examState.seconds/60);var ts=examState.seconds%60;
-    html+=' \u00b7 \u7528\u65f6 '+(tm>0?tm+'\u5206':'')+ts+'\u79d2';
+    html+='<div style=font-size:12px;color:var(--text3);margin-top:4px>\u7528\u65f6 '+(tm>0?tm+'\u5206':'')+ts+'\u79d2</div>';
   }
-  html+='</div></div>';
+  html+='</div>';
+  // Question review with correct/incorrect marks
   html+='<div class=card><div style=font-size:15px;font-weight:700;margin-bottom:10px>\ud83d\udccb \u7b54\u9898\u56de\u987e</div>';
   for(var i=0;i<examState.questions.length;i++){
     var q=examState.questions[i];
-    var userAns=examState.answers[i]||'\u672a\u4f5c\u7b54';
-    html+='<div style="padding:10px 12px;margin-bottom:6px;border-radius:8px;background:var(--bg2);border:1px solid var(--border2)">';
-    html+='<div style=font-size:13px;font-weight:600;margin-bottom:4px>Q'+(i+1)+': '+esc(q.q)+'</div>';
-    html+='<div style=font-size:12px;color:var(--text2)>\u4f60\u7684\u9009\u62e9\uff1a<strong>'+userAns+'</strong>';
-    if(userAns!=='\u672a\u4f5c\u7b54'&&q.o[userAns])html+=' \u00b7 '+esc(q.o[userAns]);
-    html+='</div></div>';
+    var userAns=examState.answers[i]||'';
+    var isCorrect=userAns&&q.a&&userAns===q.a.toUpperCase();
+    var bgColor=isCorrect?'var(--green-light)':'var(--red-light)';
+    var borderColor=isCorrect?'var(--green)':'var(--red)';
+    var mark=isCorrect?'\u2705':'\u274c';
+    html+='<div style="padding:10px 12px;margin-bottom:6px;border-radius:8px;background:'+bgColor+';border-left:3px solid '+borderColor+'">';
+    html+='<div style=font-size:13px;font-weight:600;margin-bottom:4px>'+mark+' Q'+(i+1)+': '+esc(q.q)+'</div>';
+    if(userAns){
+      var ansText=q.o[userAns]||'';
+      var isAnsCorrect=userAns===q.a.toUpperCase();
+      html+='<div style=font-size:12px;'+(isAnsCorrect?'color:var(--green)':'color:var(--red)')+'>\u4f60\u7684\u9009\u62e9\uff1a'+userAns+'. '+esc(ansText)+'</div>';
+    }else{
+      html+='<div style=font-size:12px;color:var(--text3)>\u672a\u4f5c\u7b54</div>';
+    }
+    if(!isCorrect && q.a){
+      var correctText=q.o[q.a]||'';
+      html+='<div style=font-size:12px;color:var(--green);font-weight:600;margin-top:2px>\u6b63\u786e\u7b54\u6848\uff1a'+q.a+'. '+esc(correctText)+'</div>';
+    }
+    if(q.a && q.knowledge_point){
+      var kp=q.knowledge_point;
+      // Split into explanation and source
+      var srcIdx=kp.indexOf('\u6765\u6e90:');
+      var expl=srcIdx>=0?kp.substring(0,srcIdx):kp;
+      var src=srcIdx>=0?kp.substring(srcIdx):'';
+      if(expl)html+='<div style=font-size:11.5px;color:var(--text2);margin-top:3px;padding:4px 6px;background:var(--bg);border-radius:4px>\ud83d\udcdd '+esc(expl)+'</div>';
+      if(src)html+='<div style=font-size:11px;color:var(--accent);margin-top:2px>\ud83d\udccd '+esc(src)+'</div>';
+    }
+    html+='</div>';
   }
   html+='</div>';
   html+='<div style=display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px>'
