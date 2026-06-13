@@ -503,10 +503,9 @@ a{color:var(--accent);text-decoration:none}
 </div>
 
 
-</div><!-- end pane5 -->
-
-
-</div><!-- end pane5 -->
+</div><!-- end testBody / pane5 modal content -->
+</div><!-- close testModal -->
+</div><!-- close testOverlay -->
 
 <!-- TAB 6: 小升初模拟 -->
 <div class=tab-pane id=pane6>
@@ -2323,6 +2322,7 @@ function examShowQuestion(){
   html+='<div style=display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap>';
   if(idx>0)html+='<button class="btn btn-outline" onclick=examPrev() style=font-size:12px;padding:6px 16px>\u2b05 \u4e0a\u4e00\u9898</button>';
   html+='<button class="btn btn-primary" onclick=examNext() style=font-size:12px;padding:6px 16px>\u4e0b\u4e00\u9898 \u27a1</button>';
+  html+='<button class="btn" onclick=examSubmit() style="font-size:12px;padding:6px 16px;background:var(--green);color:#fff;border:none;border-radius:6px;cursor:pointer">\ud83d\udcca \u4ea4\u5377</button>';
   html+='</div>';
   document.getElementById('examQuestionCard').innerHTML=html;
 }
